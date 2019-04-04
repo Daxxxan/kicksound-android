@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kicksound</string>
+    <string name="email_text">email</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="connexion">Connexion</string>
+    <string name="register">S\'enregistrer</string>
 </resources>

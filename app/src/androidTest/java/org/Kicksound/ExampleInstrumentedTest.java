@@ -1,4 +1,4 @@
-package org.kicksound;
+package org.Kicksound;
 
 import android.content.Context;
 

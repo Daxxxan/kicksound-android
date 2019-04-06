@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         final Button connectionButton = findViewById(R.id.connection);
         connectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 String userMail = fieldIsEmpty(getUserMailEditText(), getApplicationContext());
                 String userPassword = fieldIsEmpty(getUserPasswordEditText(), getApplicationContext());
                 if(userMail != null && userPassword != null) {
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                         if (response.body() != null) {
                                             Login.getLogin().setId(response.body().getId());
                                         }
+                                        HandleIntent.redirectToAnotherActivity(MainActivity.this, News.class, v);
                                     } else {
                                         Toasty.error(getApplicationContext(), getString(R.string.connection_failed), Toast.LENGTH_SHORT, true).show();
                                     }

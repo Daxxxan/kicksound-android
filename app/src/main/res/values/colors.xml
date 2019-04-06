@@ -3,8 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorMainDark">#191414</color>
+    <color name="colorMainDark">#232725</color>
+    <color name="colorLightBlack">#2C2F33</color>
     <color name="colorGreyText">#8c8c8c</color>
     <color name="colorWhite">#f0f0f0</color>
-    <color name="colorGold">#AC8546</color>
+    <color name="colorGold">#CF994C</color>
 </resources>

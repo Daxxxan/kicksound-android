@@ -1,14 +1,18 @@
-package org.Kicksound;
+package org.Kicksound.Controllers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.Kicksound.Exceptions.UserConnectionException;
+import org.Kicksound.R;
+import org.Kicksound.Utils.HandleIntent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,11 +20,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        run();
+        connection();
+        registration();
     }
 
-    private void run() {
-        connection();
+    private void registration() {
+        final TextView registrationTextView = findViewById(R.id.register);
+        registrationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivity(MainActivity.this, RegistrationActivity.class, v);
+            }
+        });
     }
 
     private void connection() {
@@ -32,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     String userMail = fieldIsEmpty(getUserMail());
                     String userPassword = fieldIsEmpty(getUserPassword());
                     System.out.println("User mail: " + userMail + ", User password: " + userPassword);
-                    //Redirect to the new view
+                    //Http request /User/login
                 } catch (UserConnectionException ex) {
                     //Afficher un message d'erreur a l'utilisateur
                     Log.e("Connection failed", ex.getMessage());

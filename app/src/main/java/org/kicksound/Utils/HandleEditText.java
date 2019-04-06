@@ -1,9 +1,9 @@
-package org.Kicksound.Utils;
+package org.kicksound.Utils;
 
 import android.content.Context;
 import android.widget.EditText;
 
-import org.Kicksound.R;
+import org.kicksound.R;
 
 import androidx.core.content.ContextCompat;
 

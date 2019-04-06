@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.Kicksound.Controllers.RegistrationActivity"
+    tools:context="org.kicksound.Controllers.RegistrationActivity"
     android:background="@color/colorLightBlack"
     tools:showIn="@layout/activity_registration">
 

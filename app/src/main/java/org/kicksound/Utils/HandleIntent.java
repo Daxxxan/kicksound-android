@@ -1,6 +1,5 @@
-package org.Kicksound.Utils;
+package org.kicksound.Utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;

@@ -1,4 +1,4 @@
-package org.Kicksound.Controllers;
+package org.kicksound.Controllers;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,13 +7,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.Kicksound.R;
-import org.Kicksound.Utils.HandleIntent;
+import org.kicksound.R;
+import org.kicksound.Utils.HandleIntent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
 
-import static org.Kicksound.Utils.HandleEditText.fieldIsEmpty;
+import static org.kicksound.Utils.HandleEditText.fieldIsEmpty;
 
 public class MainActivity extends AppCompatActivity {
 

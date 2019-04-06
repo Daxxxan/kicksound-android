@@ -12,4 +12,5 @@
     <string name="validate">Valider</string>
     <string name="fill_all_fields">Veuillez saisir tous les champs</string>
     <string name="password_are_different">Les mots de passe ne sont pas identiques</string>
+    <string name="URL_API">"http://10.0.2.2:3000/api/"</string>
 </resources>

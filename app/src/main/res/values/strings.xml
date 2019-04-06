@@ -16,4 +16,5 @@
     <string name="account_created">Votre compte a bien été créé</string>
     <string name="wrong_mail">Email invalide !</string>
     <string name="connexion_error">Une erreur est survenue, veuilliez vérifier votre connexion internet.</string>
+    <string name="connection_failed">Combinaison email - mot de passe inccorect.</string>
 </resources>

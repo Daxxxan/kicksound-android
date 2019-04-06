@@ -43,8 +43,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 if(firstname != null && lastname != null && email != null && password != null && passwordVerification != null) {
                     if(passwordEqualPasswordVerification(getPasswordEditText(), getPasswordVerificationEditText(), getApplicationContext())) {
-                        RetrofitManager.getInstance().setUrl(getString(R.string.URL_API));
-
                         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                                 .createAccount(new Account(firstname, lastname, email, password))
                                 .enqueue(new Callback<Account>() {

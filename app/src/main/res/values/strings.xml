@@ -10,4 +10,6 @@
     <string name="Lastname">Nom</string>
     <string name="password_verification">Vérification du mot de passe</string>
     <string name="validate">Valider</string>
+    <string name="fill_all_fields">Veuillez saisir tous les champs</string>
+    <string name="password_are_different">Les mots de passe ne sont pas identiques</string>
 </resources>

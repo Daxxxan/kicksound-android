@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                         if (response.body() != null) {
                                             Login.getLogin().setId(response.body().getId());
                                         }
-                                        HandleIntent.redirectToAnotherActivity(MainActivity.this, News.class, v);
+                                        HandleIntent.redirectToAnotherActivity(MainActivity.this, TabActivity.class, v);
                                     } else {
                                         Toasty.error(getApplicationContext(), getString(R.string.connection_failed), Toast.LENGTH_SHORT, true).show();
                                     }

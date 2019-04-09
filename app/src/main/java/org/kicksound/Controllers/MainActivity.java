@@ -1,5 +1,6 @@
 package org.kicksound.Controllers;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +23,10 @@ import retrofit2.Response;
 import static org.kicksound.Utils.HandleEditText.fieldIsEmpty;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RetrofitManager.getInstance().setUrl(getString(R.string.URL_API));
         connection();
         registration();
     }
@@ -58,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                                     if(response.code() == 200) {
                                         if (response.body() != null) {
                                             Login.getLogin().setId(response.body().getId());
+                                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE).edit();
+                                            editor.putString(getString(R.string.userAccessToken), response.body().getId());
+                                            editor.apply();
                                         }
                                         HandleIntent.redirectToAnotherActivity(MainActivity.this, TabActivity.class, v);
                                     } else {

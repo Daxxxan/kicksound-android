@@ -38,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<Login> call, Response<Login> response) {
                                     if(response.code() == 200) {
-                                        HandleIntent.redirectToAnotherActivity(SplashScreen.this, News.class, findViewById(R.id.splash_screen));
+                                        HandleIntent.redirectToAnotherActivity(SplashScreen.this, TabActivity.class, findViewById(R.id.splash_screen));
                                     } else {
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, MainActivity.class, findViewById(R.id.splash_screen));
                                     }

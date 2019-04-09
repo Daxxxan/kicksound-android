@@ -17,4 +17,6 @@
     <string name="wrong_mail">Email invalide !</string>
     <string name="connexion_error">Une erreur est survenue, veuilliez vérifier votre connexion internet.</string>
     <string name="connection_failed">Combinaison email - mot de passe inccorect.</string>
+    <string name="USER_PREF">USER_PREF</string>
+    <string name="userAccessToken">userAccessToken</string>
 </resources>

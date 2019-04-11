@@ -1,4 +1,4 @@
-package org.kicksound.Controllers;
+package org.kicksound.Controllers.Tabs;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -26,9 +26,10 @@ public class TabActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tab_bar);
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_FIXED);
-        tabs.getTabAt(0).setIcon(R.drawable.ic_action_search);
+        tabs.getTabAt(0).setIcon(R.drawable.ic_action_news);
         tabs.getTabAt(1).setIcon(R.drawable.ic_action_event);
-        tabs.getTabAt(2).setIcon(R.drawable.ic_action_live);
+        tabs.getTabAt(2).setIcon(R.drawable.ic_action_search);
         tabs.getTabAt(3).setIcon(R.drawable.ic_action_library);
+        tabs.getTabAt(4).setIcon(R.drawable.ic_action_email);
     }
 }

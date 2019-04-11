@@ -18,5 +18,8 @@ public interface AccountService {
     Call<Login> loginAccount(@Body Login login);
 
     @GET("accounts/me")
-    Call<Login> accessTokenExist(@Header("Authorization") String authorization);
+    Call<Account> accessTokenExist(@Header("Authorization") String authorization);
+
+    @GET("accounts/{id}")
+    Call<Account> getUserById(@Path("id") String id);
 }

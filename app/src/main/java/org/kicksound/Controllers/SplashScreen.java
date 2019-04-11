@@ -6,15 +6,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
+import org.kicksound.Controllers.Statics.StaticObjects;
+import org.kicksound.Controllers.Tabs.TabActivity;
+import org.kicksound.Models.Account;
 import org.kicksound.Models.Login;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Utils.HandleAccount;
 import org.kicksound.Utils.HandleIntent;
 import org.kicksound.Utils.RetrofitManager;
 
@@ -34,10 +36,11 @@ public class SplashScreen extends AppCompatActivity {
                 if (userAccessToken != null) {
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                             .accessTokenExist(userAccessToken)
-                            .enqueue(new Callback<Login>() {
+                            .enqueue(new Callback<Account>() {
                                 @Override
-                                public void onResponse(Call<Login> call, Response<Login> response) {
+                                public void onResponse(Call<Account> call, Response<Account> response) {
                                     if(response.code() == 200) {
+                                        HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType());
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, TabActivity.class, findViewById(R.id.splash_screen));
                                     } else {
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, MainActivity.class, findViewById(R.id.splash_screen));
@@ -45,7 +48,7 @@ public class SplashScreen extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<Login> call, Throwable t) {
+                                public void onFailure(Call<Account> call, Throwable t) {
                                     Toasty.info(getApplicationContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
                                 }
                             });

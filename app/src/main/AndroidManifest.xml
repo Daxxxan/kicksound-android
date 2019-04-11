@@ -21,9 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controllers.News" />
         <activity
-            android:name=".Controllers.TabActivity"
+            android:name=".Controllers.Tabs.TabActivity"
             android:label="@string/title_activity_tab"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

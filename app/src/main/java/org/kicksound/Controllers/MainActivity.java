@@ -1,5 +1,6 @@
 package org.kicksound.Controllers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.kicksound.Controllers.Statics.StaticObjects;
+import org.kicksound.Controllers.Tabs.TabActivity;
+import org.kicksound.Models.Account;
 import org.kicksound.Models.Login;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Utils.HandleAccount;
 import org.kicksound.Utils.HandleIntent;
 import org.kicksound.Utils.RetrofitManager;
 
@@ -57,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                                     if(response.code() == 200) {
                                         if (response.body() != null) {
                                             Login.getLogin().setId(response.body().getId());
+                                            Login.getLogin().setUserId(response.body().getUserId());
+                                            setAccount(Login.getLogin().getUserId(), getApplicationContext(), getString(R.string.account_error));
                                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE).edit();
                                             editor.putString(getString(R.string.userAccessToken), response.body().getId());
                                             editor.apply();
@@ -77,6 +84,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setAccount(String userId, final Context context, final String errorMessage) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .getUserById(userId)
+                .enqueue(new Callback<Account>() {
+                    @Override
+                    public void onResponse(Call<Account> call, Response<Account> response) {
+                        if(response.code() == 200) {
+                            HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Account> call, Throwable t) {
+                        Toasty.info(context, errorMessage, Toast.LENGTH_SHORT, true).show();
+                    }
+                });
     }
 
     private EditText getUserMailEditText() {

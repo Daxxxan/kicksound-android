@@ -2,7 +2,7 @@ package org.kicksound.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class  Account {
+public class Account {
     @SerializedName("id")
     private String id;
 
@@ -41,6 +41,8 @@ public class  Account {
         this.password = password;
         this.type = 0;
     }
+
+    public Account() {}
 
     public String getId() {
         return id;

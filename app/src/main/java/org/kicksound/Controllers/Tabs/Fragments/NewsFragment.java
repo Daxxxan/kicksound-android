@@ -1,4 +1,4 @@
-package org.kicksound.Controllers;
+package org.kicksound.Controllers.Tabs.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,16 +9,14 @@ import org.kicksound.R;
 
 import androidx.fragment.app.Fragment;
 
-public class SearchFragment extends Fragment {
+public class NewsFragment extends Fragment {
 
-    public SearchFragment() {
+    public NewsFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+    public static NewsFragment newInstance() {
+        return new NewsFragment();
     }
 
     @Override
@@ -30,6 +28,6 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_news, container, false);
     }
 }

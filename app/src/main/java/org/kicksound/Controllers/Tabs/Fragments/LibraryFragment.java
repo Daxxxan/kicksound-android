@@ -1,4 +1,4 @@
-package org.kicksound.Controllers;
+package org.kicksound.Controllers.Tabs.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -25,4 +25,8 @@
     <string name="events">Événements</string>
     <string name="lives">En direct</string>
     <string name="library">Bibliothèque</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="account_error">Une erreur est survenue. Code (Account)</string>
 </resources>

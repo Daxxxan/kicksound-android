@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorLightBlack"
-    tools:context=".Controllers.TabActivity">
+    tools:context=".Controllers.Tabs.TabActivity">
 
 
     <com.google.android.material.tabs.TabLayout

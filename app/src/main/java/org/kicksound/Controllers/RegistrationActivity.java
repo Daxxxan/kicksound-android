@@ -9,8 +9,8 @@ import android.widget.Toast;
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
-import org.kicksound.Utils.HandleIntent;
-import org.kicksound.Utils.RetrofitManager;
+import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.RetrofitManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
@@ -18,8 +18,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static org.kicksound.Utils.HandleEditText.fieldIsEmpty;
-import static org.kicksound.Utils.HandleEditText.passwordEqualPasswordVerification;
+import static org.kicksound.Utils.Class.HandleEditText.fieldIsEmpty;
+import static org.kicksound.Utils.Class.HandleEditText.passwordEqualPasswordVerification;
 
 public class RegistrationActivity extends AppCompatActivity {
 

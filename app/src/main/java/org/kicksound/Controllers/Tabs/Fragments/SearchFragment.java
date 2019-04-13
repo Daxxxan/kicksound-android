@@ -17,8 +17,7 @@ public class SearchFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override

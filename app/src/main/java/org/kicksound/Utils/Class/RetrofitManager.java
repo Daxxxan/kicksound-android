@@ -1,4 +1,4 @@
-package org.kicksound.Utils;
+package org.kicksound.Utils.Class;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

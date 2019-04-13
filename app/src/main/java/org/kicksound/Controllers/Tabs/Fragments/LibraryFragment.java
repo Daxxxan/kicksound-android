@@ -15,8 +15,7 @@ public class LibraryFragment extends Fragment {
     }
 
     public static LibraryFragment newInstance() {
-        LibraryFragment fragment = new LibraryFragment();
-        return fragment;
+        return new LibraryFragment();
     }
 
     @Override

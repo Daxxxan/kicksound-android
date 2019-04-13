@@ -13,12 +13,11 @@ import android.widget.Toast;
 import org.kicksound.Controllers.Statics.StaticObjects;
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Account;
-import org.kicksound.Models.Login;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
-import org.kicksound.Utils.HandleAccount;
-import org.kicksound.Utils.HandleIntent;
-import org.kicksound.Utils.RetrofitManager;
+import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.RetrofitManager;
 
 public class SplashScreen extends AppCompatActivity {
 

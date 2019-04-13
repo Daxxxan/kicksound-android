@@ -15,8 +15,7 @@ public class UserFragment extends Fragment {
     }
 
     public static UserFragment newInstance() {
-        UserFragment fragment = new UserFragment();
-        return fragment;
+        return new UserFragment();
     }
 
     @Override

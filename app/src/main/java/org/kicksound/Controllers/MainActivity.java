@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.Statics.StaticObjects;
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Account;
 import org.kicksound.Models.Login;
@@ -61,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(Call<Login> call, Response<Login> response) {
                                     if(response.code() == 200) {
                                         if (response.body() != null) {
-                                            Login.getLogin().setId(response.body().getId());
-                                            Login.getLogin().setUserId(response.body().getUserId());
-                                            setAccount(Login.getLogin().getUserId(), getApplicationContext(), getString(R.string.account_error));
                                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE).edit();
                                             editor.putString(getString(R.string.userAccessToken), response.body().getId());
                                             editor.apply();
+                                            setAccount(response.body().getUserId(), getApplicationContext(), getString(R.string.account_error), response.body().getId());
                                         }
                                         HandleIntent.redirectToAnotherActivity(MainActivity.this, TabActivity.class, v);
                                     } else {
@@ -86,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setAccount(String userId, final Context context, final String errorMessage) {
+    private void setAccount(String userId, final Context context, final String errorMessage, String accessToken) {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .getUserById(userId)
+                .getUserById(accessToken, userId)
                 .enqueue(new Callback<Account>() {
                     @Override
                     public void onResponse(Call<Account> call, Response<Account> response) {

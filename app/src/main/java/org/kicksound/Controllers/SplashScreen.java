@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.Statics.StaticObjects;
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Account;
 import org.kicksound.R;

@@ -21,5 +21,5 @@ public interface AccountService {
     Call<Account> accessTokenExist(@Header("Authorization") String authorization);
 
     @GET("accounts/{id}")
-    Call<Account> getUserById(@Path("id") String id);
+    Call<Account> getUserById(@Header("Authorization") String authorization, @Path("id") String id);
 }

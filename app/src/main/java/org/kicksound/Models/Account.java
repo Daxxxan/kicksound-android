@@ -39,7 +39,6 @@ public class Account {
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.type = 0;
     }
 
     public Account() {}

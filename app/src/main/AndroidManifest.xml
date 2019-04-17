@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="org.kicksound.Controllers.SplashScreen">
+        <activity android:name=".Controllers.ResetPasswordActivity"></activity>
+        <activity android:name=".Controllers.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,18 +23,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.kicksound.Controllers.Tabs.TabActivity"
+            android:name=".Controllers.Tabs.TabActivity"
             android:label="@string/title_activity_tab"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.kicksound.Controllers.RegistrationActivity"
+            android:name=".Controllers.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name="org.kicksound.Controllers.MainActivity"
-            tools:ignore="InnerclassSeparator">
-        </activity>
+            android:name=".Controllers.MainActivity"
+            tools:ignore="InnerclassSeparator"></activity>
     </application>
 
 </manifest>

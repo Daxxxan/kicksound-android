@@ -19,11 +19,12 @@ public class HandleAccount {
         return userType;
     }
 
-    public static void setUserParameters(String id, String firstname, String lastname, String email, int type) {
+    public static void setUserParameters(String id, String firstname, String lastname, String email, int type, String accessToken) {
         userAccount.setId(id);
         userAccount.setFirstname(firstname);
         userAccount.setLastname(lastname);
         userAccount.setEmail(email);
         userAccount.setType(type);
+        userAccount.setAccessToken(accessToken);
     }
 }

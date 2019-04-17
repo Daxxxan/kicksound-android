@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         Thread timer = new Thread() {
             public void run() {
                 SharedPreferences user_pref = getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE);
-                String userAccessToken = user_pref.getString(getString(R.string.userAccessToken), null);
+                final String userAccessToken = user_pref.getString(getString(R.string.userAccessToken), null);
 
                 if (userAccessToken != null) {
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
@@ -38,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<Account> call, Response<Account> response) {
                                     if(response.code() == 200) {
-                                        HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType());
+                                        HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), userAccessToken);
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, TabActivity.class, findViewById(R.id.splash_screen));
                                     } else {
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, MainActivity.class, findViewById(R.id.splash_screen));

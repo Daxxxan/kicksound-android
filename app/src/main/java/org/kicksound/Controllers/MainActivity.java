@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                                             setAccount(response.body().getUserId(), getApplicationContext(), getString(R.string.account_error), response.body().getId());
                                         }
                                         HandleIntent.redirectToAnotherActivity(MainActivity.this, TabActivity.class, v);
+                                        finish();
                                     } else {
                                         Toasty.error(getApplicationContext(), getString(R.string.connection_failed), Toast.LENGTH_SHORT, true).show();
                                     }
@@ -83,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setAccount(String userId, final Context context, final String errorMessage, String accessToken) {
+    private void setAccount(String userId, final Context context, final String errorMessage, final String accessToken) {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .getUserById(accessToken, userId)
                 .enqueue(new Callback<Account>() {
                     @Override
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         if(response.code() == 200) {
-                            HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType());
+                            HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), accessToken);
                         }
                     }
 

@@ -24,6 +24,8 @@ public class Account {
     @SerializedName("description")
     private String description;
 
+    private String accessToken;
+
     public Account(String id, String firstname, String lastname, int type, String email, String password, String description) {
         this.id = id;
         this.firstname = firstname;
@@ -97,6 +99,14 @@ public class Account {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override

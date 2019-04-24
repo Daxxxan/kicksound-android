@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.MainActivity;
+import org.kicksound.Controllers.LoginActivity;
 import org.kicksound.Controllers.ResetPasswordActivity;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
@@ -73,7 +73,7 @@ public class UserFragment extends Fragment {
                                 if(response.code() == 204) {
                                     SharedPreferences prefAccessToken = getActivity().getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE);
                                     prefAccessToken.edit().clear().apply();
-                                    HandleIntent.redirectToAnotherActivity(getContext(), MainActivity.class, v);
+                                    HandleIntent.redirectToAnotherActivity(getContext(), LoginActivity.class, v);
                                     getActivity().finish();
                                 }
                             }

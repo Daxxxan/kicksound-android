@@ -41,7 +41,7 @@ public class SplashScreen extends AppCompatActivity {
                                         HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), userAccessToken);
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, TabActivity.class, findViewById(R.id.splash_screen));
                                     } else {
-                                        HandleIntent.redirectToAnotherActivity(SplashScreen.this, MainActivity.class, findViewById(R.id.splash_screen));
+                                        HandleIntent.redirectToAnotherActivity(SplashScreen.this, LoginActivity.class, findViewById(R.id.splash_screen));
                                     }
                                 }
 
@@ -51,7 +51,7 @@ public class SplashScreen extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    HandleIntent.redirectToAnotherActivity(SplashScreen.this, MainActivity.class, findViewById(R.id.splash_screen));
+                    HandleIntent.redirectToAnotherActivity(SplashScreen.this, LoginActivity.class, findViewById(R.id.splash_screen));
                 }
             }
         };

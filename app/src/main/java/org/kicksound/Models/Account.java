@@ -12,6 +12,9 @@ public class Account {
     @SerializedName("lastname")
     private String lastname;
 
+    @SerializedName("username")
+    private String username;
+
     @SerializedName("type")
     private int type;
 
@@ -26,19 +29,20 @@ public class Account {
 
     private String accessToken;
 
-    public Account(String id, String firstname, String lastname, int type, String email, String password, String description) {
+    public Account(String id, String firstname, String lastname, String username, int type, String email, String password, String description, String accessToken) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.username = username;
         this.type = type;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.accessToken = accessToken;
     }
 
-    public Account(String firstname, String lastname, String email, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Account(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }

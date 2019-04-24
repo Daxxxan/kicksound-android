@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Kicksound</string>
-    <string name="email_text">email</string>
+    <string name="email_text">Email</string>
     <string name="mot_de_passe">Mot de passe</string>
     <string name="connexion">Connexion</string>
     <string name="register">S\'enregistrer</string>
@@ -33,4 +33,6 @@
     <string name="change_password">Changer de mot de passe</string>
     <string name="new_password">Nouveau mot de passe</string>
     <string name="password_modification_success">Le mot de passe à été modifié avec succès !</string>
+    <string name="eventName">Nom de l\'évènement</string>
+    <string name="username">Username</string>
 </resources>

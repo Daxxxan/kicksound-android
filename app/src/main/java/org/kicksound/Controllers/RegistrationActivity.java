@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
-import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,32 +33,35 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registration() {
         final Button registrationButton = findViewById(R.id.registrationButton);
+        final ProgressBar loadingBar = findViewById(R.id.loading_progress_register);
         registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                String firstname = fieldIsEmpty(getFirstnameEditText(), getApplicationContext());
-                String lastname = fieldIsEmpty(getLastnameEditText(), getApplicationContext());
-                String email = fieldIsEmpty(getEmailEditText(), getApplicationContext());
-                String password = fieldIsEmpty(getPasswordEditText(), getApplicationContext());
+                String username = fieldIsEmpty(getUsernameEditText(), getApplicationContext());
+                final String email = fieldIsEmpty(getEmailEditText(), getApplicationContext());
+                final String password = fieldIsEmpty(getPasswordEditText(), getApplicationContext());
                 String passwordVerification = fieldIsEmpty(getPasswordVerificationEditText(), getApplicationContext());
 
-                if(firstname != null && lastname != null && email != null && password != null && passwordVerification != null) {
+                if(username != null && email != null && password != null && passwordVerification != null) {
                     if(passwordEqualPasswordVerification(getPasswordEditText(), getPasswordVerificationEditText(), getApplicationContext())) {
+                        loadingBar.setVisibility(View.VISIBLE);
                         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                                .createAccount(new Account(firstname, lastname, email, password))
+                                .createAccount(new Account(username, email, password))
                                 .enqueue(new Callback<Account>() {
                                     @Override
                                     public void onResponse(Call<Account> call, Response<Account> response) {
                                         if(response.code() == 200) {
-                                            HandleIntent.redirectToAnotherActivity(RegistrationActivity.this, MainActivity.class, v);
+                                            HandleAccount.connection(email, password, v, loadingBar, RegistrationActivity.this, RegistrationActivity.this);
                                             Toasty.success(getApplicationContext(), getString(R.string.account_created), Toast.LENGTH_SHORT, true).show();
                                         } else {
+                                            loadingBar.setVisibility(View.INVISIBLE);
                                             Toasty.error(getApplicationContext(), getString(R.string.wrong_mail), Toast.LENGTH_SHORT, true).show();
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(Call<Account> call, Throwable t) {
+                                        loadingBar.setVisibility(View.INVISIBLE);
                                         Toasty.info(getApplicationContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
                                     }
                                 });
@@ -83,11 +87,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return findViewById(R.id.email);
     }
 
-    private EditText getLastnameEditText() {
-        return findViewById(R.id.lastname);
-    }
-
-    private EditText getFirstnameEditText() {
-        return findViewById(R.id.firstname);
+    private EditText getUsernameEditText() {
+        return findViewById(R.id.username);
     }
 }

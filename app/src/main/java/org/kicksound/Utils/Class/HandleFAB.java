@@ -7,8 +7,10 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.kicksound.R;
+
 public class HandleFAB {
-    public static FloatingActionButton createFabButtonOnBottomLeft(Context context, int resourceId, int backgroundColorId, ColorStateList fabColor) {
+    public static FloatingActionButton createFabButtonOnBottomLeft(Context context, int resourceId, int backgroundColorId, ColorStateList fabColor, int id) {
         FloatingActionButton fabButtonCreateEvent = new FloatingActionButton(context);
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -17,6 +19,7 @@ public class HandleFAB {
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         fabButtonCreateEvent.setLayoutParams(layoutParams);
+        fabButtonCreateEvent.setId(id);
         fabButtonCreateEvent.setImageResource(resourceId);
         fabButtonCreateEvent.setBackgroundColor(backgroundColorId);
         fabButtonCreateEvent.setElevation(10);

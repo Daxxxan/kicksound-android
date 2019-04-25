@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.kicksound.Controllers.CreateEventActivity;
+import org.kicksound.Controllers.Event.CreateEventActivity;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleFAB;

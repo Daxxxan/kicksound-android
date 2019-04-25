@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.LoginActivity;
+import org.kicksound.Controllers.Connection.LoginActivity;
 import org.kicksound.Controllers.ResetPasswordActivity;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;

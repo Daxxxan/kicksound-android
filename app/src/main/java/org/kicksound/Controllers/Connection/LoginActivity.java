@@ -1,4 +1,4 @@
-package org.kicksound.Controllers;
+package org.kicksound.Controllers.Connection;
 
 import android.os.Bundle;
 import android.view.View;

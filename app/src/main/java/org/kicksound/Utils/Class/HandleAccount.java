@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.LoginActivity;
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Login;
 import org.kicksound.R;

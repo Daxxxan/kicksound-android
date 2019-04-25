@@ -1,6 +1,7 @@
 package org.kicksound.Services;
 
 import org.kicksound.Models.Account;
+import org.kicksound.Models.Event;
 import org.kicksound.Models.Login;
 import org.kicksound.Models.Logout;
 import org.kicksound.Models.ResetPassword;
@@ -24,6 +25,9 @@ public interface AccountService {
 
     @POST("accounts/reset-password")
     Call<ResetPassword> resetPassword(@Header("Authorization") String authorization, @Body ResetPassword resetPassword);
+
+    @POST("accounts/{id}/events")
+    Call<Event> createEvent(@Header("Authorization") String authorization, @Path("id") String id, @Body Event event);
 
     @GET("accounts/me")
     Call<Account> accessTokenExist(@Header("Authorization") String authorization);

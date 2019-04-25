@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.kicksound.Controllers.RegistrationActivity">
+    tools:context="org.kicksound.Controllers.Connection.RegistrationActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

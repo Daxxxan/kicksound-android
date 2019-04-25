@@ -35,4 +35,8 @@
     <string name="password_modification_success">Le mot de passe à été modifié avec succès !</string>
     <string name="eventName">Nom de l\'évènement</string>
     <string name="username">Username</string>
+    <string name="create_event">Création d\'un évènement</string>
+    <string name="event_description">Description de l\'évènement</string>
+    <string name="placeNumber">Nombre de place</string>
+    <string name="add_event_picture">Ajouter une photo à l\'évènement</string>
 </resources>

@@ -15,6 +15,9 @@ public class Event {
     @SerializedName("ticketsNumber")
     private int ticketsNumber;
 
+    @SerializedName("picture")
+    private String picture;
+
     @SerializedName("disabled")
     private boolean disabled;
 
@@ -25,6 +28,13 @@ public class Event {
         this.title = title;
         this.description = description;
         this.ticketsNumber = ticketsNumber;
+    }
+
+    public Event(String title, String description, int ticketsNumber, String picture) {
+        this.title = title;
+        this.description = description;
+        this.ticketsNumber = ticketsNumber;
+        this.picture = picture;
     }
 
     public Event(){}

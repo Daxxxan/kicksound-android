@@ -48,6 +48,7 @@ public class SplashScreen extends AppCompatActivity {
                                 @Override
                                 public void onFailure(Call<Account> call, Throwable t) {
                                     Toasty.info(getApplicationContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                                    HandleIntent.redirectToAnotherActivity(SplashScreen.this, LoginActivity.class, findViewById(R.id.splash_screen));
                                 }
                             });
                 } else {

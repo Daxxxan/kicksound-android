@@ -4,6 +4,8 @@
     package="org.kicksound">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Controllers.Event.CreateEventActivity"></activity>
+        <activity android:name=".Controllers.Event.CreateEventActivity" />
         <activity android:name=".Controllers.ResetPasswordActivity" />
         <activity android:name=".Controllers.Connection.SplashScreen">
             <intent-filter>

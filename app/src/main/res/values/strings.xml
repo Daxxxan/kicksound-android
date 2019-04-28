@@ -12,7 +12,7 @@
     <string name="validate">Valider</string>
     <string name="fill_all_fields">Veuillez saisir tous les champs</string>
     <string name="password_are_different">Les mots de passe ne sont pas identiques</string>
-    <string name="URL_API">"http://10.0.2.2:3000/api/"</string>
+    <string name="URL_API">"http://192.168.1.28:3000/api/"</string>
     <string name="account_created">Votre compte a bien été créé</string>
     <string name="wrong_mail">Email invalide !</string>
     <string name="connexion_error">Une erreur est survenue, veuilliez vérifier votre connexion internet.</string>
@@ -39,4 +39,7 @@
     <string name="event_description">Description de l\'évènement</string>
     <string name="placeNumber">Nombre de place</string>
     <string name="add_event_picture">Ajouter une photo à l\'évènement</string>
+    <string name="succes_create_event">Evènement créé avec succès</string>
+    <string name="createEventError">Une erreur est survenue</string>
+    <string name="error_upload_image">Problème lors de l\'upload de l\'image</string>
 </resources>

@@ -37,6 +37,8 @@
             android:textColorHint="@color/colorWhite"
             android:textColor="@color/colorWhite"
             android:inputType="textPersonName"
+            android:drawableStart="@drawable/ic_action_event"
+            android:drawablePadding="@dimen/drawable_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createEventTitle" />
@@ -52,6 +54,8 @@
             android:inputType="number"
             android:hint="@string/placeNumber"
             android:textColorHint="@color/colorWhite"
+            android:drawableStart="@drawable/ic_action_email"
+            android:drawablePadding="@dimen/drawable_padding"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

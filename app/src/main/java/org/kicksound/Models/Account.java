@@ -113,16 +113,26 @@ public class Account {
         this.accessToken = accessToken;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "id='" + id + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", username='" + username + '\'' +
                 ", type=" + type +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", description='" + description + '\'' +
+                ", accessToken='" + accessToken + '\'' +
                 '}';
     }
 }

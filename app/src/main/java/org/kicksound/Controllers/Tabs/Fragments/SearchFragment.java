@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import org.kicksound.Controllers.Search.SearchListAdapter;
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -14,6 +15,8 @@ import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -45,13 +48,13 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private void searchingBar(View view) {
+    private void searchingBar(final View view) {
         ImageButton searchingButton = view.findViewById(R.id.searchingButton);
         final EditText searchingBar = view.findViewById(R.id.searching_bar);
 
         searchingButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if(!searchingBar.getText().toString().matches("")) {
                     String finalSearchUserLike = "%" + searchingBar.getText() + "%";
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
@@ -60,7 +63,14 @@ public class SearchFragment extends Fragment {
                                 @Override
                                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
                                     System.out.println(response.code());
+                                    System.out.println(response.raw());
                                     System.out.println(response.body());
+
+                                    RecyclerView recyclerView = view.findViewById(R.id.searching_recycler_view);
+                                    SearchListAdapter adapter = new SearchListAdapter(response.body(), getContext());
+                                    recyclerView.setAdapter(adapter);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
                                 }
 
                                 @Override

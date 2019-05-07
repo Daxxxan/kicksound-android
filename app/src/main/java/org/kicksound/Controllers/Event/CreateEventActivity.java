@@ -40,7 +40,7 @@ import static org.kicksound.Utils.Class.HandleEditText.fieldIsEmpty;
 
 public class CreateEventActivity extends AppCompatActivity {
 
-    private static final int PICK_IMAGE_FROM_GALERRY = 1;
+    private static final int PICK_IMAGE_FROM_GALLERY = 1;
     private ImageView eventImageView;
     private Uri selectedImage = null;
     private File eventPicture = null;
@@ -106,7 +106,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 allowAccessToGallery();
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALERRY);
+                startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
             }
         });
     }
@@ -126,7 +126,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_FROM_GALERRY && resultCode == RESULT_OK && null != data) {
+        if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
             selectedImage = data.getData();
             eventPicture = new File(FileUtil.getPath(selectedImage, getApplicationContext()));
 

@@ -43,4 +43,6 @@
     <string name="createEventError">Une erreur est survenue</string>
     <string name="error_upload_image">Problème lors de l\'upload de l\'image</string>
     <string name="search_user">Rechercher un utilisateur</string>
+    <string name="user_pic">Photo de profil</string>
+    <string name="changeUserPic">Sélectionner une photo de profil</string>
 </resources>

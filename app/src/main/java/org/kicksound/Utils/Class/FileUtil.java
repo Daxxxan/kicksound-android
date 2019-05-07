@@ -40,7 +40,7 @@ public class FileUtil {
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-        MultipartBody.Part multipartBody =MultipartBody.Part.createFormData("file",file.getName(),requestFile);
+        MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("file",file.getName(),requestFile);
 
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .uploadEventImage(

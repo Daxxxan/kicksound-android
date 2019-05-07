@@ -16,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Controllers.User.UserPicture"></activity>
         <activity android:name=".Controllers.Event.CreateEventActivity" />
-        <activity android:name=".Controllers.ResetPasswordActivity" />
+        <activity android:name=".Controllers.User.ResetPasswordActivity" />
         <activity android:name=".Controllers.Connection.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

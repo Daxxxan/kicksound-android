@@ -62,15 +62,10 @@ public class SearchFragment extends Fragment {
                             .enqueue(new Callback<List<Account>>() {
                                 @Override
                                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                                    System.out.println(response.code());
-                                    System.out.println(response.raw());
-                                    System.out.println(response.body());
-
                                     RecyclerView recyclerView = view.findViewById(R.id.searching_recycler_view);
                                     SearchListAdapter adapter = new SearchListAdapter(response.body(), getContext());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
                                 }
 
                                 @Override

@@ -1,4 +1,4 @@
-package org.kicksound.Controllers;
+package org.kicksound.Controllers.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.kicksound.Controllers.Tabs.Fragments.UserFragment;
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.ResetPassword;
 import org.kicksound.R;

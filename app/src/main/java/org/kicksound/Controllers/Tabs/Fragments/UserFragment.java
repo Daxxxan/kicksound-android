@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.kicksound.Controllers.Connection.LoginActivity;
-import org.kicksound.Controllers.ResetPasswordActivity;
+import org.kicksound.Controllers.User.ResetPasswordActivity;
+import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -44,10 +45,21 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_fragment, container, false);
 
+        changeUserPicture(view);
         resetPassword(view);
         logout(view);
 
         return view;
+    }
+
+    private void changeUserPicture(View view) {
+        Button resetPasswordButton = view.findViewById(R.id.addUserPicView);
+        resetPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivity(getContext(), UserPicture.class, v);
+            }
+        });
     }
 
     private void resetPassword(final View view) {

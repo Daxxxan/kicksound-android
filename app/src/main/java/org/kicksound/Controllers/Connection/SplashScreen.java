@@ -38,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<Account> call, Response<Account> response) {
                                     if(response.code() == 200) {
-                                        HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), userAccessToken);
+                                        HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), userAccessToken, response.body().getPicture());
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, TabActivity.class, findViewById(R.id.splash_screen));
                                     } else {
                                         HandleIntent.redirectToAnotherActivity(SplashScreen.this, LoginActivity.class, findViewById(R.id.splash_screen));

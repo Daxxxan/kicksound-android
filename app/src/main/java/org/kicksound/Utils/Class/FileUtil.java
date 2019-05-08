@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,14 +17,19 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.squareup.picasso.Picasso;
+
+import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 
 import java.io.File;
+import java.io.InputStream;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
@@ -35,7 +42,46 @@ import retrofit2.Response;
 
 public class FileUtil {
 
-    public static void uploadFile(Uri fileUri, final Context context) {
+    public static void pickImageFromGallery(Context context, Activity activity, int PICK_IMAGE_FROM_GALLERY) {
+        FileUtil.allowAccessToGallery(activity, context);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activity.startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+    }
+
+    public static void allowAccessToGallery(Activity activity, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + activity.getPackageName()));
+            activity.finish();
+            activity.startActivity(intent);
+            return;
+        }
+    }
+
+    public static void downloadFileAndDisplay(String container, String fileName, final ImageView imageView) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .downloadFile(
+                        HandleAccount.userAccount.getAccessToken(),
+                        container,
+                        fileName
+                ).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                InputStream inputStream = response.body().byteStream();
+                Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                imageView.setImageBitmap(bmp);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Picasso.get().load(R.drawable.kicksound_logo).into(imageView);
+            }
+        });
+    }
+
+    public static void uploadFile(Uri fileUri, final Context context, String type) {
         File file = new File(FileUtil.getPath(fileUri, context));
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -43,10 +89,10 @@ public class FileUtil {
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("file",file.getName(),requestFile);
 
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .uploadEventImage(
+                .uploadFile(
                         HandleAccount.userAccount.getAccessToken(),
                         multipartBody,
-                        "event")
+                        type)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

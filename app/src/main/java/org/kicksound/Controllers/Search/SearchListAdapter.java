@@ -12,8 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.kicksound.Models.Account;
 import org.kicksound.R;
+import org.kicksound.Utils.Class.FileUtil;
+import org.kicksound.Utils.Class.HandleAccount;
 
 import java.util.List;
 
@@ -39,6 +43,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.userNameItem.setText(userList.get(position).getUsername());
+
+        FileUtil.downloadFileAndDisplay("user", userList.get(position).getPicture(), holder.userImageItem);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

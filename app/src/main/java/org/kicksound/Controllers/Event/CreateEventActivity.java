@@ -1,13 +1,8 @@
 package org.kicksound.Controllers.Event;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.squareup.picasso.Picasso;
 
@@ -68,7 +62,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     int nbTicket = Integer.parseInt(nbTicketString);
 
                     if(selectedImage != null) {
-                        FileUtil.uploadFile(selectedImage, getApplicationContext());
+                        FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
                         event = new Event(eventTitle, eventDescription, nbTicket, eventPicture.getName());
                     } else {
                         event = new Event(eventTitle, eventDescription, nbTicket);
@@ -104,23 +98,9 @@ public class CreateEventActivity extends AppCompatActivity {
         addEventPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allowAccessToGallery();
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+                FileUtil.pickImageFromGallery(getApplicationContext(), CreateEventActivity.this, PICK_IMAGE_FROM_GALLERY);
             }
         });
-    }
-
-    private void allowAccessToGallery() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + getPackageName()));
-            finish();
-            startActivity(intent);
-            return;
-        }
     }
 
     @Override

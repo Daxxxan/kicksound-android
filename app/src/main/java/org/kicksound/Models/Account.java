@@ -16,7 +16,7 @@ public class Account {
     private String username;
 
     @SerializedName("type")
-    private int type;
+    private Integer type;
 
     @SerializedName("email")
     private String email;
@@ -27,9 +27,12 @@ public class Account {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("picture")
+    private String picture;
+
     private String accessToken;
 
-    public Account(String id, String firstname, String lastname, String username, int type, String email, String password, String description, String accessToken) {
+    public Account(String id, String firstname, String lastname, String username, int type, String email, String password, String description, String accessToken, String picture) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -39,12 +42,17 @@ public class Account {
         this.password = password;
         this.description = description;
         this.accessToken = accessToken;
+        this.picture = picture;
     }
 
     public Account(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public Account(String picture) {
+        this.picture = picture;
     }
 
     public Account() {}
@@ -121,6 +129,14 @@ public class Account {
         this.username = username;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -132,6 +148,7 @@ public class Account {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", description='" + description + '\'' +
+                ", picture='" + picture + '\'' +
                 ", accessToken='" + accessToken + '\'' +
                 '}';
     }

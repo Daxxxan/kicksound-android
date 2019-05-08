@@ -38,13 +38,14 @@ public class HandleAccount {
         return userType;
     }
 
-    public static void setUserParameters(String id, String firstname, String lastname, String email, int type, String accessToken) {
+    public static void setUserParameters(String id, String firstname, String lastname, String email, int type, String accessToken, String picture) {
         userAccount.setId(id);
         userAccount.setFirstname(firstname);
         userAccount.setLastname(lastname);
         userAccount.setEmail(email);
         userAccount.setType(type);
         userAccount.setAccessToken(accessToken);
+        userAccount.setPicture(picture);
     }
 
     public static void connection(String userMail, String userPassword, final View v, final ProgressBar loadingBar, final Activity finishActivity, final Context context) {
@@ -89,7 +90,7 @@ public class HandleAccount {
                     @Override
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         if(response.code() == 200) {
-                            HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), accessToken);
+                            HandleAccount.setUserParameters(response.body().getId(), response.body().getFirstname(), response.body().getLastname(), response.body().getEmail(), response.body().getType(), accessToken, response.body().getPicture());
                         }
                     }
 

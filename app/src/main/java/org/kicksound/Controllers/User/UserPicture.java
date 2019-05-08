@@ -1,9 +1,5 @@
 package org.kicksound.Controllers.User;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,19 +11,36 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.squareup.picasso.Picasso;
 
+import org.kicksound.Controllers.Tabs.TabActivity;
+import org.kicksound.Models.Account;
 import org.kicksound.R;
+import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.FileUtil;
+import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.io.File;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserPicture extends AppCompatActivity {
 
     private static final int PICK_IMAGE_FROM_GALLERY = 1;
     private Uri selectedImage = null;
     private File userPicture = null;
+    private Account account = null;
     private ImageView userImageView;
     private Button userPictureButton;
 
@@ -45,8 +58,34 @@ public class UserPicture extends AppCompatActivity {
     private void validateUserPicture() {
         userPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
+                if(selectedImage != null) {
+                    FileUtil.uploadFile(selectedImage, getApplicationContext(), "user");
+                    account = new Account(userPicture.getName());
 
+                    RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                            .updatePictureName(
+                                    HandleAccount.userAccount.getAccessToken(),
+                                    HandleAccount.userAccount.getId(),
+                                    account
+                            ).enqueue(new Callback<Account>() {
+                        @Override
+                        public void onResponse(Call<Account> call, Response<Account> response) {
+                            if(response.code() == 200) {
+                                HandleAccount.userAccount.setPicture(userPicture.getName());
+                                HandleIntent.redirectToAnotherActivity(UserPicture.this, TabActivity.class, v);
+                                Toasty.success(getApplicationContext(), v.getContext().getString(R.string.success_picture_user), Toast.LENGTH_SHORT, true).show();
+                            } else {
+                                Toasty.error(getApplicationContext(), v.getContext().getString(R.string.createEventError), Toast.LENGTH_SHORT, true).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Account> call, Throwable t) {
+                            Toasty.error(getApplicationContext(), v.getContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                        }
+                    });
+                }
             }
         });
     }
@@ -56,23 +95,9 @@ public class UserPicture extends AppCompatActivity {
         addUserPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allowAccessToGallery();
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+                FileUtil.pickImageFromGallery(getApplicationContext(), UserPicture.this, PICK_IMAGE_FROM_GALLERY);
             }
         });
-    }
-
-    private void allowAccessToGallery() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + getPackageName()));
-            finish();
-            startActivity(intent);
-            return;
-        }
     }
 
     @Override

@@ -1,11 +1,13 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.kicksound.Controllers.Connection.LoginActivity;
@@ -14,11 +16,15 @@ import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import androidx.fragment.app.Fragment;
+
+import com.squareup.picasso.Picasso;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,11 +51,21 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_fragment, container, false);
 
+        loadUserPic(view);
         changeUserPicture(view);
         resetPassword(view);
         logout(view);
 
         return view;
+    }
+
+    private void loadUserPic(View view) {
+        ImageView userPic = view.findViewById(R.id.user_pic);
+        if(HandleAccount.userAccount.getPicture() != null){
+            FileUtil.downloadFileAndDisplay("user", HandleAccount.userAccount.getPicture(), userPic);
+        } else {
+            Picasso.get().load(R.drawable.kicksound_logo).into(userPic);
+        }
     }
 
     private void changeUserPicture(View view) {

@@ -1,6 +1,7 @@
 package org.kicksound.Controllers.Event;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.Tabs.TabActivity;
+import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -101,6 +103,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 FileUtil.pickImageFromGallery(getApplicationContext(), CreateEventActivity.this, PICK_IMAGE_FROM_GALLERY);
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            FileUtil.pickImageFromGallery(getApplicationContext(), CreateEventActivity.this, PICK_IMAGE_FROM_GALLERY);
+        }
     }
 
     @Override

@@ -6,22 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;
-import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
 
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder>{
 
@@ -41,15 +36,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.userNameItem.setText(userList.get(position).getUsername());
 
-        FileUtil.downloadFileAndDisplay("user", userList.get(position).getPicture(), holder.userImageItem);
+        FileUtil.downloadFileAndDisplay("user", userList.get(position).getPicture(), holder.userImageItem, context);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toasty.info(context, position + " userId: " + userList.get(position).getId(), Toast.LENGTH_SHORT, true).show();
+                HandleIntent.redirectToAnotherActivityWithExtra(context, UserSearched.class, v, "userId", userList.get(position).getId());
             }
         });
     }

@@ -20,8 +20,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.User.UserPicture;
@@ -42,25 +45,39 @@ import retrofit2.Response;
 
 public class FileUtil {
 
-    public static void pickImageFromGallery(Context context, Activity activity, int PICK_IMAGE_FROM_GALLERY) {
-        FileUtil.allowAccessToGallery(activity, context);
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        activity.startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+    public static void displayCircleImageWithUri(Context context, Uri uri, ImageView imageView) {
+        Glide.with(context)
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView);
     }
 
-    public static void allowAccessToGallery(Activity activity, Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + activity.getPackageName()));
-            activity.finish();
-            activity.startActivity(intent);
-            return;
+    public static void displayCircleImageWithBitmap(Context context, Bitmap bitmap, ImageView imageView) {
+        Glide.with(context)
+                .load(bitmap)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView);
+    }
+
+    public static void pickImageFromGallery(Context context, Activity activity, int PICK_IMAGE_FROM_GALLERY) {
+        if(FileUtil.allowAccessToGallery(activity, context)) {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            activity.startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
         }
     }
 
-    public static void downloadFileAndDisplay(String container, String fileName, final ImageView imageView) {
+    public static boolean allowAccessToGallery(Activity activity, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static void downloadFileAndDisplay(final String container, String fileName, final ImageView imageView, final Context context) {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .downloadFile(
                         HandleAccount.userAccount.getAccessToken(),
@@ -69,14 +86,16 @@ public class FileUtil {
                 ).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                InputStream inputStream = response.body().byteStream();
                 Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
-                imageView.setImageBitmap(bmp);
+                FileUtil.displayCircleImageWithBitmap(context, bmp, imageView);
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Picasso.get().load(R.drawable.kicksound_logo).into(imageView);
+                Glide.with(context)
+                        .load(R.drawable.kicksound_logo)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imageView);
             }
         });
     }

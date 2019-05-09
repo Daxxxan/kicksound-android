@@ -101,13 +101,21 @@ public class UserPicture extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            FileUtil.pickImageFromGallery(getApplicationContext(), UserPicture.this, PICK_IMAGE_FROM_GALLERY);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
             selectedImage = data.getData();
             userPicture = new File(FileUtil.getPath(selectedImage, getApplicationContext()));
 
-            Picasso.get().load(selectedImage).into(userImageView);
+            FileUtil.displayCircleImageWithUri(getApplicationContext(), selectedImage, userImageView);
             userPictureButton.setVisibility(View.VISIBLE);
         } else if(selectedImage == null) {
             userPictureButton.setVisibility(View.GONE);

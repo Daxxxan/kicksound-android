@@ -46,4 +46,6 @@
     <string name="user_pic">Changer votre photo de profil</string>
     <string name="changeUserPic">Sélectionner une photo de profil</string>
     <string name="success_picture_user">Votre photo de profil a été mise à jour</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 </resources>

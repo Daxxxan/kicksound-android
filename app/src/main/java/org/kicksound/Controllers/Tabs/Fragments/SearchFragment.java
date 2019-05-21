@@ -58,7 +58,11 @@ public class SearchFragment extends Fragment {
                 if(!searchingBar.getText().toString().matches("")) {
                     String finalSearchUserLike = "%" + searchingBar.getText() + "%";
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                            .getUsersByUserName(HandleAccount.userAccount.getAccessToken(), finalSearchUserLike, CLASSIC_USER)
+                            .getUsersByUserName(
+                                    HandleAccount.userAccount.getAccessToken(),
+                                    finalSearchUserLike,
+                                    CLASSIC_USER,
+                                    HandleAccount.userAccount.getId())
                             .enqueue(new Callback<List<Account>>() {
                                 @Override
                                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {

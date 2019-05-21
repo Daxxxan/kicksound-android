@@ -13,11 +13,13 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -32,7 +34,8 @@ public interface AccountService {
     @GET("accounts")
     Call<List<Account>> getUsersByUserName(@Header("Authorization") String authorization,
                                            @Query("filter[where][and][0][username][like]=") String username,
-                                           @Query("filter[where][and][1][type][neq]=") String classicUser);
+                                           @Query("filter[where][and][1][type][neq]=") String classicUser,
+                                           @Query("filter[where][and][2][id][neq]=") String userId);
 
     @GET("Photos/{container}/download/{file}")
     Call<ResponseBody> downloadFile(
@@ -40,6 +43,21 @@ public interface AccountService {
             @Path("container") String container,
             @Path("file") String file
     );
+
+    @GET("accounts/{id}/following/{fk}")
+    Call<Account> getFollowedUserById(@Header("Authorization") String authorization,
+                                      @Path("id") String id,
+                                      @Path("fk") String fk);
+
+    @PUT("accounts/{id}/following/rel/{fk}")
+    Call<Account> followUser(@Header("Authorization") String authorization,
+                                      @Path("id") String id,
+                                      @Path("fk") String fk);
+
+    @DELETE("accounts/{id}/following/rel/{fk}")
+    Call<Account> unfollowUser(@Header("Authorization") String authorization,
+                             @Path("id") String id,
+                             @Path("fk") String fk);
 
     @POST("accounts")
     Call<Account> createAccount(@Body Account account);

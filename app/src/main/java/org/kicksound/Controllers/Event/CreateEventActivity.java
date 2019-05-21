@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.Tabs.TabActivity;
-import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;

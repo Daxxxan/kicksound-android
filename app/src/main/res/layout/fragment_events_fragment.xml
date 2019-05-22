@@ -7,6 +7,40 @@
     android:id="@+id/event_fragment"
     tools:context=".Controllers.Tabs.Fragments.EventsFragment">
 
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/famEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu_colorNormal="@color/colorGold"
+        app:menu_colorPressed="@color/colorGold"
+        app:menu_icon="@drawable/ic_action_event"
+        app:menu_labels_position="left"
+        app:menu_labels_showShadow="true"
+        app:menu_shadowColor="@color/colorMainDark">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabCreateEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_nplus"
+            app:fab_label="Créer un évènement"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabDisplayEvents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_event"
+            app:fab_label="Mes évènements"
+            app:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/event_recycler_view"
         android:layout_width="match_parent"

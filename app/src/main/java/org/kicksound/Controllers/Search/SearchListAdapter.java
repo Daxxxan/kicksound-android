@@ -61,8 +61,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            userImageItem = itemView.findViewById(R.id.user_image_item);
-            userNameItem = itemView.findViewById(R.id.username_item);
+            userImageItem = itemView.findViewById(R.id.image_item);
+            userNameItem = itemView.findViewById(R.id.string_item);
             itemLayout = itemView.findViewById(R.id.item);
         }
     }

@@ -86,8 +86,15 @@ public class FileUtil {
                 ).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
-                FileUtil.displayCircleImageWithBitmap(context, bmp, imageView);
+                if(response.body() != null) {
+                    Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                    FileUtil.displayCircleImageWithBitmap(context, bmp, imageView);
+                } else {
+                    Glide.with(context)
+                            .load(R.drawable.kicksound_logo)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(imageView);
+                }
             }
 
             @Override

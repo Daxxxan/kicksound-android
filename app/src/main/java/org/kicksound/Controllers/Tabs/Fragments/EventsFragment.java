@@ -1,5 +1,6 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.kicksound.Controllers.Event.CreateEventActivity;
+import org.kicksound.Controllers.Event.MyEvents;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
@@ -45,6 +47,7 @@ public class EventsFragment extends Fragment {
         if(HandleAccount.getUserType() != UserType.USER) {
             FloatingActionMenu famEvent = view.findViewById(R.id.famEvent);
             FloatingActionButton fabEvent = view.findViewById(R.id.fabCreateEvent);
+            FloatingActionButton fabDisplayEvents = view.findViewById(R.id.fabDisplayEvents);
 
             famEvent.showMenu(true);
 
@@ -52,6 +55,13 @@ public class EventsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     HandleIntent.redirectToAnotherActivity(getContext(), CreateEventActivity.class, v);
+                }
+            });
+
+            fabDisplayEvents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HandleIntent.redirectToAnotherActivity(getContext(), MyEvents.class, v);
                 }
             });
         }

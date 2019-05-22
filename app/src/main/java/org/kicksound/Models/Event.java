@@ -2,6 +2,8 @@ package org.kicksound.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Event {
     @SerializedName("id")
     private String id;
@@ -24,17 +26,21 @@ public class Event {
     @SerializedName("accountId")
     private int accountId;
 
+    @SerializedName("date")
+    private Date date;
+
     public Event(String title, String description, int ticketsNumber) {
         this.title = title;
         this.description = description;
         this.ticketsNumber = ticketsNumber;
     }
 
-    public Event(String title, String description, int ticketsNumber, String picture) {
+    public Event(String title, String description, int ticketsNumber, String picture, Date date) {
         this.title = title;
         this.description = description;
         this.ticketsNumber = ticketsNumber;
         this.picture = picture;
+        this.date = date;
     }
 
     public Event(){}
@@ -85,5 +91,21 @@ public class Event {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public Date isDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

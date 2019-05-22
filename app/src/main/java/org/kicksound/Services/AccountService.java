@@ -49,6 +49,9 @@ public interface AccountService {
                                       @Path("id") String id,
                                       @Path("fk") String fk);
 
+    @GET("accounts/{id}/events")
+    Call<List<Event>> getUserEvents(@Header("Authorization") String authorization, @Path("id") String id);
+
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,
                                       @Path("id") String id,

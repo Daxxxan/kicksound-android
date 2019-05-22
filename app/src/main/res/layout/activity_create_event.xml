@@ -91,6 +91,21 @@
             app:layout_constraintTop_toBottomOf="@+id/ticketNumber" />
 
         <Button
+            android:id="@+id/eventDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorLightBlack"
+            android:text="@string/chose_event_date"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@+id/addEventPicture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionEvent" />
+
+        <Button
             android:id="@+id/addEventPicture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -103,7 +118,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionEvent" />
+            app:layout_constraintTop_toBottomOf="@+id/eventDate" />
 
         <ImageView
             android:id="@+id/eventPicture"

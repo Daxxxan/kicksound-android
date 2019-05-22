@@ -14,6 +14,7 @@ import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.RetrofitManager;
 
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,7 +31,9 @@ public class MyEvents extends AppCompatActivity {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .getUserEvents(
                         HandleAccount.userAccount.getAccessToken(),
-                        HandleAccount.userAccount.getId())
+                        HandleAccount.userAccount.getId(),
+                        "date",
+                        Calendar.getInstance().getTime())
                 .enqueue(new Callback<List<Event>>() {
                     @Override
                     public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {

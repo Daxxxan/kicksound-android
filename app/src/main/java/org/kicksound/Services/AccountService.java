@@ -6,6 +6,7 @@ import org.kicksound.Models.Login;
 import org.kicksound.Models.Logout;
 import org.kicksound.Models.ResetPassword;
 
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -50,7 +51,10 @@ public interface AccountService {
                                       @Path("fk") String fk);
 
     @GET("accounts/{id}/events")
-    Call<List<Event>> getUserEvents(@Header("Authorization") String authorization, @Path("id") String id);
+    Call<List<Event>> getUserEvents(@Header("Authorization") String authorization,
+                                    @Path("id") String id,
+                                    @Query("filter[order]=") String by,
+                                    @Query("filter[where][date][gt]=") Date date);
 
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,

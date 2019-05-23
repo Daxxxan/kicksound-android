@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Controllers.Event.MyEvents"></activity>
+        <activity android:name=".Controllers.Event.EventView"></activity>
+        <activity android:name=".Controllers.Event.MyEvents" />
         <activity android:name=".Controllers.Search.UserSearched" />
         <activity android:name=".Controllers.User.UserPicture" />
         <activity android:name=".Controllers.Event.CreateEventActivity" />

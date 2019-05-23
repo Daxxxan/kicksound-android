@@ -56,6 +56,12 @@ public interface AccountService {
                                     @Query("filter[order]=") String by,
                                     @Query("filter[where][date][gt]=") Date date);
 
+    @GET("accounts/{id}/events/{fk}")
+    Call<Event> getEventById(@Header("Authorization") String authorization,
+                                    @Path("id") String id,
+                                    @Path("fk") String ifk);
+
+
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,
                                       @Path("id") String id,

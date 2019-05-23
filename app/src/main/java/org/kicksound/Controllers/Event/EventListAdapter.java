@@ -11,9 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.kicksound.Controllers.Search.UserSearched;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;
+import org.kicksound.Utils.Class.HandleIntent;
 
 import java.util.List;
 
@@ -38,6 +40,13 @@ public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.Vie
         holder.nameItem.setText(eventList.get(position).getTitle());
 
         FileUtil.downloadFileAndDisplay("event", eventList.get(position).getPicture(), holder.imageItem, context);
+
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivityWithExtra(context, EventView.class, v, "eventId", eventList.get(position).getId());
+            }
+        });
     }
 
     @Override

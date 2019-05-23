@@ -90,12 +90,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     if(date != null) {
                         int nbTicket = Integer.parseInt(nbTicketString);
 
-                        if(selectedImage != null) {
-                            FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
-                            event = new Event(eventTitle, eventDescription, nbTicket, eventPicture.getName(), date);
-                        } else {
-                            event = new Event(eventTitle, eventDescription, nbTicket);
-                        }
+                        event = getEventAndUploadFileIfSelectedImageNotEmpty(eventTitle, eventDescription, nbTicket);
 
                         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                                 .createEvent(HandleAccount.userAccount.getAccessToken(),
@@ -123,6 +118,17 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private Event getEventAndUploadFileIfSelectedImageNotEmpty(String eventTitle, String eventDescription, int nbTicket) {
+        if(selectedImage != null) {
+            FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
+            event = new Event(eventTitle, eventDescription, nbTicket, eventPicture.getName(), date);
+        } else {
+            event = new Event(eventTitle, eventDescription, nbTicket);
+        }
+
+        return event;
     }
 
     private void selectEventPicture() {

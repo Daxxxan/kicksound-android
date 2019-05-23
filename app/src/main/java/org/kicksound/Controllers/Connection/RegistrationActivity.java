@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.kicksound.Controllers.Event.EventListAdapter;
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -24,16 +25,21 @@ import static org.kicksound.Utils.Class.HandleEditText.passwordEqualPasswordVeri
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    private Button registrationButton = null;
+    private ProgressBar loadingBar = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        registrationButton = findViewById(R.id.registrationButton);
+        loadingBar = findViewById(R.id.loading_progress_register);
+
         registration();
     }
 
     private void registration() {
-        final Button registrationButton = findViewById(R.id.registrationButton);
-        final ProgressBar loadingBar = findViewById(R.id.loading_progress_register);
         registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -45,26 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(username != null && email != null && password != null && passwordVerification != null) {
                     if(passwordEqualPasswordVerification(getPasswordEditText(), getPasswordVerificationEditText(), getApplicationContext())) {
                         loadingBar.setVisibility(View.VISIBLE);
-                        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                                .createAccount(new Account(username, email, password))
-                                .enqueue(new Callback<Account>() {
-                                    @Override
-                                    public void onResponse(Call<Account> call, Response<Account> response) {
-                                        if(response.code() == 200) {
-                                            HandleAccount.connection(email, password, v, loadingBar, RegistrationActivity.this, RegistrationActivity.this);
-                                            Toasty.success(getApplicationContext(), getString(R.string.account_created), Toast.LENGTH_SHORT, true).show();
-                                        } else {
-                                            loadingBar.setVisibility(View.INVISIBLE);
-                                            Toasty.error(getApplicationContext(), getString(R.string.wrong_mail), Toast.LENGTH_SHORT, true).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Account> call, Throwable t) {
-                                        loadingBar.setVisibility(View.INVISIBLE);
-                                        Toasty.info(getApplicationContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
-                                    }
-                                });
+                        registerUser(username, email, password, v);
                     } else {
                         Toasty.error(getApplicationContext(), getString(R.string.password_are_different), Toast.LENGTH_SHORT, true).show();
                     }
@@ -73,6 +60,29 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void registerUser(String username, final String email, final String password, final View v) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .createAccount(new Account(username, email, password))
+                .enqueue(new Callback<Account>() {
+                    @Override
+                    public void onResponse(Call<Account> call, Response<Account> response) {
+                        if(response.code() == 200) {
+                            HandleAccount.connection(email, password, v, loadingBar, RegistrationActivity.this, RegistrationActivity.this);
+                            Toasty.success(getApplicationContext(), getString(R.string.account_created), Toast.LENGTH_SHORT, true).show();
+                        } else {
+                            loadingBar.setVisibility(View.INVISIBLE);
+                            Toasty.error(getApplicationContext(), getString(R.string.wrong_mail), Toast.LENGTH_SHORT, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Account> call, Throwable t) {
+                        loadingBar.setVisibility(View.INVISIBLE);
+                        Toasty.info(getApplicationContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
     }
 
     private EditText getPasswordVerificationEditText() {

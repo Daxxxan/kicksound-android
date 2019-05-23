@@ -42,7 +42,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 if(password != null && passwordVerification != null) {
                     if(HandleEditText.passwordEqualPasswordVerification(getPasswordEditText(), getPasswordVerificationEditText(), getApplicationContext())) {
                         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                                .resetPassword(HandleAccount.userAccount.getAccessToken(), new ResetPassword(password))
+                                .resetPassword(
+                                        HandleAccount.userAccount.getAccessToken(),
+                                        new ResetPassword(password)
+                                )
                                 .enqueue(new Callback<ResetPassword>() {
                                     @Override
                                     public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {

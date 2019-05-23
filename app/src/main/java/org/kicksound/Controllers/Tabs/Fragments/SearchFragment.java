@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import org.kicksound.Controllers.Search.SearchListAdapter;
 import org.kicksound.Models.Account;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +45,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search_fragment, container, false);
+
         searchingBar(view);
 
         return view;
@@ -57,6 +60,7 @@ public class SearchFragment extends Fragment {
             public void onClick(final View v) {
                 if(!searchingBar.getText().toString().matches("")) {
                     String finalSearchUserLike = "%" + searchingBar.getText() + "%";
+
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                             .getUsersByUserName(
                                     HandleAccount.userAccount.getAccessToken(),
@@ -74,7 +78,6 @@ public class SearchFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(Call<List<Account>> call, Throwable t) {
-                                    System.out.println("Nop");
                                 }
                             });
                 }

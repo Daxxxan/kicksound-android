@@ -40,6 +40,24 @@ public class UserSearched extends AppCompatActivity {
         followOrUnfollowUser(userId);
     }
 
+    private void displayUser(String userId) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .getUserById(HandleAccount.userAccount.getAccessToken(), userId)
+                .enqueue(new Callback<Account>() {
+                    @Override
+                    public void onResponse(Call<Account> call, Response<Account> response) {
+                        userSearched = response.body();
+                        FileUtil.downloadFileAndDisplay("user", userSearched.getPicture(), userPicImageView, getApplicationContext());
+                        usernameTextView.setText(userSearched.getUsername());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Account> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+    }
+
     private void followOrUnfollowUser(final String userId) {
         final Button followUserButton = findViewById(R.id.followButton);
 
@@ -70,11 +88,6 @@ public class UserSearched extends AppCompatActivity {
         setOnClickFollow(followUserButton, userId);
     }
 
-    private void unfollow(Button followUserButton, String userId) {
-        followUserButton.setText(getApplicationContext().getText(R.string.unfollow));
-        setOnClickUnfollow(followUserButton, userId);
-    }
-
     private void setOnClickFollow(final Button followUserButton, final String userId) {
         followUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +95,30 @@ public class UserSearched extends AppCompatActivity {
                 setFollowTreatment(followUserButton ,userId);
             }
         });
+    }
+
+    private void setFollowTreatment(final Button followUserButton, final String userId) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .followUser(
+                        HandleAccount.userAccount.getAccessToken(),
+                        HandleAccount.userAccount.getId(),
+                        userId
+                ).enqueue(new Callback<Account>() {
+            @Override
+            public void onResponse(Call<Account> call, Response<Account> response) {
+                unfollow(followUserButton, userId);
+            }
+
+            @Override
+            public void onFailure(Call<Account> call, Throwable t) {
+                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
+    private void unfollow(Button followUserButton, String userId) {
+        followUserButton.setText(getApplicationContext().getText(R.string.unfollow));
+        setOnClickUnfollow(followUserButton, userId);
     }
 
     private void setOnClickUnfollow(final Button followUserButton, final String userId) {
@@ -110,42 +147,5 @@ public class UserSearched extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
             }
         });
-    }
-
-    private void setFollowTreatment(final Button followUserButton, final String userId) {
-        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .followUser(
-                        HandleAccount.userAccount.getAccessToken(),
-                        HandleAccount.userAccount.getId(),
-                        userId
-                ).enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
-                unfollow(followUserButton, userId);
-            }
-
-            @Override
-            public void onFailure(Call<Account> call, Throwable t) {
-                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
-            }
-        });
-    }
-
-    private void displayUser(String userId) {
-        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .getUserById(HandleAccount.userAccount.getAccessToken(), userId)
-                .enqueue(new Callback<Account>() {
-                    @Override
-                    public void onResponse(Call<Account> call, Response<Account> response) {
-                        userSearched = response.body();
-                        FileUtil.downloadFileAndDisplay("user", userSearched.getPicture(), userPicImageView, getApplicationContext());
-                        usernameTextView.setText(userSearched.getUsername());
-                    }
-
-                    @Override
-                    public void onFailure(Call<Account> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
-                    }
-                });
     }
 }

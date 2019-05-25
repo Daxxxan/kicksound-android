@@ -125,7 +125,7 @@ public class CreateEventActivity extends AppCompatActivity {
             FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
             event = new Event(eventTitle, eventDescription, nbTicket, eventPicture.getName(), date);
         } else {
-            event = new Event(eventTitle, eventDescription, nbTicket);
+            event = new Event(eventTitle, eventDescription, nbTicket, date);
         }
 
         return event;

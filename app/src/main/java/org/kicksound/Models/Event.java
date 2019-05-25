@@ -35,6 +35,13 @@ public class Event {
         this.ticketsNumber = ticketsNumber;
     }
 
+    public Event(String title, String description, int ticketsNumber, Date date) {
+        this.title = title;
+        this.description = description;
+        this.ticketsNumber = ticketsNumber;
+        this.date = date;
+    }
+
     public Event(String title, String description, int ticketsNumber, String picture, Date date) {
         this.title = title;
         this.description = description;

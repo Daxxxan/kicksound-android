@@ -50,6 +50,17 @@ public class Event {
         this.date = date;
     }
 
+    public Event(String id, String title, String description, int ticketsNumber, String picture, boolean disabled, int accountId, Date date) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.ticketsNumber = ticketsNumber;
+        this.picture = picture;
+        this.disabled = disabled;
+        this.accountId = accountId;
+        this.date = date;
+    }
+
     public Event(){}
 
     public String getTitle() {
@@ -108,11 +119,25 @@ public class Event {
         this.picture = picture;
     }
 
-    public Date isDate() {
+    public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", ticketsNumber=" + ticketsNumber +
+                ", picture='" + picture + '\'' +
+                ", disabled=" + disabled +
+                ", accountId=" + accountId +
+                ", date=" + date +
+                '}';
     }
 }

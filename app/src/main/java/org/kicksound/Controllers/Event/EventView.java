@@ -14,6 +14,9 @@ import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.RetrofitManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +26,7 @@ public class EventView extends AppCompatActivity {
 
     private Event event = new Event();
     private TextView titleEventName = null;
+    private TextView titleEventDate = null;
     private ImageView eventPicture = null;
 
     @Override
@@ -32,6 +36,7 @@ public class EventView extends AppCompatActivity {
         String eventId = getIntent().getStringExtra("eventId");
 
         titleEventName = findViewById(R.id.titleEventName);
+        titleEventDate = findViewById(R.id.titleEventDate);
         eventPicture = findViewById(R.id.event_pic);
 
         displayEvent(eventId);
@@ -49,6 +54,7 @@ public class EventView extends AppCompatActivity {
                 event = response.body();
                 FileUtil.downloadFileAndDisplay("event", event.getPicture(), eventPicture, getApplicationContext());
                 titleEventName.setText(event.getTitle());
+                displayEventDate();
             }
 
             @Override
@@ -56,5 +62,10 @@ public class EventView extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
             }
         });
+    }
+
+    private void displayEventDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+        titleEventDate.setText(dateFormat.format(event.getDate()));
     }
 }

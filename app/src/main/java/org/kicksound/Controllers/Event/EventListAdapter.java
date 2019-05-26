@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.kicksound.Controllers.Search.UserSearched;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;

@@ -9,4 +9,5 @@
     <color name="colorWhite">#f0f0f0</color>
     <color name="colorGold">#CF994C</color>
     <color name="colorBlackRed">#8B0000</color>
+    <color name="colorGreenSuccess">#4CAF50</color>
 </resources>

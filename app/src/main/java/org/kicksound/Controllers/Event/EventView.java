@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,11 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.clans.fab.FloatingActionButton;
 
+import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.text.DateFormat;
@@ -67,6 +70,53 @@ public class EventView extends AppCompatActivity {
         eventDescription = findViewById(R.id.event_description);
         eventTicketNumber = findViewById(R.id.ticketNumberEvent);
         validateEventModification = findViewById(R.id.validateEventModification);
+
+        setValidateEventModificationBehavior();
+    }
+
+    private void setValidateEventModificationBehavior() {
+        validateEventModification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if(titleState) {
+                    event.setTitle(titleEventName.getText().toString());
+                }
+
+                if(dateState) {
+                    event.setDate(date);
+                }
+
+                if(ticketsState) {
+                    event.setTicketsNumber(Integer.parseInt(eventTicketNumber.getText().toString()));
+                }
+
+                if(descriptionState) {
+                    event.setDescription(eventDescription.getText().toString());
+                }
+
+                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                        .updateEvent(
+                                HandleAccount.userAccount.getAccessToken(),
+                                HandleAccount.userAccount.getId(),
+                                event.getId(),
+                                event
+                        ).enqueue(new Callback<Event>() {
+                    @Override
+                    public void onResponse(Call<Event> call, Response<Event> response) {
+                        if(response.code() == 200) {
+                            HandleIntent.redirectToAnotherActivity(EventView.this, MyEvents.class, v);
+                            Toasty.success(getApplicationContext(), v.getContext().getString(R.string.eventModificationSuccess), Toast.LENGTH_SHORT, true).show();
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Event> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.updateEventError), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+            }
+        });
     }
 
     private void displayEvent(final String eventId) {
@@ -79,7 +129,7 @@ public class EventView extends AppCompatActivity {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 event = response.body();
-                FileUtil.downloadFileAndDisplay("event", event.getPicture(), eventPicture, getApplicationContext());
+                FileUtil.displayPicture("event", event.getPicture(), eventPicture, getApplicationContext());
                 eventDate();
                 eventTitle();
                 eventDescription();

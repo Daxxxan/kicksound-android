@@ -66,6 +66,12 @@ public interface AccountService {
                                       @Path("id") String id,
                                       @Path("fk") String fk);
 
+    @PUT("accounts/{id}/events/{fk}")
+    Call<Event> updateEvent(@Header("Authorization") String authorization,
+                            @Path("id") String id,
+                            @Path("fk") String fk,
+                            @Body Event event);
+
     @DELETE("accounts/{id}/following/rel/{fk}")
     Call<Account> unfollowUser(@Header("Authorization") String authorization,
                              @Path("id") String id,

@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;
@@ -39,7 +42,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.userNameItem.setText(userList.get(position).getUsername());
 
-        FileUtil.downloadFileAndDisplay("user", userList.get(position).getPicture(), holder.userImageItem, context);
+        FileUtil.displayPicture("user", userList.get(position).getPicture(), holder.userImageItem, context);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

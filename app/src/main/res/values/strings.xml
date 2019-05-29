@@ -51,4 +51,7 @@
     <string name="chose_event_date">Choisissez une date pour votre évènement</string>
     <string name="you_must_select_event_date">Veuillez saisir une date</string>
     <string name="my_events">Mes évènements</string>
+    <string name="updateEventError">Problème lors de la mise à jour de l\'évènement</string>
+    <string name="eventModificationSuccess">L\'évènement a été modifié avec succès</string>
+    <string name="kicksound_dns">http://kicksoundapi.ddns.net:3000/</string>
 </resources>

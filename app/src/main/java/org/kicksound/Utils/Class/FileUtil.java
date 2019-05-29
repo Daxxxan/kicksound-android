@@ -52,9 +52,9 @@ public class FileUtil {
                 .into(imageView);
     }
 
-    public static void displayCircleImageWithBitmap(Context context, Bitmap bitmap, ImageView imageView) {
+    public static void displayCircleImageWithBitmap(Context context, String path, ImageView imageView) {
         Glide.with(context)
-                .load(bitmap)
+                .load(path)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
@@ -77,34 +77,17 @@ public class FileUtil {
         }
     }
 
-    public static void downloadFileAndDisplay(final String container, String fileName, final ImageView imageView, final Context context) {
-        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .downloadFile(
-                        HandleAccount.userAccount.getAccessToken(),
-                        container,
-                        fileName
-                ).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.body() != null) {
-                    Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
-                    FileUtil.displayCircleImageWithBitmap(context, bmp, imageView);
-                } else {
-                    Glide.with(context)
-                            .load(R.drawable.kicksound_logo)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(imageView);
-                }
-            }
+    public static void displayPicture(final String container, String fileName, final ImageView imageView, final Context context) {
+        String path = context.getString(R.string.kicksound_dns) + container + "/" + fileName;
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Glide.with(context)
-                        .load(R.drawable.kicksound_logo)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(imageView);
-            }
-        });
+        if(fileName != null) {
+            FileUtil.displayCircleImageWithBitmap(context, path, imageView);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.kicksound_logo)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imageView);
+        }
     }
 
     public static void uploadFile(Uri fileUri, final Context context, String type) {

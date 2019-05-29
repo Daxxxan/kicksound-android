@@ -38,7 +38,7 @@ public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.Vie
     public void onBindViewHolder(@NonNull final EventListAdapter.ViewHolder holder, final int position) {
         holder.nameItem.setText(eventList.get(position).getTitle());
 
-        FileUtil.downloadFileAndDisplay("event", eventList.get(position).getPicture(), holder.imageItem, context);
+        FileUtil.displayPicture("event", eventList.get(position).getPicture(), holder.imageItem, context);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

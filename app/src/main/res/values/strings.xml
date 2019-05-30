@@ -54,4 +54,5 @@
     <string name="updateEventError">Problème lors de la mise à jour de l\'évènement</string>
     <string name="eventModificationSuccess">L\'évènement a été modifié avec succès</string>
     <string name="kicksound_dns">http://kicksoundapi.ddns.net:3000/</string>
+    <string name="search_event">Rechercher un évènement</string>
 </resources>

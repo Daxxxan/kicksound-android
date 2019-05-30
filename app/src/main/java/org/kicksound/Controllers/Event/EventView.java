@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.clans.fab.FloatingActionButton;
 
-import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Services.EventService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
@@ -44,6 +43,9 @@ public class EventView extends AppCompatActivity {
     private EditText eventTicketNumber = null;
     private ImageView eventPicture = null;
     private FloatingActionButton validateEventModification = null;
+    private TextView titleEventNameTextView = null;
+    private TextView eventDescriptionTextView = null;
+    private TextView eventTicketNumberTextView = null;
 
     private Date date = null;
     private DateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
@@ -59,17 +61,21 @@ public class EventView extends AppCompatActivity {
         setContentView(R.layout.activity_event_view);
         String eventId = getIntent().getStringExtra("eventId");
 
-        setViewComponents();
+        setViewComponents(eventId);
         displayEvent(eventId);
     }
 
-    private void setViewComponents() {
+    private void setViewComponents(String eventId) {
         titleEventName = findViewById(R.id.titleEventName);
         titleEventDate = findViewById(R.id.titleEventDate);
         eventPicture = findViewById(R.id.event_pic);
         eventDescription = findViewById(R.id.event_description);
         eventTicketNumber = findViewById(R.id.ticketNumberEvent);
         validateEventModification = findViewById(R.id.validateEventModification);
+
+        titleEventNameTextView = findViewById(R.id.titleEventNameTextView);
+        eventDescriptionTextView = findViewById(R.id.event_descriptionTextView);
+        eventTicketNumberTextView = findViewById(R.id.ticketNumberEventTextView);
 
         setValidateEventModificationBehavior();
     }
@@ -120,20 +126,20 @@ public class EventView extends AppCompatActivity {
     }
 
     private void displayEvent(final String eventId) {
-        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+        RetrofitManager.getInstance().getRetrofit().create(EventService.class)
                 .getEventById(
                         HandleAccount.userAccount.getAccessToken(),
-                        HandleAccount.userAccount.getId(),
                         eventId
                 ).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 event = response.body();
+                makeViewsVisible(String.valueOf(event.getAccountId()));
                 FileUtil.displayPicture("event", event.getPicture(), eventPicture, getApplicationContext());
                 eventDate();
-                eventTitle();
-                eventDescription();
-                eventTicketNumber();
+                eventTitle(String.valueOf(event.getAccountId()));
+                eventDescription(String.valueOf(event.getAccountId()));
+                eventTicketNumber(String.valueOf(event.getAccountId()));
             }
 
             @Override
@@ -143,55 +149,79 @@ public class EventView extends AppCompatActivity {
         });
     }
 
-    private void eventTicketNumber() {
-        eventTicketNumber.setText(String.valueOf(event.getTicketsNumber()));
-        eventTicketNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ticketsState = textChanged(String.valueOf(event.getTicketsNumber()), s);
-                displayFabIfEventHasBeenModified();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+    private void makeViewsVisible(String creatorId) {
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            titleEventName.setVisibility(View.VISIBLE);
+            eventDescription.setVisibility(View.VISIBLE);
+            eventTicketNumber.setVisibility(View.VISIBLE);
+        } else {
+            titleEventNameTextView.setVisibility(View.VISIBLE);
+            eventDescriptionTextView.setVisibility(View.VISIBLE);
+            eventTicketNumberTextView.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void eventDescription() {
-        eventDescription.setText(event.getDescription());
-        eventDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    private void eventTicketNumber(String creatorId) {
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            eventTicketNumber.setText(String.valueOf(event.getTicketsNumber()));
+            eventTicketNumber.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                descriptionState = textChanged(event.getDescription(), s);
-                displayFabIfEventHasBeenModified();
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    ticketsState = textChanged(String.valueOf(event.getTicketsNumber()), s);
+                    displayFabIfEventHasBeenModified();
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        } else {
+            eventTicketNumberTextView.setText(String.valueOf(event.getTicketsNumber()));
+        }
     }
 
-    private void eventTitle() {
-        titleEventName.setText(event.getTitle());
-        titleEventName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+    private void eventDescription(String creatorId) {
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            eventDescription.setText(event.getDescription());
+            eventDescription.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                titleState = textChanged(event.getTitle(), s);
-                displayFabIfEventHasBeenModified();
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    descriptionState = textChanged(event.getDescription(), s);
+                    displayFabIfEventHasBeenModified();
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        } else {
+            eventDescriptionTextView.setText(event.getDescription());
+        }
+    }
+
+    private void eventTitle(String creatorId) {
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            titleEventName.setText(event.getTitle());
+            titleEventName.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    titleState = textChanged(event.getTitle(), s);
+                    displayFabIfEventHasBeenModified();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) { }
+            });
+        } else {
+            titleEventNameTextView.setText(event.getTitle());
+        }
     }
 
     private void eventDate() {

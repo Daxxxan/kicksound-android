@@ -16,6 +16,8 @@ import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleIntent;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
@@ -30,13 +32,15 @@ public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.Vie
     @NonNull
     @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_list_event, parent, false);
         return new EventListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final EventListAdapter.ViewHolder holder, final int position) {
+        DateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
         holder.nameItem.setText(eventList.get(position).getTitle());
+        holder.eventDate.setText(dateFormat.format(eventList.get(position).getDate()));
 
         FileUtil.displayPicture("event", eventList.get(position).getPicture(), holder.imageItem, context);
 
@@ -56,13 +60,15 @@ public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.Vie
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageItem;
         TextView nameItem;
+        TextView eventDate;
         ConstraintLayout itemLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageItem = itemView.findViewById(R.id.image_item);
-            nameItem = itemView.findViewById(R.id.string_item);
-            itemLayout = itemView.findViewById(R.id.item);
+            imageItem = itemView.findViewById(R.id.image_item_event);
+            nameItem = itemView.findViewById(R.id.string_item_event);
+            itemLayout = itemView.findViewById(R.id.eventItem);
+            eventDate = itemView.findViewById(R.id.string_date_event);
         }
     }
 }

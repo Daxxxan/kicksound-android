@@ -7,6 +7,45 @@
     android:id="@+id/event_fragment"
     tools:context=".Controllers.Tabs.Fragments.EventsFragment">
 
+    <EditText
+        android:id="@+id/searching_bar_event"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/drawable_padding"
+        android:ems="10"
+        android:hint="@string/search_event"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGreyText"
+        app:layout_constraintHorizontal_weight="9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/searching_button_event"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/searching_button_event"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/colorLightBlack"
+        android:src="@drawable/ic_action_search"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/searching_bar_event"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searching_recycler_view_event"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searching_bar_event" />
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/famEvent"
         android:layout_width="wrap_content"
@@ -40,18 +79,5 @@
             app:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/event_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

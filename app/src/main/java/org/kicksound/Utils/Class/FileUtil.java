@@ -8,14 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,14 +22,11 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
-import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 
 import java.io.File;
-import java.io.InputStream;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
@@ -52,9 +46,10 @@ public class FileUtil {
                 .into(imageView);
     }
 
-    public static void displayCircleImageWithBitmap(Context context, String path, ImageView imageView) {
+    public static void displayCircleImage(Context context, String path, ImageView imageView) {
         Glide.with(context)
                 .load(path)
+                .error(R.drawable.kicksound_logo)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
@@ -79,15 +74,7 @@ public class FileUtil {
 
     public static void displayPicture(final String container, String fileName, final ImageView imageView, final Context context) {
         String path = context.getString(R.string.kicksound_dns) + container + "/" + fileName;
-
-        if(fileName != null) {
-            FileUtil.displayCircleImageWithBitmap(context, path, imageView);
-        } else {
-            Glide.with(context)
-                    .load(R.drawable.kicksound_logo)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageView);
-        }
+        FileUtil.displayCircleImage(context, path, imageView);
     }
 
     public static void uploadFile(Uri fileUri, final Context context, String type) {

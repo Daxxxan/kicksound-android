@@ -1,6 +1,9 @@
 package org.kicksound.Controllers.Event;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -24,6 +28,7 @@ import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +42,8 @@ import retrofit2.Response;
 public class EventView extends AppCompatActivity {
 
     private Event event = new Event();
+    private Uri selectedImage = null;
+    private File eventPictureFile = null;
     private EditText titleEventName = null;
     private TextView titleEventDate = null;
     private EditText eventDescription = null;
@@ -54,6 +61,9 @@ public class EventView extends AppCompatActivity {
     private Boolean dateState = false;
     private Boolean ticketsState = false;
     private Boolean descriptionState = false;
+    private Boolean pictureState = null;
+
+    private static final int PICK_IMAGE_FROM_GALLERY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,33 @@ public class EventView extends AppCompatActivity {
         setValidateEventModificationBehavior();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            FileUtil.pickImageFromGallery(getApplicationContext(), EventView.this, PICK_IMAGE_FROM_GALLERY);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
+            selectedImage = data.getData();
+            eventPictureFile = new File(FileUtil.getPath(selectedImage, getApplicationContext()));
+
+            FileUtil.displayCircleImageWithUri(getApplicationContext(), selectedImage, eventPicture);
+
+            if(!eventPictureFile.getName().equals(event.getPicture())) {
+                pictureState = true;
+            } else {
+                pictureState = false;
+            }
+
+            displayFabIfEventHasBeenModified();
+        }
+    }
+
     private void setValidateEventModificationBehavior() {
         validateEventModification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +135,11 @@ public class EventView extends AppCompatActivity {
 
                 if(descriptionState) {
                     event.setDescription(eventDescription.getText().toString());
+                }
+
+                if(pictureState) {
+                    FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
+                    event.setPicture(eventPictureFile.getName());
                 }
 
                 RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
@@ -140,6 +182,7 @@ public class EventView extends AppCompatActivity {
                 eventTitle(String.valueOf(event.getAccountId()));
                 eventDescription(String.valueOf(event.getAccountId()));
                 eventTicketNumber(String.valueOf(event.getAccountId()));
+                modifyEventPicture(String.valueOf(event.getAccountId()));
             }
 
             @Override
@@ -203,6 +246,17 @@ public class EventView extends AppCompatActivity {
         }
     }
 
+    private void modifyEventPicture(String creatorId) {
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            eventPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FileUtil.pickImageFromGallery(getApplicationContext(), EventView.this, PICK_IMAGE_FROM_GALLERY);
+                }
+            });
+        }
+    }
+
     private void eventTitle(String creatorId) {
         if(HandleAccount.userAccount.getId().equals(creatorId)) {
             titleEventName.setText(event.getTitle());
@@ -235,7 +289,7 @@ public class EventView extends AppCompatActivity {
     }
 
     private Boolean eventHasBeenModified() {
-        if(titleState || dateState || descriptionState || ticketsState ) {
+        if(titleState || dateState || descriptionState || ticketsState || pictureState ) {
             return true;
         }
         return false;

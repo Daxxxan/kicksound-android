@@ -44,6 +44,10 @@ public interface AccountService {
             @Path("file") String file
     );
 
+    @GET("accounts/{id}/following")
+    Call<List<Account>> getFollowedUsers(@Header("Authorization") String authorization,
+                                 @Path("id") String id);
+
     @GET("accounts/{id}/following/{fk}")
     Call<Account> getFollowedUserById(@Header("Authorization") String authorization,
                                       @Path("id") String id,

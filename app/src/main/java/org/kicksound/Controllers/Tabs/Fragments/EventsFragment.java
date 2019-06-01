@@ -1,6 +1,8 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -35,6 +38,7 @@ import retrofit2.Response;
 public class EventsFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private EditText searchingBar = null;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -54,12 +58,31 @@ public class EventsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events_fragment, container, false);
         recyclerView = view.findViewById(R.id.searching_recycler_view_event);
+        searchingBar = view.findViewById(R.id.searching_bar_event);
 
+        resetSearchingList(view);
         displayEvents(view);
         displayFabIfUserIsAnArtist(view);
         searchingBarEvent(view);
 
         return view;
+    }
+
+    private void resetSearchingList(final View view) {
+        searchingBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() == 0) {
+                    displayEvents(view);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private void displayEvents(final View view) {
@@ -108,7 +131,6 @@ public class EventsFragment extends Fragment {
 
     private void searchingBarEvent(final View view) {
         ImageButton searchingButton = view.findViewById(R.id.searching_button_event);
-        final EditText searchingBar = view.findViewById(R.id.searching_bar_event);
 
         searchingButton.setOnClickListener(new View.OnClickListener() {
             @Override

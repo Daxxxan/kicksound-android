@@ -156,7 +156,8 @@ public class CreateEventActivity extends AppCompatActivity {
             selectedImage = data.getData();
             eventPicture = new File(FileUtil.getPath(selectedImage, getApplicationContext()));
 
-            Picasso.get().load(selectedImage).into(eventImageView);
+            //Picasso.get().load(selectedImage).into(eventImageView);
+            FileUtil.displayCircleImageWithUri(getApplicationContext(), selectedImage, eventImageView);
         }
     }
 

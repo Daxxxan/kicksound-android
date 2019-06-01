@@ -21,7 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -42,6 +44,9 @@ public class FileUtil {
     public static void displayCircleImageWithUri(Context context, Uri uri, ImageView imageView) {
         Glide.with(context)
                 .load(uri)
+                .fitCenter()
+                .error(R.drawable.kicksound_logo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
@@ -49,7 +54,9 @@ public class FileUtil {
     public static void displayCircleImage(Context context, String path, ImageView imageView) {
         Glide.with(context)
                 .load(path)
+                .fitCenter()
                 .error(R.drawable.kicksound_logo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }

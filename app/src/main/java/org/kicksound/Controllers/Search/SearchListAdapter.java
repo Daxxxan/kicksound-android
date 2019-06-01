@@ -11,9 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.FileUtil;

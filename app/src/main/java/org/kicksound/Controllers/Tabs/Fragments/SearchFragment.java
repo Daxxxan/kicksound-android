@@ -3,6 +3,7 @@ package org.kicksound.Controllers.Tabs.Fragments;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class SearchFragment extends Fragment {
     private static String CLASSIC_USER = "0";
     private SwipeRefreshLayout swipeRefreshUserFollowed = null;
     private EditText searchingBar = null;
+    private String lastSearch = null;
 
     public SearchFragment() {}
 
@@ -67,6 +69,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length() == 0) {
+                    lastSearch = null;
                     displayFollowedUsers(view);
                 }
             }
@@ -80,7 +83,9 @@ public class SearchFragment extends Fragment {
         swipeRefreshUserFollowed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                displayFollowedUsers(view);
+                if(lastSearch == null) {
+                    displayFollowedUsers(view);
+                }
                 swipeRefreshUserFollowed.setRefreshing(false);
             }
         });
@@ -115,6 +120,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(final View v) {
                 if(!searchingBar.getText().toString().matches("")) {
+                    lastSearch = searchingBar.getText().toString();
                     String finalSearchUserLike = "%" + searchingBar.getText() + "%";
 
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)

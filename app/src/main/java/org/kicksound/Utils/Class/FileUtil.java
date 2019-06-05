@@ -44,9 +44,7 @@ public class FileUtil {
     public static void displayCircleImageWithUri(Context context, Uri uri, ImageView imageView) {
         Glide.with(context)
                 .load(uri)
-                .fitCenter()
                 .error(R.drawable.kicksound_logo)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
@@ -54,9 +52,7 @@ public class FileUtil {
     public static void displayCircleImage(Context context, String path, ImageView imageView) {
         Glide.with(context)
                 .load(path)
-                .fitCenter()
                 .error(R.drawable.kicksound_logo)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }

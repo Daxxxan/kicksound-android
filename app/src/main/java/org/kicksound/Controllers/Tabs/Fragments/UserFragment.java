@@ -62,7 +62,7 @@ public class UserFragment extends Fragment {
     private void loadUserPic(View view) {
         ImageView userPic = view.findViewById(R.id.user_pic);
         if(HandleAccount.userAccount.getPicture() != null){
-            FileUtil.displayPicture("user", HandleAccount.userAccount.getPicture(), userPic, getContext());
+            FileUtil.displayPicture("image", HandleAccount.userAccount.getPicture(), userPic, getContext());
         } else {
             Picasso.get().load(R.drawable.kicksound_logo).into(userPic);
         }

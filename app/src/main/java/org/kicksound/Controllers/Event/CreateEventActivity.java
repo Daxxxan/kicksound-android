@@ -15,8 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.squareup.picasso.Picasso;
-
 import org.kicksound.Controllers.Tabs.TabActivity;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
@@ -122,7 +120,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private Event getEventAndUploadFileIfSelectedImageNotEmpty(String eventTitle, String eventDescription, int nbTicket) {
         if(selectedImage != null) {
-            FileUtil.uploadFile(selectedImage, getApplicationContext(), "event");
+            FileUtil.uploadFile(selectedImage, getApplicationContext(), "image");
             event = new Event(eventTitle, eventDescription, nbTicket, eventPicture.getName(), date);
         } else {
             event = new Event(eventTitle, eventDescription, nbTicket, date);
@@ -156,7 +154,6 @@ public class CreateEventActivity extends AppCompatActivity {
             selectedImage = data.getData();
             eventPicture = new File(FileUtil.getPath(selectedImage, getApplicationContext()));
 
-            //Picasso.get().load(selectedImage).into(eventImageView);
             FileUtil.displayCircleImageWithUri(getApplicationContext(), selectedImage, eventImageView);
         }
     }

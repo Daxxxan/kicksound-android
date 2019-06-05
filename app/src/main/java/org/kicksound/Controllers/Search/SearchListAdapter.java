@@ -39,7 +39,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.userNameItem.setText(userList.get(position).getUsername());
 
-        FileUtil.displayPicture("user", userList.get(position).getPicture(), holder.userImageItem, context);
+        FileUtil.displayPicture("image", userList.get(position).getPicture(), holder.userImageItem, context);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

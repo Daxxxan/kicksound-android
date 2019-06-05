@@ -42,7 +42,7 @@ public class EventListAdapter  extends RecyclerView.Adapter<EventListAdapter.Vie
         holder.nameItem.setText(eventList.get(position).getTitle());
         holder.eventDate.setText(dateFormat.format(eventList.get(position).getDate()));
 
-        FileUtil.displayPicture("event", eventList.get(position).getPicture(), holder.imageItem, context);
+        FileUtil.displayPicture("image", eventList.get(position).getPicture(), holder.imageItem, context);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

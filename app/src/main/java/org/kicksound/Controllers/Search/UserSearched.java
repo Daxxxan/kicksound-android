@@ -47,7 +47,7 @@ public class UserSearched extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         userSearched = response.body();
-                        FileUtil.displayPicture("user", userSearched.getPicture(), userPicImageView, getApplicationContext());
+                        FileUtil.displayPicture("image", userSearched.getPicture(), userPicImageView, getApplicationContext());
                         usernameTextView.setText(userSearched.getUsername());
                     }
 

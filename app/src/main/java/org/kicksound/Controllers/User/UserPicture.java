@@ -53,7 +53,7 @@ public class UserPicture extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 if(selectedImage != null) {
-                    FileUtil.uploadFile(selectedImage, getApplicationContext(), "user");
+                    FileUtil.uploadFile(selectedImage, getApplicationContext(), "image");
                     account = new Account(userPicture.getName());
 
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)

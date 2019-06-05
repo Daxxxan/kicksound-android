@@ -55,4 +55,10 @@
     <string name="eventModificationSuccess">L\'évènement a été modifié avec succès</string>
     <string name="kicksound_dns">http://kicksoundapi.ddns.net:3000/</string>
     <string name="search_event">Rechercher un évènement</string>
+    <string name="participateToEvent">Participer à l\'évènement</string>
+    <string name="stopParticipate">Ne plus participer</string>
+    <string name="participateToEventText">Vous participez à l\'évènement</string>
+    <string name="dontParticipateToEvent">Vous ne participez plus à l\'évènement</string>
+    <string name="showParticipants">Voir les participants</string>
+    <string name="participants">Participants</string>
 </resources>

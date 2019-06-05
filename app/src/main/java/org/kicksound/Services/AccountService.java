@@ -5,6 +5,7 @@ import org.kicksound.Models.Event;
 import org.kicksound.Models.Login;
 import org.kicksound.Models.Logout;
 import org.kicksound.Models.ResetPassword;
+import org.kicksound.Models.Ticket;
 
 import java.util.Date;
 import java.util.List;

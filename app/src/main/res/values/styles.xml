@@ -8,16 +8,12 @@
         <item name="colorAccent">@color/colorWhite</item>
         <item name="colorControlNormal">@color/colorGold</item>
         <item name="android:navigationBarColor">@color/colorLightBlack</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="AppTheme.EditTextOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/colorGold</item>
         <item name="colorControlNormal">@color/colorWhite</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

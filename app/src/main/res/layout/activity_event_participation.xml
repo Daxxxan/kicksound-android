@@ -5,30 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightBlack"
-    tools:context=".Controllers.Event.EventParticipants">
+    tools:context=".Controllers.Event.EventParticipation">
 
     <include layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/participants_recycler_view"
+        android:id="@+id/participation_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-        android:id="@+id/noParticipant"
+        android:id="@+id/noParticipation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="40dp"
-        android:text="@string/noParticipant"
+        android:text="@string/noParticipation"
         android:textColor="@color/colorWhite"
         android:gravity="center"
         android:visibility="gone"

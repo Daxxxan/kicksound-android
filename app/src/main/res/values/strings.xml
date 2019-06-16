@@ -25,8 +25,6 @@
     <string name="events">Événements</string>
     <string name="lives">En direct</string>
     <string name="library">Bibliothèque</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="account_error">Une erreur est survenue. Code (Account)</string>
     <string name="logout">Logout</string>
@@ -61,4 +59,11 @@
     <string name="dontParticipateToEvent">Vous ne participez plus à l\'évènement</string>
     <string name="showParticipants">Voir les participants</string>
     <string name="participants">Participants</string>
+    <string name="notEnoughTickets">Il n\'y a plus de place pour cette évènement</string>
+    <string name="my_participations">Mes participations</string>
+    <string name="eventByFollowedArtist">Evènements des artistes suivis</string>
+    <string name="noEventCreated">Vous n\'avez créé aucun évènement.</string>
+    <string name="noEventCreatedByFollowedArtists">Aucun évènement n\'a été créé par les artistes que vous suivez.</string>
+    <string name="noParticipation">Vous ne participez à aucun évènement.</string>
+    <string name="noParticipant">Aucun participant</string>
 </resources>

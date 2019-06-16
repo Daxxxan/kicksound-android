@@ -18,7 +18,9 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.kicksound.Controllers.Event.CreateEventActivity;
+import org.kicksound.Controllers.Event.EventByFollowedArtiste;
 import org.kicksound.Controllers.Event.EventListAdapter;
+import org.kicksound.Controllers.Event.EventParticipation;
 import org.kicksound.Controllers.Event.MyEvents;
 import org.kicksound.Models.Event;
 import org.kicksound.R;
@@ -106,13 +108,16 @@ public class EventsFragment extends Fragment {
     }
 
     private void displayFabIfUserIsAnArtist(View view) {
+
+        FloatingActionMenu famEvent = view.findViewById(R.id.famEvent);
+        FloatingActionButton fabEvent = view.findViewById(R.id.fabCreateEvent);
+        FloatingActionButton fabDisplayEvents = view.findViewById(R.id.fabDisplayEvents);
+        FloatingActionButton fabDisplaySubscribes = view.findViewById(R.id.fabDisplaySubscribes);
+        FloatingActionButton fabDisplayParticipation = view.findViewById(R.id.fabDisplayParticipation);
+
+        famEvent.showMenu(true);
+
         if(HandleAccount.getUserType() != UserType.USER) {
-            FloatingActionMenu famEvent = view.findViewById(R.id.famEvent);
-            FloatingActionButton fabEvent = view.findViewById(R.id.fabCreateEvent);
-            FloatingActionButton fabDisplayEvents = view.findViewById(R.id.fabDisplayEvents);
-
-            famEvent.showMenu(true);
-
             fabEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,7 +131,24 @@ public class EventsFragment extends Fragment {
                     HandleIntent.redirectToAnotherActivity(getContext(), MyEvents.class, v);
                 }
             });
+        } else {
+            fabEvent.setVisibility(View.GONE);
+            fabDisplayEvents.setVisibility(View.GONE);
         }
+
+        fabDisplaySubscribes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivity(getContext(), EventByFollowedArtiste.class, v);
+            }
+        });
+
+        fabDisplayParticipation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivity(getContext(), EventParticipation.class, v);
+            }
+        });
     }
 
     private void searchingBarEvent(final View view) {

@@ -2,6 +2,7 @@ package org.kicksound.Services;
 
 import org.kicksound.Models.Account;
 import org.kicksound.Models.Event;
+import org.kicksound.Models.EventTicketsCount;
 import org.kicksound.Models.Ticket;
 
 import java.util.Date;
@@ -40,6 +41,10 @@ public interface EventService {
             @Header("Authorization") String authorization,
             @Path("id") String eventId);
 
+    @GET("Events/{id}/tickets/count")
+    Call<EventTicketsCount> getNumberOfTicketsBought(
+            @Header("Authorization") String authorization,
+            @Path("id") String eventId);
 
     @POST("Events/{id}/tickets")
     Call<Ticket> participateToEvent(@Header("Authorization") String authorization,

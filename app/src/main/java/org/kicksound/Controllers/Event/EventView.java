@@ -8,20 +8,25 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.github.clans.fab.FloatingActionButton;
 
+import org.kicksound.Models.Account;
 import org.kicksound.Models.Event;
+import org.kicksound.Models.EventTicketsCount;
 import org.kicksound.Models.Ticket;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -29,6 +34,7 @@ import org.kicksound.Services.EventService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.io.File;
@@ -58,6 +64,7 @@ public class EventView extends AppCompatActivity {
     private TextView eventDescriptionTextView = null;
     private TextView eventTicketNumberTextView = null;
     private Button ticketButton = null;
+    private ImageButton modifyEventPicture = null;
 
     private Date date = null;
     private DateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
@@ -66,7 +73,7 @@ public class EventView extends AppCompatActivity {
     private Boolean dateState = false;
     private Boolean ticketsState = false;
     private Boolean descriptionState = false;
-    private Boolean pictureState = null;
+    private Boolean pictureState = false;
 
     private static final int PICK_IMAGE_FROM_GALLERY = 1;
 
@@ -76,6 +83,7 @@ public class EventView extends AppCompatActivity {
         setContentView(R.layout.activity_event_view);
         String eventId = getIntent().getStringExtra("eventId");
 
+        HandleToolbar.displayToolbar(this, null);
         setViewComponents();
         displayEvent(eventId);
     }
@@ -87,6 +95,7 @@ public class EventView extends AppCompatActivity {
         eventDescription = findViewById(R.id.event_description);
         eventTicketNumber = findViewById(R.id.ticketNumberEvent);
         validateEventModification = findViewById(R.id.validateEventModification);
+        modifyEventPicture = findViewById(R.id.modifyEventPicture);
 
         titleEventNameTextView = findViewById(R.id.titleEventNameTextView);
         eventDescriptionTextView = findViewById(R.id.event_descriptionTextView);
@@ -95,6 +104,15 @@ public class EventView extends AppCompatActivity {
         ticketButton = findViewById(R.id.ticketButton);
 
         setValidateEventModificationBehavior();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -256,7 +274,8 @@ public class EventView extends AppCompatActivity {
 
     private void modifyEventPicture(String creatorId) {
         if(HandleAccount.userAccount.getId().equals(creatorId)) {
-            eventPicture.setOnClickListener(new View.OnClickListener() {
+            modifyEventPicture.setVisibility(View.VISIBLE);
+            modifyEventPicture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FileUtil.pickImageFromGallery(getApplicationContext(), EventView.this, PICK_IMAGE_FROM_GALLERY);
@@ -273,6 +292,30 @@ public class EventView extends AppCompatActivity {
         }
     }
 
+    private void eventParticipation(final String eventId, final String creatorId) {
+        RetrofitManager.getInstance().getRetrofit().create(EventService.class)
+                .getNumberOfTicketsBought(
+                        HandleAccount.userAccount.getAccessToken(),
+                        eventId
+                ).enqueue(new Callback<EventTicketsCount>() {
+            @Override
+            public void onResponse(Call<EventTicketsCount> call, Response<EventTicketsCount> response) {
+                if(response.body() != null && event.getTicketsNumber() == response.body().getCount()) {
+                    ticketButton.setText(getApplicationContext().getString(R.string.notEnoughTickets));
+                    ticketButton.setEnabled(false);
+                } else {
+                    ticketButton.setText(getApplicationContext().getString(R.string.participateToEvent));
+                    participate(eventId, creatorId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventTicketsCount> call, Throwable t) {
+                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
     private void userParticipate(final String eventId, final String creatorId) {
         RetrofitManager.getInstance().getRetrofit().create(EventService.class)
                 .userParticipateToEvent(
@@ -283,8 +326,7 @@ public class EventView extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
                 if(response.body() == null || response.body().isEmpty()) {
-                    ticketButton.setText(getApplicationContext().getString(R.string.participateToEvent));
-                    participate(eventId, creatorId);
+                    eventParticipation(eventId, creatorId);
                 } else {
                     ticketButton.setText(getApplicationContext().getString(R.string.stopParticipate));
                     cancelEventParticipation(eventId, creatorId);
@@ -312,7 +354,7 @@ public class EventView extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
                                 ticketButton.setText(getApplicationContext().getString(R.string.participateToEvent));
-                                participate(eventId, creatorId);
+                                eventParticipation(eventId, creatorId);
                                 Toasty.success(getApplicationContext(), getApplicationContext().getString(R.string.dontParticipateToEvent), Toast.LENGTH_SHORT, true).show();
 
                             }
@@ -367,6 +409,8 @@ public class EventView extends AppCompatActivity {
     private void eventTitle(String creatorId) {
         if(HandleAccount.userAccount.getId().equals(creatorId)) {
             titleEventName.setText(event.getTitle());
+            if(getSupportActionBar() != null)
+                getSupportActionBar().setTitle(event.getTitle());
             titleEventName.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -382,6 +426,8 @@ public class EventView extends AppCompatActivity {
             });
         } else {
             titleEventNameTextView.setText(event.getTitle());
+            if(getSupportActionBar() != null)
+                getSupportActionBar().setTitle(event.getTitle());
         }
     }
 

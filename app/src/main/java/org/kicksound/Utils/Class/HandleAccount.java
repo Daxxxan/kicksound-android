@@ -26,16 +26,20 @@ public class HandleAccount {
     public static Account userAccount = new Account();
 
     public static UserType getUserType() {
-        UserType userType;
-        int accountUserType = userAccount.getType();
-        if(accountUserType == 0){
-            userType = UserType.USER;
-        } else if(accountUserType == 1){
-            userType = UserType.ARTIST;
-        } else {
-            userType = UserType.FAMOUS_ARTIST;
+        try{
+            UserType userType;
+            int accountUserType = userAccount.getType();
+            if(accountUserType == 0){
+                userType = UserType.USER;
+            } else if(accountUserType == 1){
+                userType = UserType.ARTIST;
+            } else {
+                userType = UserType.FAMOUS_ARTIST;
+            }
+            return userType;
+        } catch (Exception e){
+            return UserType.USER;
         }
-        return userType;
     }
 
     public static void setUserParameters(String id, String firstname, String lastname, String email, int type, String accessToken, String picture) {

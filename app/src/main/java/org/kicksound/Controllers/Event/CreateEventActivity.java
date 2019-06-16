@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,6 +25,7 @@ import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
+import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.io.File;
@@ -49,13 +53,25 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         eventImageView = findViewById(R.id.eventPicture);
+
+        HandleToolbar.displayToolbar(this, R.string.create_event);
         setEventDatePickerDialog();
         createEvent();
         selectEventPicture();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setEventDatePickerDialog() {
-        final Button eventDate = findViewById(R.id.eventDate);
+        final ImageButton eventDate = findViewById(R.id.eventDate);
+        final TextView choseEventDate = findViewById(R.id.choseEventDate);
         eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +79,11 @@ public class CreateEventActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                eventDate.setText(String.format("Date sélectionnée: %d/%d/%d", day, month, year));
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(year, month, day);
-
                                 date = calendar.getTime();
+
+                                choseEventDate.setText(String.format("Date sélectionnée: %d/%d/%d", day, month + 1, year));
                             }
                         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -98,6 +114,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<Event> call, Response<Event> response) {
                                         if(response.code() == 200) {
+                                            finish();
                                             HandleIntent.redirectToAnotherActivity(CreateEventActivity.this, TabActivity.class, v);
                                             Toasty.success(getApplicationContext(), v.getContext().getString(R.string.succes_create_event), Toast.LENGTH_SHORT, true).show();
                                         } else {
@@ -130,7 +147,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void selectEventPicture() {
-        Button addEventPicture = findViewById(R.id.addEventPicture);
+        ImageButton addEventPicture = findViewById(R.id.addEventPicture);
         addEventPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

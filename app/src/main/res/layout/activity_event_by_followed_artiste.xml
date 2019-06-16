@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightBlack"
-    tools:context=".Controllers.Event.EventParticipants">
+    tools:context=".Controllers.Event.EventByFollowedArtiste">
 
     <include layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/participants_recycler_view"
+        android:id="@+id/followed_artists_events_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -24,11 +24,11 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/noParticipant"
+        android:id="@+id/noEventCreatedByFollowedArtists"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="40dp"
-        android:text="@string/noParticipant"
+        android:text="@string/noEventCreatedByFollowedArtists"
         android:textColor="@color/colorWhite"
         android:gravity="center"
         android:visibility="gone"

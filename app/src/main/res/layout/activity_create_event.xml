@@ -11,57 +11,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintCreateEventTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorMainDark"
+        <include layout="@layout/toolbar" />
+
+        <ImageView
+            android:id="@+id/eventPicture"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/kicksound_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <TextView
-                android:id="@+id/createEventTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/create_event"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/addEventPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="8dp"
+            android:translationX="-15dp"
+            android:translationY="15dp"
+            android:src="@drawable/ic_action_upload"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/eventPicture"
+            app:layout_constraintStart_toEndOf="@+id/eventPicture" />
 
         <EditText
             android:id="@+id/eventName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/eventName"
-            android:textColorHint="@color/colorWhite"
-            android:textColor="@color/colorWhite"
-            android:inputType="textPersonName"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:drawableStart="@drawable/ic_action_event"
             android:drawablePadding="@dimen/drawable_padding"
+            android:ems="10"
+            android:hint="@string/eventName"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintCreateEventTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/eventPicture" />
 
         <EditText
             android:id="@+id/ticketNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:ems="10"
             android:inputType="number"
             android:hint="@string/placeNumber"
@@ -77,9 +78,9 @@
             android:id="@+id/descriptionEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/event_description"
@@ -91,61 +92,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ticketNumber" />
 
-        <Button
+        <ImageButton
             android:id="@+id/eventDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
             android:backgroundTint="@color/colorLightBlack"
-            android:text="@string/chose_event_date"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/addEventPicture"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_action_plus_circle"
+            app:layout_constraintBottom_toTopOf="@+id/createEventButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionEvent" />
 
-        <Button
-            android:id="@+id/addEventPicture"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:backgroundTint="@color/colorLightBlack"
-            android:text="@string/add_event_picture"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventDate" />
-
-        <ImageView
-            android:id="@+id/eventPicture"
+        <TextView
+            android:id="@+id/choseEventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addEventPicture" />
+            android:layout_marginBottom="8dp"
+            android:text="@string/chose_event_date"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@+id/createEventButton"
+            app:layout_constraintStart_toEndOf="@+id/eventDate"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionEvent" />
 
         <Button
             android:id="@+id/createEventButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/colorMainDark"
             android:text="@string/validate"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventPicture" />
+            app:layout_constraintTop_toBottomOf="@+id/eventDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

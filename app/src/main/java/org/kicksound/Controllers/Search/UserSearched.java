@@ -1,6 +1,7 @@
 package org.kicksound.Controllers.Search;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,12 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import es.dmoral.toasty.Toasty;
@@ -25,7 +28,6 @@ public class UserSearched extends AppCompatActivity {
 
     private Account userSearched = new Account();
     private ImageView userPicImageView = null;
-    private TextView usernameTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,19 @@ public class UserSearched extends AppCompatActivity {
         String userId = getIntent().getStringExtra("userId");
 
         userPicImageView = findViewById(R.id.searched_user_pic);
-        usernameTextView = findViewById(R.id.searched_username);
 
+        HandleToolbar.displayToolbar(this, null);
         displayUser(userId);
         followOrUnfollowUser(userId);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void displayUser(String userId) {
@@ -48,7 +59,8 @@ public class UserSearched extends AppCompatActivity {
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         userSearched = response.body();
                         FileUtil.displayPicture("image", userSearched.getPicture(), userPicImageView, getApplicationContext());
-                        usernameTextView.setText(userSearched.getUsername());
+                        if(getSupportActionBar() != null)
+                            getSupportActionBar().setTitle(userSearched.getUsername());
                     }
 
                     @Override

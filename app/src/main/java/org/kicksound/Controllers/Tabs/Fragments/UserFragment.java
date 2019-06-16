@@ -1,7 +1,6 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.squareup.picasso.Picasso;
+
 import org.kicksound.Controllers.Connection.LoginActivity;
 import org.kicksound.Controllers.User.ResetPasswordActivity;
-import org.kicksound.Controllers.User.UserPicture;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -20,10 +22,6 @@ import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
-
-import androidx.fragment.app.Fragment;
-
-import com.squareup.picasso.Picasso;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -52,7 +50,6 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_fragment, container, false);
 
         loadUserPic(view);
-        changeUserPicture(view);
         resetPassword(view);
         logout(view);
 
@@ -66,16 +63,6 @@ public class UserFragment extends Fragment {
         } else {
             Picasso.get().load(R.drawable.kicksound_logo).into(userPic);
         }
-    }
-
-    private void changeUserPicture(View view) {
-        Button resetPasswordButton = view.findViewById(R.id.addUserPicView);
-        resetPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HandleIntent.redirectToAnotherActivity(getContext(), UserPicture.class, v);
-            }
-        });
     }
 
     private void resetPassword(final View view) {

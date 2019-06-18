@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Controllers.Event.EventByFollowedArtiste"></activity>
+        <activity android:name=".playlist_item"></activity>
+        <activity android:name=".Controllers.Playlist.Playlists" />
+        <activity android:name=".Controllers.Event.EventByFollowedArtiste" />
         <activity android:name=".Controllers.Event.EventParticipation" />
         <activity android:name=".Controllers.Event.EventParticipants" />
         <activity android:name=".Controllers.Event.EventView" />

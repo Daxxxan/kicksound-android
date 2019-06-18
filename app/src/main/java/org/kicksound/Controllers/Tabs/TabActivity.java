@@ -26,10 +26,9 @@ public class TabActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tab_bar);
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_FIXED);
-        tabs.getTabAt(0).setIcon(R.drawable.ic_action_news);
+        tabs.getTabAt(0).setIcon(R.drawable.ic_action_library);
         tabs.getTabAt(1).setIcon(R.drawable.ic_action_event);
         tabs.getTabAt(2).setIcon(R.drawable.ic_action_search);
-        tabs.getTabAt(3).setIcon(R.drawable.ic_action_library);
-        tabs.getTabAt(4).setIcon(R.drawable.ic_action_email);
+        tabs.getTabAt(3).setIcon(R.drawable.ic_action_email);
     }
 }

@@ -66,4 +66,10 @@
     <string name="noEventCreatedByFollowedArtists">Aucun évènement n\'a été créé par les artistes que vous suivez.</string>
     <string name="noParticipation">Vous ne participez à aucun évènement.</string>
     <string name="noParticipant">Aucun participant</string>
+    <string name="playlists">Vos playlists</string>
+    <string name="albums">Albums</string>
+    <string name="titles">Titres</string>
+    <string name="discover">Découverte</string>
+    <string name="createYourPlaylist">Créer votre playlist</string>
+    <string name="successfullyCreatePlaylist">Playlist créée avec succès</string>
 </resources>

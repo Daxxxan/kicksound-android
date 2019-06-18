@@ -4,6 +4,7 @@ import org.kicksound.Models.Account;
 import org.kicksound.Models.Event;
 import org.kicksound.Models.Login;
 import org.kicksound.Models.Logout;
+import org.kicksound.Models.Playlist;
 import org.kicksound.Models.ResetPassword;
 import org.kicksound.Models.Ticket;
 
@@ -65,6 +66,10 @@ public interface AccountService {
                                     @Path("id") String id,
                                     @Path("fk") String ifk);
 
+    @GET("accounts/{id}/playlists")
+    Call<List<Playlist>> getPlaylist(@Header("Authorization") String authorization,
+                                  @Path("id") String id);
+
     @GET("accounts/{id}/eventParticipation")
     Call<List<Event>> getEventParticipation(@Header("Authorization") String authorization,
                                             @Path("id") String id);
@@ -103,6 +108,11 @@ public interface AccountService {
 
     @POST("accounts/{id}/events")
     Call<Event> createEvent(@Header("Authorization") String authorization, @Path("id") String id, @Body Event event);
+
+    @POST("accounts/{id}/playlists")
+    Call<Playlist> createPlaylist(@Header("Authorization") String authorization,
+                                  @Path("id") String id,
+                                  @Body Playlist playlist);
 
     @Multipart
     @POST("Photos/{container}/upload")

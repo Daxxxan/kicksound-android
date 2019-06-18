@@ -1,8 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Controllers.Tabs.Fragments.LibraryFragment">
 
-</FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/playlist"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:alpha="0.3"
+                android:src="@drawable/playlists"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/palylistTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/playlists"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/playlist"
+                app:layout_constraintEnd_toEndOf="@+id/playlist"
+                app:layout_constraintStart_toStartOf="@+id/playlist"
+                app:layout_constraintTop_toTopOf="@+id/playlist" />
+
+            <ImageButton
+                android:id="@+id/album"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:alpha="0.3"
+                android:src="@drawable/albums"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/playlist" />
+
+            <TextView
+                android:id="@+id/albumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/albums"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/album"
+                app:layout_constraintEnd_toEndOf="@+id/album"
+                app:layout_constraintStart_toStartOf="@+id/album"
+                app:layout_constraintTop_toTopOf="@+id/album" />
+
+            <ImageButton
+                android:id="@+id/titles"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:alpha="0.3"
+                android:src="@drawable/titres"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/album" />
+
+            <TextView
+                android:id="@+id/titlesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/titles"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/titles"
+                app:layout_constraintEnd_toEndOf="@+id/titles"
+                app:layout_constraintStart_toStartOf="@+id/titles"
+                app:layout_constraintTop_toTopOf="@+id/titles" />
+
+            <ImageButton
+                android:id="@+id/discover"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:alpha="0.3"
+                android:src="@drawable/discover"
+                app:layout_constraintEnd_toEndOf="@+id/titles"
+                app:layout_constraintStart_toStartOf="@+id/titles"
+                app:layout_constraintTop_toBottomOf="@id/titles" />
+
+            <TextView
+                android:id="@+id/discoverTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/discover"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="@+id/discover"
+                app:layout_constraintEnd_toEndOf="@+id/discover"
+                app:layout_constraintStart_toStartOf="@+id/discover"
+                app:layout_constraintTop_toTopOf="@+id/discover" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

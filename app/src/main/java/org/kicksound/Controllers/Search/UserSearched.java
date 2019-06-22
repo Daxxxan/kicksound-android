@@ -11,11 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.kicksound.Controllers.Song.ArtistMusics;
 import org.kicksound.Models.Account;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
 
@@ -39,6 +41,7 @@ public class UserSearched extends AppCompatActivity {
 
         HandleToolbar.displayToolbar(this, null);
         displayUser(userId);
+        artistMusics(userId);
         followOrUnfollowUser(userId);
     }
 
@@ -68,6 +71,17 @@ public class UserSearched extends AppCompatActivity {
                         Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
                     }
                 });
+    }
+
+    private void artistMusics(final String userId) {
+        Button artistTitlesButton = findViewById(R.id.artistTitlesButton);
+        artistTitlesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivityWithExtra(getApplicationContext(), ArtistMusics.class,
+                        v, "userId", userId);
+            }
+        });
     }
 
     private void followOrUnfollowUser(final String userId) {

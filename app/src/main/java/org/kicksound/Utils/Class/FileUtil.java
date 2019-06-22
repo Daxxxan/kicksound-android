@@ -21,9 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -57,14 +55,21 @@ public class FileUtil {
                 .into(imageView);
     }
 
+    public static void pickMusicFromDownloadFolder(Context context, Activity activity, int PICK_MUSIC_FROM_DOWNLOAD_FOLDER) {
+        if(FileUtil.allowAccessToExternalStorage(activity, context)) {
+            Intent musicPickerIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+            activity.startActivityForResult(musicPickerIntent, PICK_MUSIC_FROM_DOWNLOAD_FOLDER);
+        }
+    }
+
     public static void pickImageFromGallery(Context context, Activity activity, int PICK_IMAGE_FROM_GALLERY) {
-        if(FileUtil.allowAccessToGallery(activity, context)) {
+        if(FileUtil.allowAccessToExternalStorage(activity, context)) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             activity.startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
         }
     }
 
-    public static boolean allowAccessToGallery(Activity activity, Context context) {
+    public static boolean allowAccessToExternalStorage(Activity activity, Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

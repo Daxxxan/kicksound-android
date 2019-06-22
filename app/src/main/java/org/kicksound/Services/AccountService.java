@@ -4,6 +4,7 @@ import org.kicksound.Models.Account;
 import org.kicksound.Models.Event;
 import org.kicksound.Models.Login;
 import org.kicksound.Models.Logout;
+import org.kicksound.Models.Music;
 import org.kicksound.Models.Playlist;
 import org.kicksound.Models.ResetPassword;
 import org.kicksound.Models.Ticket;
@@ -113,6 +114,11 @@ public interface AccountService {
     Call<Playlist> createPlaylist(@Header("Authorization") String authorization,
                                   @Path("id") String id,
                                   @Body Playlist playlist);
+
+    @POST("accounts/{id}/artistMusic")
+    Call<Music> createMusic(@Header("Authorization") String authorization,
+                            @Path("id") String id,
+                            @Body Music music);
 
     @Multipart
     @POST("Photos/{container}/upload")

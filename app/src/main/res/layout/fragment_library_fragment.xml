@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="@+id/album" />
 
             <ImageButton
-                android:id="@+id/titles"
+                android:id="@+id/songs"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:alpha="0.3"
@@ -84,10 +84,10 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="20dp"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/titles"
-                app:layout_constraintEnd_toEndOf="@+id/titles"
-                app:layout_constraintStart_toStartOf="@+id/titles"
-                app:layout_constraintTop_toTopOf="@+id/titles" />
+                app:layout_constraintBottom_toBottomOf="@+id/songs"
+                app:layout_constraintEnd_toEndOf="@+id/songs"
+                app:layout_constraintStart_toStartOf="@+id/songs"
+                app:layout_constraintTop_toTopOf="@+id/songs" />
 
             <ImageButton
                 android:id="@+id/discover"
@@ -95,9 +95,9 @@
                 android:layout_height="150dp"
                 android:alpha="0.3"
                 android:src="@drawable/discover"
-                app:layout_constraintEnd_toEndOf="@+id/titles"
-                app:layout_constraintStart_toStartOf="@+id/titles"
-                app:layout_constraintTop_toBottomOf="@id/titles" />
+                app:layout_constraintEnd_toEndOf="@+id/songs"
+                app:layout_constraintStart_toStartOf="@+id/songs"
+                app:layout_constraintTop_toBottomOf="@id/songs" />
 
             <TextView
                 android:id="@+id/discoverTextView"

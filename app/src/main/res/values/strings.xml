@@ -39,7 +39,7 @@
     <string name="add_event_picture">Ajouter une photo à l\'évènement</string>
     <string name="succes_create_event">Evènement créé avec succès</string>
     <string name="createEventError">Une erreur est survenue</string>
-    <string name="error_upload_image">Problème lors de l\'upload de l\'image</string>
+    <string name="error_upload_image">Problème lors de l\'upload</string>
     <string name="search_user">Rechercher un utilisateur</string>
     <string name="user_pic">Changer votre photo de profil</string>
     <string name="changeUserPic">Sélectionner une photo de profil</string>
@@ -72,4 +72,8 @@
     <string name="discover">Découverte</string>
     <string name="createYourPlaylist">Créer votre playlist</string>
     <string name="successfullyCreatePlaylist">Playlist créée avec succès</string>
+    <string name="noPlaylist">Vous n\'avez aucune playlist.</string>
+    <string name="importMusic">Importer une musique.</string>
+    <string name="successfullyAddMusic">Musique ajoutée avec succès.</string>
+    <string name="hisSongs">Ses titres</string>
 </resources>

@@ -108,14 +108,10 @@ public class EventsFragment extends Fragment {
     }
 
     private void displayFabIfUserIsAnArtist(View view) {
-
-        FloatingActionMenu famEvent = view.findViewById(R.id.famEvent);
         FloatingActionButton fabEvent = view.findViewById(R.id.fabCreateEvent);
         FloatingActionButton fabDisplayEvents = view.findViewById(R.id.fabDisplayEvents);
         FloatingActionButton fabDisplaySubscribes = view.findViewById(R.id.fabDisplaySubscribes);
         FloatingActionButton fabDisplayParticipation = view.findViewById(R.id.fabDisplayParticipation);
-
-        famEvent.showMenu(true);
 
         if(HandleAccount.getUserType() != UserType.USER) {
             fabEvent.setOnClickListener(new View.OnClickListener() {

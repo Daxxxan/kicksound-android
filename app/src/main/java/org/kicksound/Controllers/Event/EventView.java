@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +19,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.github.clans.fab.FloatingActionButton;
 
-import org.kicksound.Models.Account;
 import org.kicksound.Models.Event;
 import org.kicksound.Models.EventTicketsCount;
 import org.kicksound.Models.Ticket;

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
-    private List<org.kicksound.Models.Playlist> playlistList;
+    private List<Playlist> playlistList;
     private Context context;
 
     public PlaylistAdapter(List<Playlist> playlistList, Context context) {

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.kicksound.Models.Playlist;
@@ -45,10 +46,20 @@ public class Playlists extends AppCompatActivity {
                 ).enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
-                RecyclerView recyclerView = findViewById(R.id.playlistRecyclerView);
-                PlaylistAdapter adapter = new PlaylistAdapter(response.body(), getApplicationContext());
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                if(response.body() != null){
+                    if(response.body().size() == 0) {
+                        TextView noPlaylistCreated = findViewById(R.id.noPlaylistCreated);
+                        noPlaylistCreated.setVisibility(View.VISIBLE);
+                    } else {
+                        RecyclerView recyclerView = findViewById(R.id.playlistRecyclerView);
+                        PlaylistAdapter adapter = new PlaylistAdapter(response.body(), getApplicationContext());
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    }
+                } else {
+                    TextView noPlaylistCreated = findViewById(R.id.noPlaylistCreated);
+                    noPlaylistCreated.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

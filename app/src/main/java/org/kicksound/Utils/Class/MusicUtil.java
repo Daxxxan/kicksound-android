@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -42,17 +43,23 @@ public class MusicUtil {
         }
     }
 
+    public static void songIsCompleted(MediaPlayer mediaPlayer, MediaPlayer.OnCompletionListener callback) {
+        mediaPlayer.setOnCompletionListener(callback);
+    }
+
     private static void onPrepared(final MediaPlayer mediaPlayer, final ProgressBar progressBarLoadMusic, final ImageButton play,
                                    final ImageButton pause, final Handler seekbarUpdateHandler, final Runnable updateSeekbar,
                                    final Activity activity, final SeekBar seekBar) {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                play.setClickable(true);
                 progressBarLoadMusic.setVisibility(View.GONE);
                 start(mediaPlayer, play, pause, seekbarUpdateHandler, updateSeekbar);
                 play(mp, play, pause, seekbarUpdateHandler, updateSeekbar);
                 pause(mp, play, pause, seekbarUpdateHandler, updateSeekbar);
                 seekbar(activity, mp, seekBar);
+
             }
         });
     }
@@ -66,6 +73,7 @@ public class MusicUtil {
     private static void resetPlayPauseButton(ImageButton play, ImageButton pause) {
         play.setVisibility(View.VISIBLE);
         pause.setVisibility(View.GONE);
+        play.setClickable(false);
     }
 
     private static void play(final MediaPlayer mediaPlayer, final ImageButton play, final ImageButton pause, final Handler seekbarUpdateHandler, final Runnable updateSeekbar) {

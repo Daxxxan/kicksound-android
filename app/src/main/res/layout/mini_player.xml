@@ -43,6 +43,7 @@
         android:layout_marginBottom="8dp"
         android:background="@null"
         android:src="@drawable/play"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

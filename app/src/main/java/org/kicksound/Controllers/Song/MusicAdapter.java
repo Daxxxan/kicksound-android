@@ -74,6 +74,25 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private void launchMusic(int position) {
         MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar);
         setMusicTitle(position);
+        songIsCompleted(position);
+    }
+
+    private void songIsCompleted(final int position) {
+        MusicUtil.songIsCompleted(mediaPlayer, new MediaPlayer.OnCompletionListener() {
+            final int[] currentPosition = {position};
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if(musicList.size() - 1 > currentPosition[0]) {
+                    currentPosition[0] += 1;
+                    launchMusic(currentPosition[0]);
+                } else {
+                    currentPosition[0] = 0;
+                    launchMusic(currentPosition[0]);
+                }
+                forward(currentPosition[0]);
+                rewind(currentPosition[0]);
+            }
+        });
     }
 
     private void forward(final int position) {

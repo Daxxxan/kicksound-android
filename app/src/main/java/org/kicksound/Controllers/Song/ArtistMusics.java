@@ -1,19 +1,16 @@
 package org.kicksound.Controllers.Song;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.kicksound.Models.Account;
 import org.kicksound.Models.Music;
@@ -23,9 +20,7 @@ import org.kicksound.Services.MusicService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -126,9 +121,5 @@ public class ArtistMusics extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onPrepared(MediaPlayer player) {
-        player.start();
     }
 }

@@ -1,6 +1,5 @@
 package org.kicksound.Controllers.Song;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,13 +10,10 @@ import org.kicksound.Utils.Class.HandleToolbar;
 
 public class Musics extends AppCompatActivity {
 
-    public static Activity activity = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musics);
-        activity = this;
 
         HandleToolbar.displayToolbar(this, R.string.titles);
     }

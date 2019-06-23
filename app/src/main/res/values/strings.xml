@@ -73,9 +73,10 @@
     <string name="createYourPlaylist">Créer votre playlist</string>
     <string name="successfullyCreatePlaylist">Playlist créée avec succès</string>
     <string name="noPlaylist">Vous n\'avez aucune playlist.</string>
-    <string name="importMusic">Importer une musique.</string>
+    <string name="importMusic">Importer une musique</string>
     <string name="successfullyAddMusic">Musique ajoutée avec succès.</string>
     <string name="hisSongs">Ses titres</string>
     <string name="addSong">Ajouter un titre</string>
     <string name="artistUpload">Mes imports</string>
+    <string name="yourMusicName">Nom de votre musique (Pas obligatoire)</string>
 </resources>

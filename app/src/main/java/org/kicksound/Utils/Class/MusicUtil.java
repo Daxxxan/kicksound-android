@@ -5,7 +5,6 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -59,7 +58,6 @@ public class MusicUtil {
                 play(mp, play, pause, seekbarUpdateHandler, updateSeekbar);
                 pause(mp, play, pause, seekbarUpdateHandler, updateSeekbar);
                 seekbar(activity, mp, seekBar);
-
             }
         });
     }

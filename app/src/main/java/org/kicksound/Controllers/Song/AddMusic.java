@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class AddMusic extends AppCompatActivity {
     private File song = null;
     private TextView musicNameTextView = null;
     private Button validateAddMusicButton = null;
+    private EditText musicNameEditText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +64,14 @@ public class AddMusic extends AppCompatActivity {
 
     private void validateImportMusic() {
         validateAddMusicButton = findViewById(R.id.validateAddMusicButton);
+        musicNameEditText = findViewById(R.id.musicNameEditText);
+
         validateAddMusicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if(selectedMusic != null) {
-                    Music newMusic = new Music(song.getName(), song.getName(), Calendar.getInstance().getTime());
+                    String musicName = getMusicName();
+                    Music newMusic = new Music(musicName, song.getName(), Calendar.getInstance().getTime());
 
                     FileUtil.uploadFile(selectedMusic, getApplicationContext(), "music");
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
@@ -81,8 +86,7 @@ public class AddMusic extends AppCompatActivity {
                                 Toasty.success(getApplicationContext(), getApplicationContext().getString(R.string.successfullyAddMusic), Toast.LENGTH_SHORT, true).show();
                             }
                             finish();
-                            Musics.activity.finish();
-                            HandleIntent.redirectToAnotherActivity(getApplicationContext(), Musics.class, v);
+                            HandleIntent.redirectToAnotherActivityWithExtra(getApplicationContext(), ArtistMusics.class, v, "userId", HandleAccount.userAccount.getId());
                         }
 
                         @Override
@@ -93,6 +97,14 @@ public class AddMusic extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String getMusicName() {
+        if(musicNameEditText.getText().toString().matches("")) {
+            return song.getName().substring(0, song.getName().indexOf("."));
+        }
+
+        return musicNameEditText.getText().toString();
     }
 
     @Override

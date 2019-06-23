@@ -129,7 +129,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     }
 
     private void setMusicTitle(int position) {
-        musicNameStarted.setText(musicList.get(position).getLocation());
+        musicNameStarted.setText(musicList.get(position).getTitle());
         musicNameStarted.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         musicNameStarted.setSingleLine(true);
         musicNameStarted.setMarqueeRepeatLimit(5);

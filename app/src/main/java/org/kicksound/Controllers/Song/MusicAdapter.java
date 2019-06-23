@@ -5,9 +5,11 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,8 +34,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private Runnable updateSeekbar;
     private SeekBar seekBar;
     private TextView musicNameStarted;
+    private ImageButton forward;
+    private ImageButton rewind;
 
-    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted) {
+    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind) {
         this.musicList = musicList;
         this.activity = activity;
         this.context = context;
@@ -42,6 +46,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.updateSeekbar = updateSeekbar;
         this.seekBar = seekBar;
         this.musicNameStarted = musicNameStarted;
+        this.forward = forward;
+        this.rewind = rewind;
     }
 
     @NonNull
@@ -58,14 +64,57 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         holder.musicItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar);
-                musicNameStarted.setText(musicList.get(position).getLocation());
-                musicNameStarted.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                musicNameStarted.setSingleLine(true);
-                musicNameStarted.setMarqueeRepeatLimit(5);
-                musicNameStarted.setSelected(true);
+                launchMusic(position);
+                forward(position);
+                rewind(position);
             }
         });
+    }
+
+    private void launchMusic(int position) {
+        MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar);
+        setMusicTitle(position);
+    }
+
+    private void forward(final int position) {
+        final int[] currentPosition = {position};
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(musicList.size() - 1 > currentPosition[0]) {
+                    currentPosition[0] += 1;
+                    launchMusic(currentPosition[0]);
+                } else {
+                    currentPosition[0] = 0;
+                    launchMusic(currentPosition[0]);
+                }
+                rewind(currentPosition[0]);
+            }
+        });
+    }
+    private void rewind(final int position) {
+        final int[] currentPosition = {position};
+        rewind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentPosition[0] == 0) {
+                    currentPosition[0] = musicList.size() - 1;
+                    launchMusic(currentPosition[0]);
+                } else {
+                    currentPosition[0] -= 1;
+                    launchMusic(currentPosition[0]);
+                }
+                forward(currentPosition[0]);
+            }
+        });
+    }
+
+    private void setMusicTitle(int position) {
+        musicNameStarted.setText(musicList.get(position).getLocation());
+        musicNameStarted.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        musicNameStarted.setSingleLine(true);
+        musicNameStarted.setMarqueeRepeatLimit(5);
+        musicNameStarted.setSelected(true);
     }
 
     @Override

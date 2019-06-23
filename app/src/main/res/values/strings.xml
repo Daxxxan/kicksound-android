@@ -76,4 +76,6 @@
     <string name="importMusic">Importer une musique.</string>
     <string name="successfullyAddMusic">Musique ajoutée avec succès.</string>
     <string name="hisSongs">Ses titres</string>
+    <string name="addSong">Ajouter un titre</string>
+    <string name="artistUpload">Mes imports</string>
 </resources>

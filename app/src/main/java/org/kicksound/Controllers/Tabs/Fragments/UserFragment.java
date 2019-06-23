@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.Connection.LoginActivity;
+import org.kicksound.Controllers.Song.AddMusic;
+import org.kicksound.Controllers.Song.ArtistMusics;
 import org.kicksound.Controllers.User.ResetPasswordActivity;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
@@ -22,6 +24,7 @@ import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
+import org.kicksound.Utils.Enums.UserType;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -52,8 +55,34 @@ public class UserFragment extends Fragment {
         loadUserPic(view);
         resetPassword(view);
         logout(view);
+        songButtonsIfIsArtist(view);
 
         return view;
+    }
+
+    private void songButtonsIfIsArtist(View view) {
+        Button addSong = view.findViewById(R.id.addSong);
+        Button artistSongs = view.findViewById(R.id.artistSongs);
+
+        if(HandleAccount.getUserType() != UserType.USER) {
+            addSong.setVisibility(View.VISIBLE);
+            artistSongs.setVisibility(View.VISIBLE);
+
+            addSong.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HandleIntent.redirectToAnotherActivity(getContext(), AddMusic.class, v);
+                }
+            });
+
+            artistSongs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HandleIntent.redirectToAnotherActivityWithExtra(getContext(), ArtistMusics.class,
+                            v, "userId", HandleAccount.userAccount.getId());
+                }
+            });
+        }
     }
 
     private void loadUserPic(View view) {

@@ -39,6 +39,8 @@ public class ArtistMusics extends AppCompatActivity {
     private Runnable updateSeekbar = null;
     private SeekBar seekBar = null;
     private TextView musicNameStarted = null;
+    private ImageButton forward = null;
+    private ImageButton rewind = null;
 
 
     @Override
@@ -48,11 +50,16 @@ public class ArtistMusics extends AppCompatActivity {
         userId = getIntent().getStringExtra("userId");
         HandleToolbar.displayToolbar(this, null);
 
-        musicNameStarted = findViewById(R.id.musicNameStarted);
-
+        setMusicComponents();
         setMediaPlayer();
         displayToolbarTitle();
         displayArtistMusics();
+    }
+
+    private void setMusicComponents() {
+        musicNameStarted = findViewById(R.id.musicNameStarted);
+        forward = findViewById(R.id.forward);
+        rewind = findViewById(R.id.rewind);
     }
 
     private void setMediaPlayer() {
@@ -99,8 +106,7 @@ public class ArtistMusics extends AppCompatActivity {
             public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
                 RecyclerView recyclerView = findViewById(R.id.artistMusicsRecyclerView);
                 MusicAdapter adapter = new MusicAdapter(response.body(), ArtistMusics.this, getApplicationContext(),
-                        mediaPlayer, seekbarUpdateHandler,
-                        updateSeekbar, seekBar, musicNameStarted);
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }

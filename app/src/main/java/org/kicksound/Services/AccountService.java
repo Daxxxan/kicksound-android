@@ -84,6 +84,11 @@ public interface AccountService {
                                       @Path("id") String id,
                                       @Path("fk") String fk);
 
+    @PUT("accounts/{id}/favoriteMusics/rel/{fk}")
+    Call<Music> addMusicToFavorites(@Header("Authorization") String authorization,
+                                    @Path("id") String id,
+                                    @Path("fk") String fk);
+
     @PUT("accounts/{id}/events/{fk}")
     Call<Event> updateEvent(@Header("Authorization") String authorization,
                             @Path("id") String id,
@@ -94,6 +99,11 @@ public interface AccountService {
     Call<Account> unfollowUser(@Header("Authorization") String authorization,
                              @Path("id") String id,
                              @Path("fk") String fk);
+
+    @DELETE("accounts/{id}/favoriteMusics/rel/{fk}")
+    Call<Music> deleteMusicToFavorites(@Header("Authorization") String authorization,
+                                    @Path("id") String id,
+                                    @Path("fk") String fk);
 
     @POST("accounts")
     Call<Account> createAccount(@Body Account account);

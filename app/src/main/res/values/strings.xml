@@ -79,4 +79,6 @@
     <string name="addSong">Ajouter un titre</string>
     <string name="artistUpload">Mes imports</string>
     <string name="yourMusicName">Nom de votre musique (Pas obligatoire)</string>
+    <string name="musicAddedToFavorites">Musique ajoutée à vos titres</string>
+    <string name="musicRemoveFromFavorites">Musique supprimée de vos titres</string>
 </resources>

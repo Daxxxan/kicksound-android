@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -20,9 +21,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.kicksound.Models.Music;
 import org.kicksound.R;
+import org.kicksound.Services.AccountService;
+import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.MusicUtil;
+import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
 
@@ -69,6 +78,84 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 rewind(position);
             }
         });
+
+        displayFavoriteStar(holder, position);
+    }
+
+    private void displayFavoriteStar(ViewHolder holder, int position) {
+        if(musicList.get(position).getAccountWhoLike().isEmpty()) {
+            setWhiteStarVisibleAndYellowStarGone(holder);
+            addFavorite(holder, position);
+        } else {
+            setYellowStarVisibleAndWhiteStarGone(holder);
+            deleteFavorites(holder, position);
+        }
+    }
+
+    private void addFavorite(final ViewHolder holder, final int position) {
+        holder.whiteStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                        .addMusicToFavorites(
+                                HandleAccount.userAccount.getAccessToken(),
+                                HandleAccount.userAccount.getId(),
+                                musicList.get(position).getId()
+                        ).enqueue(new Callback<Music>() {
+                    @Override
+                    public void onResponse(Call<Music> call, Response<Music> response) {
+                        if(response.code() == 200) {
+                            setYellowStarVisibleAndWhiteStarGone(holder);
+                            deleteFavorites(holder, position);
+                            Toasty.success(context, context.getString(R.string.musicAddedToFavorites), Toast.LENGTH_SHORT, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Music> call, Throwable t) {
+                        Toasty.error(context, context.getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void deleteFavorites(final ViewHolder holder, final int position) {
+        holder.yellowStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                        .deleteMusicToFavorites(
+                                HandleAccount.userAccount.getAccessToken(),
+                                HandleAccount.userAccount.getId(),
+                                musicList.get(position).getId()
+                        ).enqueue(new Callback<Music>() {
+                    @Override
+                    public void onResponse(Call<Music> call, Response<Music> response) {
+                        if(response.code() == 204) {
+                            setWhiteStarVisibleAndYellowStarGone(holder);
+                            addFavorite(holder, position);
+                            Toasty.success(context, context.getString(R.string.musicRemoveFromFavorites), Toast.LENGTH_SHORT, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Music> call, Throwable t) {
+                        Toasty.error(context, context.getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setYellowStarVisibleAndWhiteStarGone(ViewHolder holder) {
+        holder.yellowStar.setVisibility(View.VISIBLE);
+        holder.whiteStar.setVisibility(View.GONE);
+    }
+
+    private void setWhiteStarVisibleAndYellowStarGone(ViewHolder holder) {
+        holder.whiteStar.setVisibility(View.VISIBLE);
+        holder.yellowStar.setVisibility(View.GONE);
     }
 
     private void launchMusic(int position) {
@@ -146,6 +233,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         TextView itemArtistName;
         CardView musicItem;
         ConstraintLayout constraintBackground;
+        ImageButton whiteStar;
+        ImageButton yellowStar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -153,6 +242,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             itemArtistName = itemView.findViewById(R.id.itemArtistName);
             musicItem = itemView.findViewById(R.id.item_card_music);
             constraintBackground = itemView.findViewById(R.id.constraintBackground);
+            whiteStar = itemView.findViewById(R.id.whiteStar);
+            yellowStar = itemView.findViewById(R.id.yellowStar);
         }
     }
 }

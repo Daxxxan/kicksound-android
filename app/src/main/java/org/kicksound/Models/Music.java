@@ -3,6 +3,7 @@ package org.kicksound.Models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class Music {
     @SerializedName("id")
@@ -28,6 +29,9 @@ public class Music {
 
     @SerializedName("account")
     private Account account;
+
+    @SerializedName("accountWhoLike")
+    private List<Account> accountWhoLike;
 
     public Music() {
     }
@@ -57,6 +61,18 @@ public class Music {
         this.albumId = albumId;
         this.accountId = accountId;
         this.account = account;
+    }
+
+    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, List<Account> accountWhoLike) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.releaseDate = releaseDate;
+        this.disabled = disabled;
+        this.albumId = albumId;
+        this.accountId = accountId;
+        this.account = account;
+        this.accountWhoLike = accountWhoLike;
     }
 
     public String getId() {
@@ -115,6 +131,30 @@ public class Music {
         this.account = account;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public List<Account> getAccountWhoLike() {
+        return accountWhoLike;
+    }
+
+    public void setAccountWhoLike(List<Account> accountWhoLike) {
+        this.accountWhoLike = accountWhoLike;
+    }
+
     @Override
     public String toString() {
         return "Music{" +
@@ -124,7 +164,9 @@ public class Music {
                 ", releaseDate=" + releaseDate +
                 ", disabled=" + disabled +
                 ", albumId='" + albumId + '\'' +
-                ", accounts=" + account +
+                ", accountId='" + accountId + '\'' +
+                ", account=" + account +
+                ", accountWhoLike=" + accountWhoLike +
                 '}';
     }
 }

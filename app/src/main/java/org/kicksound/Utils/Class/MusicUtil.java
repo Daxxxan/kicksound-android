@@ -34,7 +34,6 @@ public class MusicUtil {
             progressBarLoadMusic.setVisibility(View.VISIBLE);
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync();
-
             onPrepared(mediaPlayer, progressBarLoadMusic, play, pause, seekbarUpdateHandler, updateSeekbar, activity, seekBar);
         } catch (IOException e) {
             progressBarLoadMusic.setVisibility(View.GONE);

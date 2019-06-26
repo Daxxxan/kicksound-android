@@ -200,7 +200,7 @@ public class EventView extends AppCompatActivity {
                 event = response.body();
                 makeViewsVisible(String.valueOf(event.getAccountId()));
                 FileUtil.displayPicture("image", event.getPicture(), eventPicture, getApplicationContext());
-                eventDate();
+                eventDate(String.valueOf(event.getAccountId()));
                 eventTitle(String.valueOf(event.getAccountId()));
                 eventDescription(String.valueOf(event.getAccountId()));
                 eventTicketNumber(String.valueOf(event.getAccountId()));
@@ -428,14 +428,16 @@ public class EventView extends AppCompatActivity {
         }
     }
 
-    private void eventDate() {
+    private void eventDate(String creatorId) {
         titleEventDate.setText(dateFormat.format(event.getDate()));
-        titleEventDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setEventDatePickerDialog();
-            }
-        });
+        if(HandleAccount.userAccount.getId().equals(creatorId)) {
+            titleEventDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setEventDatePickerDialog();
+                }
+            });
+        }
     }
 
     private Boolean eventHasBeenModified() {

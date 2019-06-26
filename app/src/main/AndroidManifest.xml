@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Controllers.Song.ArtistMusics"></activity>
         <activity android:name=".Controllers.Song.AddMusic" />
-        <activity android:name=".Controllers.Song.Musics" />
+        <activity android:name=".Controllers.Song.FavoriteMusics" />
         <activity android:name=".playlist_item" />
         <activity android:name=".Controllers.Playlist.Playlists" />
         <activity android:name=".Controllers.Event.EventByFollowedArtiste" />

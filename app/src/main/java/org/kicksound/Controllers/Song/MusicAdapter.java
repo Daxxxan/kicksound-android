@@ -5,11 +5,11 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +45,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private TextView musicNameStarted;
     private ImageButton forward;
     private ImageButton rewind;
+    private ProgressBar progressBar;
 
-    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind) {
+    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind, ProgressBar progressBar) {
         this.musicList = musicList;
         this.activity = activity;
         this.context = context;
@@ -57,6 +58,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.musicNameStarted = musicNameStarted;
         this.forward = forward;
         this.rewind = rewind;
+        this.progressBar = progressBar;
     }
 
     @NonNull
@@ -159,7 +161,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     }
 
     private void launchMusic(int position) {
-        MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar);
+        MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, progressBar);
         setMusicTitle(position);
         songIsCompleted(position);
     }

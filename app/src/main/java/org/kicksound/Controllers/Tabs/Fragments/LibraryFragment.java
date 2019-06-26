@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import org.kicksound.Controllers.Playlist.Playlists;
-import org.kicksound.Controllers.Song.Musics;
+import org.kicksound.Controllers.Song.FavoriteMusics;
 import org.kicksound.R;
 import org.kicksound.Utils.Class.HandleIntent;
 
@@ -50,7 +50,7 @@ public class LibraryFragment extends Fragment {
         songs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleIntent.redirectToAnotherActivity(getContext(), Musics.class, view);
+                HandleIntent.redirectToAnotherActivity(getContext(), FavoriteMusics.class, view);
             }
         });
     }

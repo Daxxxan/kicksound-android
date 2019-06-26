@@ -17,11 +17,10 @@ import java.io.IOException;
 public class MusicUtil {
     public static void loadMusic(String musicName, final Context context, final Activity activity,
                                  final MediaPlayer mediaPlayer, final Handler seekbarUpdateHandler,
-                                 final Runnable updateSeekbar, final SeekBar seekBar) {
+                                 final Runnable updateSeekbar, final SeekBar seekBar, final ProgressBar progressBar) {
         String url = context.getString(R.string.kicksound_dns) + "music/" + musicName;
         final ImageButton play = activity.findViewById(R.id.play);
         final ImageButton pause = activity.findViewById(R.id.pause);
-        final ProgressBar progressBarLoadMusic = activity.findViewById(R.id.progressBarLoadMusic);
 
         resetMediaPlayer(mediaPlayer, play, pause, seekbarUpdateHandler, updateSeekbar);
 
@@ -31,12 +30,12 @@ public class MusicUtil {
                 .build();
         mediaPlayer.setAudioAttributes(audioAttributes);
         try {
-            progressBarLoadMusic.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync();
-            onPrepared(mediaPlayer, progressBarLoadMusic, play, pause, seekbarUpdateHandler, updateSeekbar, activity, seekBar);
+            onPrepared(mediaPlayer, progressBar, play, pause, seekbarUpdateHandler, updateSeekbar, activity, seekBar);
         } catch (IOException e) {
-            progressBarLoadMusic.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             e.printStackTrace();
         }
     }

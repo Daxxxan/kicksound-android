@@ -79,6 +79,10 @@ public interface AccountService {
     Call<List<Event>> getEventByFollowedUser(@Header("Authorization") String authorization,
                                             @Path("id") String id);
 
+    @GET("accounts/{id}/favoriteMusicsAndOwner")
+    Call<List<Music>> getArtistFavoriteMusics(@Header("Authorization") String authorization,
+                                              @Path("id") String id);
+
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,
                                       @Path("id") String id,

@@ -13,11 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.kicksound.Models.Account;
 import org.kicksound.Models.Music;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
-import org.kicksound.Services.MusicService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
@@ -28,8 +26,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ArtistMusics extends AppCompatActivity {
-    private String userId = null;
+public class FavoriteMusics extends AppCompatActivity {
+
     private MediaPlayer mediaPlayer = null;
     private Handler seekbarUpdateHandler = null;
     private Runnable updateSeekbar = null;
@@ -39,25 +37,15 @@ public class ArtistMusics extends AppCompatActivity {
     private ImageButton rewind = null;
     private ProgressBar progressBar = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_artist_musics);
-        userId = getIntent().getStringExtra("userId");
-        HandleToolbar.displayToolbar(this, null);
+        setContentView(R.layout.activity_musics);
 
-        setMusicComponents();
+        HandleToolbar.displayToolbar(this, R.string.titles);
+        displayFavoriteMusics();
         setMediaPlayer();
-        displayToolbarTitle();
-        displayArtistMusics();
-    }
-
-    private void setMusicComponents() {
-        musicNameStarted = findViewById(R.id.musicNameStarted);
-        forward = findViewById(R.id.forward);
-        rewind = findViewById(R.id.rewind);
-        progressBar = findViewById(R.id.progressBarLoadMusic);
+        setMusicComponents();
     }
 
     private void setMediaPlayer() {
@@ -73,38 +61,23 @@ public class ArtistMusics extends AppCompatActivity {
         };
     }
 
-    private void displayToolbarTitle() {
-        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                .getUserById(
-                        HandleAccount.userAccount.getAccessToken(),
-                        userId
-                ).enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
-                if(response.body() != null)
-                    getSupportActionBar().setTitle("Titres de " + response.body().getUsername());
-                else
-                    getSupportActionBar().setTitle("Titres");
-            }
-
-            @Override
-            public void onFailure(Call<Account> call, Throwable t) {
-
-            }
-        });
+    private void setMusicComponents() {
+        musicNameStarted = findViewById(R.id.musicNameStarted);
+        forward = findViewById(R.id.forward);
+        rewind = findViewById(R.id.rewind);
+        progressBar = findViewById(R.id.progressBarLoadFavoriteMusic);
     }
 
-    private void displayArtistMusics() {
-        RetrofitManager.getInstance().getRetrofit().create(MusicService.class)
-                .getMusicByArtistId(
+    private void displayFavoriteMusics() {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .getArtistFavoriteMusics(
                         HandleAccount.userAccount.getAccessToken(),
-                        userId,
                         HandleAccount.userAccount.getId()
                 ).enqueue(new Callback<List<Music>>() {
             @Override
             public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
-                RecyclerView recyclerView = findViewById(R.id.artistMusicsRecyclerView);
-                MusicAdapter adapter = new MusicAdapter(response.body(), ArtistMusics.this, getApplicationContext(),
+                RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
+                MusicAdapter adapter = new MusicAdapter(response.body(), FavoriteMusics.this, getApplicationContext(),
                         mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

@@ -10,6 +10,8 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface MusicService {
-    @GET("Music/musicByArtist/{id}")
-    Call<List<Music>> getMusicByArtistId(@Header("Authorization") String authorization, @Path("id") String id);
+    @GET("Music/musicByArtist/{id}/{loggedUser}")
+    Call<List<Music>> getMusicByArtistId(@Header("Authorization") String authorization,
+                                         @Path("id") String id,
+                                         @Path("loggedUser") String loggedUser);
 }

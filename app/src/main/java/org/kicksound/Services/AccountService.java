@@ -83,6 +83,7 @@ public interface AccountService {
     Call<List<Music>> getArtistFavoriteMusics(@Header("Authorization") String authorization,
                                               @Path("id") String id);
 
+
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,
                                       @Path("id") String id,
@@ -98,6 +99,14 @@ public interface AccountService {
                             @Path("id") String id,
                             @Path("fk") String fk,
                             @Body Event event);
+
+    @PUT("accounts/{id}/playlists/{nk}/musics/rel/{fk}")
+    Call<Music> addMusicToPlaylist(
+            @Header("Authorization") String authorization,
+            @Path("id") String accountId,
+            @Path("nk") String playlistId,
+            @Path("fk") String musicId
+    );
 
     @DELETE("accounts/{id}/following/rel/{fk}")
     Call<Account> unfollowUser(@Header("Authorization") String authorization,

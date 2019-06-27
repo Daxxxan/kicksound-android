@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.kicksound.Models.Music;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Services.PlaylistService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,8 +45,10 @@ public class FavoriteMusics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musics);
 
+        String playlistId = getIntent().getStringExtra("playlistId");
+
         HandleToolbar.displayToolbar(this, R.string.titles);
-        displayFavoriteMusics();
+        displayFavoriteMusics(playlistId);
         setMediaPlayer();
         setMusicComponents();
     }
@@ -68,7 +73,37 @@ public class FavoriteMusics extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarLoadFavoriteMusic);
     }
 
-    private void displayFavoriteMusics() {
+    private void displayFavoriteMusics(String playlistId) {
+        if(playlistId == null ){
+            getFavoritesMusics();
+        } else {
+            getMusicsFromPlaylist(playlistId);
+        }
+    }
+
+    private void getMusicsFromPlaylist(String playlistId) {
+        RetrofitManager.getInstance().getRetrofit().create(PlaylistService.class)
+                .getMusicFromPlaylist(
+                        HandleAccount.userAccount.getAccessToken(),
+                        playlistId
+                ).enqueue(new Callback<List<Music>>() {
+            @Override
+            public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
+                RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
+                MusicAdapter adapter = new MusicAdapter(response.body(), FavoriteMusics.this, getApplicationContext(),
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(Call<List<Music>> call, Throwable t) {
+                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
+    }
+
+    private void getFavoritesMusics() {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .getArtistFavoriteMusics(
                         HandleAccount.userAccount.getAccessToken(),
@@ -85,7 +120,7 @@ public class FavoriteMusics extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Music>> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
             }
         });
     }

@@ -1,11 +1,13 @@
 package org.kicksound.Controllers.Song;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -19,10 +21,12 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.kicksound.Controllers.Playlist.AddMusicToPlayList;
 import org.kicksound.Models.Music;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.HandleAccount;
+import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.MusicUtil;
 import org.kicksound.Utils.Class.RetrofitManager;
 
@@ -46,6 +50,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private ImageButton forward;
     private ImageButton rewind;
     private ProgressBar progressBar;
+
+    private Runnable timeRunnable;
+    private Handler mHandler=new Handler();
+    private View view;
 
     public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind, ProgressBar progressBar) {
         this.musicList = musicList;
@@ -78,10 +86,36 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 launchMusic(position);
                 forward(position);
                 rewind(position);
+                onPressedMusic(holder, position);
             }
         });
-
         displayFavoriteStar(holder, position);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void onPressedMusic(final ViewHolder holder, final int position) {
+        timeRunnable=new Runnable(){
+            @Override
+            public void run() {
+                HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, view, "musicId", musicList.get(position).getId());
+            }
+        };
+
+        holder.musicItem.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                view = v;
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        mHandler.postDelayed(timeRunnable, 500);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mHandler.removeCallbacks(timeRunnable);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private void displayFavoriteStar(ViewHolder holder, int position) {

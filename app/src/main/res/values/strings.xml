@@ -81,4 +81,5 @@
     <string name="yourMusicName">Nom de votre musique (Pas obligatoire)</string>
     <string name="musicAddedToFavorites">Musique ajoutée à vos titres</string>
     <string name="musicRemoveFromFavorites">Musique supprimée de vos titres</string>
+    <string name="addToPlaylist">Ajouter à une playlist</string>
 </resources>

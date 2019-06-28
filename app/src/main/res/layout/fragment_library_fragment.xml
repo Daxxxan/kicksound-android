@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:alpha="0.3"
-                android:src="@drawable/playlists"
+                android:src="@drawable/userplaylists"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:alpha="0.3"
-                android:src="@drawable/albums"
+                android:src="@drawable/useralbums"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/playlist" />
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:alpha="0.3"
-                android:src="@drawable/titres"
+                android:src="@drawable/usertitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/album" />
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:alpha="0.3"
-                android:src="@drawable/discover"
+                android:src="@drawable/userdiscover"
                 app:layout_constraintEnd_toEndOf="@+id/songs"
                 app:layout_constraintStart_toStartOf="@+id/songs"
                 app:layout_constraintTop_toBottomOf="@id/songs" />

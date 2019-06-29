@@ -119,7 +119,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     }
 
     private void displayFavoriteStar(ViewHolder holder, int position) {
-        if(musicList.get(position).getAccountWhoLike().isEmpty()) {
+        if(musicList.get(position).getAccountWhoLike() == null || musicList.get(position).getAccountWhoLike().isEmpty()) {
             setWhiteStarVisibleAndYellowStarGone(holder);
             addFavorite(holder, position);
         } else {

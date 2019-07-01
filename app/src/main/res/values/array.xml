@@ -2,5 +2,6 @@
 <resources>
     <string-array name="musicArray">
         <item>Ajouter cette musique à une playlist</item>
+        <item>Ajouter une note à cette musique</item>
     </string-array>
 </resources>

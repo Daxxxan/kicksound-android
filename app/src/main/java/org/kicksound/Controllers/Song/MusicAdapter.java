@@ -1,6 +1,5 @@
 package org.kicksound.Controllers.Song;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,13 +7,12 @@ import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +41,7 @@ import retrofit2.Response;
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
 
     private static final int PLAYLIST = 0;
+    private static final int MARK = 1;
     private List<Music> musicList;
     private Activity activity;
     private Context context;
@@ -99,6 +98,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             }
         });
         displayFavoriteStar(holder, position);
+        holder.ratingBar.setRating(musicList.get(position).getMark());
     }
 
     private void setDotsMenu(final int position, final View v) {
@@ -107,6 +107,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == PLAYLIST) {
+                            HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                        } else if( which == MARK) {
                             HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
                         }
                     }
@@ -269,6 +271,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         ImageButton whiteStar;
         ImageButton yellowStar;
         ImageButton dotsMenu;
+        RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -279,6 +282,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             whiteStar = itemView.findViewById(R.id.whiteStar);
             yellowStar = itemView.findViewById(R.id.yellowStar);
             dotsMenu = itemView.findViewById(R.id.dotsMenu);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
         }
     }
 }

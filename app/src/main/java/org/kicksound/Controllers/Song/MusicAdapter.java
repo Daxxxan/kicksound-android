@@ -78,7 +78,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.itemMusicName.setText(musicList.get(position).getTitle());
+        setMusicTitle(position, holder.itemMusicName);
         holder.itemArtistName.setText(musicList.get(position).getAccounts().getUsername());
         holder.musicItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +196,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     private void launchMusic(int position) {
         MusicUtil.loadMusic(musicList.get(position).getLocation(), context, activity, mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, progressBar);
-        setMusicTitle(position);
+        setMusicTitle(position, musicNameStarted);
         songIsCompleted(position);
     }
 
@@ -251,12 +251,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         });
     }
 
-    private void setMusicTitle(int position) {
-        musicNameStarted.setText(musicList.get(position).getTitle());
-        musicNameStarted.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        musicNameStarted.setSingleLine(true);
-        musicNameStarted.setMarqueeRepeatLimit(5);
-        musicNameStarted.setSelected(true);
+    private void setMusicTitle(int position, TextView musicName) {
+        musicName.setText(musicList.get(position).getTitle());
+        musicName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        musicName.setSingleLine(true);
+        musicName.setMarqueeRepeatLimit(5);
+        musicName.setSelected(true);
     }
 
     @Override

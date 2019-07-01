@@ -124,7 +124,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:backgroundTint="@color/colorMainDark"
+            android:backgroundTint="@color/colorWhiteBlack"
             android:text="@string/validate"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"

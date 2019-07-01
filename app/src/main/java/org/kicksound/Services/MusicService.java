@@ -1,12 +1,15 @@
 package org.kicksound.Services;
 
+import org.kicksound.Models.Mark;
 import org.kicksound.Models.Music;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface MusicService {
@@ -14,4 +17,9 @@ public interface MusicService {
     Call<List<Music>> getMusicByArtistId(@Header("Authorization") String authorization,
                                          @Path("id") String id,
                                          @Path("loggedUser") String loggedUser);
+
+    @POST("Music/{id}/marks")
+    Call<Mark> addMark(@Header("Authorization") String authorization,
+                       @Path("id") String id,
+                       @Body Mark mark);
 }

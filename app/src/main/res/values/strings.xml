@@ -82,4 +82,7 @@
     <string name="musicAddedToFavorites">Musique ajoutée à vos titres</string>
     <string name="musicRemoveFromFavorites">Musique supprimée de vos titres</string>
     <string name="addToPlaylist">Ajouter à une playlist</string>
+    <string name="rate_this_music">Que pensez-vous de cette musique ?</string>
+    <string name="newNote">Votre note a été prise en compte</string>
+    <string name="rateThisSong">Notez cette musique</string>
 </resources>

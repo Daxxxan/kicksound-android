@@ -109,7 +109,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                         if(which == PLAYLIST) {
                             HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
                         } else if( which == MARK) {
-                            HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                            HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
                         }
                     }
                 });

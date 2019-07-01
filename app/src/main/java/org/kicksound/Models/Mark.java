@@ -7,12 +7,17 @@ public class Mark {
     private String id;
 
     @SerializedName("value")
-    private Double value;
+    private float value;
 
     @SerializedName("musicId")
     private String musicId;
 
-    public Mark(String id, Double value, String musicId) {
+    public Mark(float value, String musicId) {
+        this.value = value;
+        this.musicId = musicId;
+    }
+
+    public Mark(String id, float value, String musicId) {
         this.id = id;
         this.value = value;
         this.musicId = musicId;
@@ -26,11 +31,11 @@ public class Mark {
         this.id = id;
     }
 
-    public Double getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(float value) {
         this.value = value;
     }
 

@@ -2,10 +2,13 @@ package org.kicksound.Controllers.Song;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +42,7 @@ import retrofit2.Response;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
 
+    private static final int PLAYLIST = 0;
     private List<Music> musicList;
     private Activity activity;
     private Context context;
@@ -86,36 +90,29 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 launchMusic(position);
                 forward(position);
                 rewind(position);
-                onPressedMusic(holder, position);
+            }
+        });
+        holder.dotsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDotsMenu(position, v);
             }
         });
         displayFavoriteStar(holder, position);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void onPressedMusic(final ViewHolder holder, final int position) {
-        timeRunnable=new Runnable(){
-            @Override
-            public void run() {
-                HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, view, "musicId", musicList.get(position).getId());
-            }
-        };
-
-        holder.musicItem.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                view = v;
-                switch ( event.getAction() ) {
-                    case MotionEvent.ACTION_DOWN:
-                        mHandler.postDelayed(timeRunnable, 500);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        mHandler.removeCallbacks(timeRunnable);
-                        break;
-                }
-                return true;
-            }
-        });
+    private void setDotsMenu(final int position, final View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.addToPlaylist)
+                .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == PLAYLIST) {
+                            HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                        }
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
     private void displayFavoriteStar(ViewHolder holder, int position) {
@@ -271,6 +268,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         ConstraintLayout constraintBackground;
         ImageButton whiteStar;
         ImageButton yellowStar;
+        ImageButton dotsMenu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -280,6 +278,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             constraintBackground = itemView.findViewById(R.id.constraintBackground);
             whiteStar = itemView.findViewById(R.id.whiteStar);
             yellowStar = itemView.findViewById(R.id.yellowStar);
+            dotsMenu = itemView.findViewById(R.id.dotsMenu);
         }
     }
 }

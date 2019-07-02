@@ -88,7 +88,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == DELETE_PLAYLIST) {
-                            delete(holder, position, v);
+                            delete(position, v);
                         }
                     }
                 });
@@ -97,7 +97,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         builder.show();
     }
 
-    private void delete(final ViewHolder holder, int position, final View v) {
+    private void delete(int position, final View v) {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .deletePlaylist(
                     HandleAccount.userAccount.getAccessToken(),
@@ -108,7 +108,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             public void onResponse(Call<Playlist> call, Response<Playlist> response) {
                 Toasty.success(context, context.getString(R.string.deletePlaylist), Toast.LENGTH_SHORT, true).show();
                 activity.finish();
-                HandleIntent.redirectToAnotherActivity(context, Playlists.class, v);
+                if (musicId != null) {
+                    HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicId);
+                } else {
+                    HandleIntent.redirectToAnotherActivity(context, Playlists.class, v);
+                }
             }
 
             @Override

@@ -1,10 +1,13 @@
 package org.kicksound.Controllers.Playlist;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import retrofit2.Response;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
+    private static final int DELETE_PLAYLIST = 0;
     private List<Playlist> playlistList;
     private Context context;
     private String musicId;
@@ -50,7 +54,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.string_item_playlist.setText(playlistList.get(position).getName());
 
         if (musicId != null) {
@@ -68,6 +72,50 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 }
             });
         }
+        holder.dotsMenuPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePlaylist(holder, position, v);
+            }
+        });
+    }
+
+    private void deletePlaylist(final ViewHolder holder, final int position, final View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setTitle(playlistList.get(position).getName())
+                .setItems(R.array.deletePlaylist, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == DELETE_PLAYLIST) {
+                            delete(holder, position, v);
+                        }
+                    }
+                });
+
+        builder.create();
+        builder.show();
+    }
+
+    private void delete(final ViewHolder holder, int position, final View v) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .deletePlaylist(
+                    HandleAccount.userAccount.getAccessToken(),
+                        HandleAccount.userAccount.getId(),
+                        playlistList.get(position).getId()
+                ).enqueue(new Callback<Playlist>() {
+            @Override
+            public void onResponse(Call<Playlist> call, Response<Playlist> response) {
+                Toasty.success(context, context.getString(R.string.deletePlaylist), Toast.LENGTH_SHORT, true).show();
+                activity.finish();
+                HandleIntent.redirectToAnotherActivity(context, Playlists.class, v);
+            }
+
+            @Override
+            public void onFailure(Call<Playlist> call, Throwable t) {
+                Toasty.error(context, context.getString(R.string.updateEventError), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
     private void addMusicToPlaylist(String musicId, int position) {
@@ -101,11 +149,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView string_item_playlist;
         CardView item_card_playlist;
+        ImageButton dotsMenuPlaylist;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             string_item_playlist = itemView.findViewById(R.id.string_item_playlist);
             item_card_playlist = itemView.findViewById(R.id.item_card_playlist);
+            dotsMenuPlaylist = itemView.findViewById(R.id.dotsMenuPlaylist);
         }
     }
 }

@@ -121,6 +121,11 @@ public interface AccountService {
                              @Path("id") String id,
                              @Path("fk") String fk);
 
+    @DELETE("accounts/{id}/playlists/{fk}")
+    Call<Playlist> deletePlaylist(@Header("Authorization") String authorization,
+                                  @Path("id") String id,
+                                  @Path("fk") String fk);
+
     @DELETE("accounts/{id}/favoriteMusics/rel/{fk}")
     Call<Music> deleteMusicToFavorites(@Header("Authorization") String authorization,
                                     @Path("id") String id,

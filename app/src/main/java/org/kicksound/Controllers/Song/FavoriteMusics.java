@@ -81,7 +81,7 @@ public class FavoriteMusics extends AppCompatActivity {
         }
     }
 
-    private void getMusicsFromPlaylist(String playlistId) {
+    private void getMusicsFromPlaylist(final String playlistId) {
         RetrofitManager.getInstance().getRetrofit().create(PlaylistService.class)
                 .getMusicFromPlaylist(
                         HandleAccount.userAccount.getAccessToken(),
@@ -91,7 +91,7 @@ public class FavoriteMusics extends AppCompatActivity {
             public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
                 RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
                 MusicAdapter adapter = new MusicAdapter(response.body(), FavoriteMusics.this, getApplicationContext(),
-                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar);
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar, playlistId);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }
@@ -113,7 +113,7 @@ public class FavoriteMusics extends AppCompatActivity {
             public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
                 RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
                 MusicAdapter adapter = new MusicAdapter(response.body(), FavoriteMusics.this, getApplicationContext(),
-                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar);
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar, null);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }

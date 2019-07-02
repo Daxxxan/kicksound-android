@@ -4,4 +4,10 @@
         <item>Ajouter cette musique à une playlist</item>
         <item>Ajouter une note à cette musique</item>
     </string-array>
+
+    <string-array name="playlistMusicArray">
+        <item>Ajouter cette musique à une playlist</item>
+        <item>Ajouter une note à cette musique</item>
+        <item>Supprimer cette musique de la playlist</item>
+    </string-array>
 </resources>

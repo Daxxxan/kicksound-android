@@ -23,7 +23,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.kicksound.Controllers.Playlist.AddMusicToPlayList;
+import org.kicksound.Controllers.Playlist.Playlists;
 import org.kicksound.Models.Music;
+import org.kicksound.Models.Playlist;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
 import org.kicksound.Utils.Class.HandleAccount;
@@ -42,6 +44,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     private static final int PLAYLIST = 0;
     private static final int MARK = 1;
+    private static final int DELETE_FROM_PLAYLIST = 2;
     private List<Music> musicList;
     private Activity activity;
     private Context context;
@@ -53,12 +56,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private ImageButton forward;
     private ImageButton rewind;
     private ProgressBar progressBar;
+    private String playlistId;
 
     private Runnable timeRunnable;
     private Handler mHandler=new Handler();
     private View view;
 
-    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind, ProgressBar progressBar) {
+    public MusicAdapter(List<Music> musicList, Activity activity, Context context, MediaPlayer mediaPlayer, Handler seekbarUpdateHandler, Runnable updateSeekbar, SeekBar seekBar, TextView musicNameStarted, ImageButton forward, ImageButton rewind, ProgressBar progressBar, String playlistId) {
         this.musicList = musicList;
         this.activity = activity;
         this.context = context;
@@ -70,6 +74,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.forward = forward;
         this.rewind = rewind;
         this.progressBar = progressBar;
+        this.playlistId = playlistId;
     }
 
     @NonNull
@@ -91,30 +96,78 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 rewind(position);
             }
         });
+        setDotsMenuItems(position, holder);
+        displayFavoriteStar(holder, position);
+        holder.ratingBar.setRating(musicList.get(position).getMark());
+    }
+
+    private void setDotsMenuItems(final int position, ViewHolder holder) {
         holder.dotsMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setDotsMenu(position, v);
             }
         });
-        displayFavoriteStar(holder, position);
-        holder.ratingBar.setRating(musicList.get(position).getMark());
     }
 
     private void setDotsMenu(final int position, final View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.addToPlaylist)
-                .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == PLAYLIST) {
-                            HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
-                        } else if( which == MARK) {
-                            HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
+
+        if(playlistId != null) {
+            builder.setTitle(musicList.get(position).getTitle())
+                    .setItems(R.array.playlistMusicArray, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == PLAYLIST) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                            } else if( which == MARK) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
+                            } else if( which == DELETE_FROM_PLAYLIST ) {
+                                deleteMusicFromPlaylist(position);
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, FavoriteMusics.class, v, "playlistId", playlistId);
+
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            builder.setTitle(musicList.get(position).getTitle())
+                    .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == PLAYLIST) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                            } else if( which == MARK) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
+                            }
+                        }
+                    });
+        }
+
         builder.create();
         builder.show();
+    }
+
+    private void deleteMusicFromPlaylist(int position) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .deleteMusicToPlaylist(
+                        HandleAccount.userAccount.getAccessToken(),
+                        HandleAccount.userAccount.getId(),
+                        playlistId,
+                        musicList.get(position).getId()
+                ).enqueue(new Callback<Music>() {
+            @Override
+            public void onResponse(Call<Music> call, Response<Music> response) {
+                Toasty.success(context, context.getString(R.string.musicRemovedFromPlaylist), Toast.LENGTH_SHORT, true).show();
+            }
+
+            @Override
+            public void onFailure(Call<Music> call, Throwable t) {
+                Toasty.error(context, context.getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
     private void displayFavoriteStar(ViewHolder holder, int position) {

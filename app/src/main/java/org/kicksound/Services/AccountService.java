@@ -108,6 +108,14 @@ public interface AccountService {
             @Path("fk") String musicId
     );
 
+    @DELETE("accounts/{id}/playlists/{nk}/musics/rel/{fk}")
+    Call<Music> deleteMusicToPlaylist(
+            @Header("Authorization") String authorization,
+            @Path("id") String accountId,
+            @Path("nk") String playlistId,
+            @Path("fk") String musicId
+    );
+
     @DELETE("accounts/{id}/following/rel/{fk}")
     Call<Account> unfollowUser(@Header("Authorization") String authorization,
                              @Path("id") String id,

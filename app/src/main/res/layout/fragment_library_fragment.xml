@@ -40,31 +40,6 @@
                 app:layout_constraintTop_toTopOf="@+id/playlist" />
 
             <ImageButton
-                android:id="@+id/album"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:alpha="0.3"
-                android:src="@drawable/useralbums"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/playlist" />
-
-            <TextView
-                android:id="@+id/albumTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/albums"
-                android:textColor="@color/colorWhite"
-                android:textSize="20dp"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/album"
-                app:layout_constraintEnd_toEndOf="@+id/album"
-                app:layout_constraintStart_toStartOf="@+id/album"
-                app:layout_constraintTop_toTopOf="@+id/album" />
-
-            <ImageButton
                 android:id="@+id/songs"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -72,7 +47,7 @@
                 android:src="@drawable/usertitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/album" />
+                app:layout_constraintTop_toBottomOf="@id/playlist" />
 
             <TextView
                 android:id="@+id/titlesTextView"

@@ -85,4 +85,5 @@
     <string name="rate_this_music">Que pensez-vous de cette musique ?</string>
     <string name="newNote">Votre note a été prise en compte</string>
     <string name="rateThisSong">Notez cette musique</string>
+    <string name="musicRemovedFromPlaylist">La musique a été retirée de la playlist</string>
 </resources>

@@ -105,7 +105,7 @@ public class ArtistMusics extends AppCompatActivity {
             public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
                 RecyclerView recyclerView = findViewById(R.id.artistMusicsRecyclerView);
                 MusicAdapter adapter = new MusicAdapter(response.body(), ArtistMusics.this, getApplicationContext(),
-                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar);
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar, null);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             }

@@ -48,6 +48,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musicNameTextView" />
 
+    <com.isapanah.awesomespinner.AwesomeSpinner
+        android:id="@+id/musicKindSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:spinnerDirection="ltr"
+        app:spinnerHint="Choisissez un style musical"
+        app:layout_constraintTop_toBottomOf="@id/musicNameEditText"/>
+
     <Button
         android:id="@+id/validateAddMusicButton"
         android:layout_width="match_parent"

@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Controllers.Song.RateMusic"></activity>
+        <activity android:name=".Controllers.Discovery.Discover"></activity>
+        <activity android:name=".Controllers.Song.RateMusic" />
         <activity android:name=".Controllers.Playlist.AddMusicToPlayList" />
         <activity android:name=".Controllers.Song.ArtistMusics" />
         <activity android:name=".Controllers.Song.AddMusic" />

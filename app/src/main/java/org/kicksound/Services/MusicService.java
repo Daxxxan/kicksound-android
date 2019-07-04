@@ -18,6 +18,11 @@ public interface MusicService {
                                          @Path("id") String id,
                                          @Path("loggedUser") String loggedUser);
 
+    @GET("Music/musicByKind/{id}/{loggedUser}")
+    Call<List<Music>> getMusicByKindId(@Header("Authorization") String authorization,
+                                         @Path("id") String id,
+                                         @Path("loggedUser") String loggedUser);
+
     @POST("Music/{id}/marks")
     Call<Mark> addMark(@Header("Authorization") String authorization,
                        @Path("id") String id,

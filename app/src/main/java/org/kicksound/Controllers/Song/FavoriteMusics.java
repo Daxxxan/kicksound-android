@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.kicksound.Models.Music;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Services.MusicService;
 import org.kicksound.Services.PlaylistService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleToolbar;
@@ -46,9 +47,10 @@ public class FavoriteMusics extends AppCompatActivity {
         setContentView(R.layout.activity_musics);
 
         String playlistId = getIntent().getStringExtra("playlistId");
+        String musicKindId = getIntent().getStringExtra("musicKindId");
 
         HandleToolbar.displayToolbar(this, R.string.titles);
-        displayFavoriteMusics(playlistId);
+        displayFavoriteMusics(playlistId, musicKindId);
         setMediaPlayer();
         setMusicComponents();
     }
@@ -73,12 +75,37 @@ public class FavoriteMusics extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarLoadFavoriteMusic);
     }
 
-    private void displayFavoriteMusics(String playlistId) {
-        if(playlistId == null ){
-            getFavoritesMusics();
-        } else {
+    private void displayFavoriteMusics(String playlistId, String musicKindId) {
+        if(playlistId != null) {
             getMusicsFromPlaylist(playlistId);
+        } else if(musicKindId != null) {
+            getMusicsByKind(musicKindId);
+        } else {
+            getFavoritesMusics();
         }
+    }
+
+    private void getMusicsByKind(final String musicKindId) {
+        RetrofitManager.getInstance().getRetrofit().create(MusicService.class)
+                .getMusicByKindId(
+                        HandleAccount.userAccount.getAccessToken(),
+                        musicKindId,
+                        HandleAccount.userAccount.getId()
+                ).enqueue(new Callback<List<Music>>() {
+            @Override
+            public void onResponse(Call<List<Music>> call, Response<List<Music>> response) {
+                RecyclerView recyclerView = findViewById(R.id.songsRecyclerView);
+                MusicAdapter adapter = new MusicAdapter(response.body(), FavoriteMusics.this, getApplicationContext(),
+                        mediaPlayer, seekbarUpdateHandler, updateSeekbar, seekBar, musicNameStarted, forward, rewind, progressBar, musicKindId);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(Call<List<Music>> call, Throwable t) {
+                Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
     private void getMusicsFromPlaylist(final String playlistId) {

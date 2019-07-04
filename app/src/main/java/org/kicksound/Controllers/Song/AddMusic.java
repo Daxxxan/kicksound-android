@@ -1,32 +1,37 @@
 package org.kicksound.Controllers.Song;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.isapanah.awesomespinner.AwesomeSpinner;
+
 import org.kicksound.Models.Music;
+import org.kicksound.Models.MusicKind;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Services.MusicKindService;
 import org.kicksound.Utils.Class.FileUtil;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
-import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -41,7 +46,7 @@ public class AddMusic extends AppCompatActivity {
     private TextView musicNameTextView = null;
     private Button validateAddMusicButton = null;
     private EditText musicNameEditText = null;
-
+    private String musicKindSelected = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,38 @@ public class AddMusic extends AppCompatActivity {
 
         HandleToolbar.displayToolbar(this, R.string.importMusic);
         importMusic();
+        addMusicKindSpinner();
         validateImportMusic();
+    }
+
+    private void addMusicKindSpinner() {
+        RetrofitManager.getInstance().getRetrofit().create(MusicKindService.class)
+                .getMusicKinds(HandleAccount.userAccount.getAccessToken())
+                .enqueue(new Callback<List<MusicKind>>() {
+                    @Override
+                    public void onResponse(Call<List<MusicKind>> call, final Response<List<MusicKind>> response) {
+                        List<String> musicKindName = new ArrayList<>();
+                        for (MusicKind musicKind: response.body()) {
+                            musicKindName.add(musicKind.getName());
+                        }
+                        AwesomeSpinner musicKindSpinner = findViewById(R.id.musicKindSpinner);
+                        final ArrayAdapter<String> musicKindList = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, musicKindName);
+                        musicKindSpinner.setAdapter(musicKindList);
+                        musicKindSpinner.setSelectedItemHintColor(getResources().getColor(R.color.colorWhite));
+                        musicKindSpinner.setBackgroundColor(getResources().getColor(R.color.colorWhiteBlack));
+                        musicKindSpinner.setOnSpinnerItemClickListener(new AwesomeSpinner.onSpinnerItemClickListener<String>() {
+                            @Override
+                            public void onItemSelected(int position, String itemAtPosition) {
+                                musicKindSelected = response.body().get(position).getId();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<MusicKind>> call, Throwable t) {
+
+                    }
+                });
     }
 
     private void importMusic() {
@@ -69,9 +105,9 @@ public class AddMusic extends AppCompatActivity {
         validateAddMusicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if(selectedMusic != null) {
+                if(selectedMusic != null && musicKindSelected != null) {
                     String musicName = getMusicName();
-                    Music newMusic = new Music(musicName, song.getName(), Calendar.getInstance().getTime());
+                    Music newMusic = new Music(musicName, song.getName(), Calendar.getInstance().getTime(), musicKindSelected);
 
                     FileUtil.uploadFile(selectedMusic, getApplicationContext(), "music");
                     RetrofitManager.getInstance().getRetrofit().create(AccountService.class)

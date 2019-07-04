@@ -39,6 +39,9 @@ public class Music {
     @SerializedName("mark")
     private float mark;
 
+    @SerializedName("musicKindId")
+    private String musicKind;
+
     public Music() {
     }
 
@@ -48,7 +51,14 @@ public class Music {
         this.releaseDate = releaseDate;
     }
 
-    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId) {
+    public Music(String title, String location, Date releaseDate, String musicKind) {
+        this.title = title;
+        this.location = location;
+        this.releaseDate = releaseDate;
+        this.musicKind = musicKind;
+    }
+
+    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, String musicKind) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -56,9 +66,10 @@ public class Music {
         this.disabled = disabled;
         this.albumId = albumId;
         this.accountId = accountId;
+        this.musicKind = musicKind;
     }
 
-    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account) {
+    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, String musicKind) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -67,9 +78,10 @@ public class Music {
         this.albumId = albumId;
         this.accountId = accountId;
         this.account = account;
+        this.musicKind = musicKind;
     }
 
-    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, List<Account> accountWhoLike) {
+    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, List<Account> accountWhoLike, String musicKind) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -79,9 +91,10 @@ public class Music {
         this.accountId = accountId;
         this.account = account;
         this.accountWhoLike = accountWhoLike;
+        this.musicKind = musicKind;
     }
 
-    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, List<Account> accountWhoLike, List<Mark> marks, float mark) {
+    public Music(String id, String title, String location, Date releaseDate, boolean disabled, String albumId, String accountId, Account account, List<Account> accountWhoLike, List<Mark> marks, float mark, String musicKind) {
         this.id = id;
         this.title = title;
         this.location = location;
@@ -93,6 +106,7 @@ public class Music {
         this.accountWhoLike = accountWhoLike;
         this.marks = marks;
         this.mark = mark;
+        this.musicKind = musicKind;
     }
 
     public String getId() {

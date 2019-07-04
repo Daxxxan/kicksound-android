@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import org.kicksound.Controllers.Discovery.Discover;
 import org.kicksound.Controllers.Playlist.Playlists;
 import org.kicksound.Controllers.Song.FavoriteMusics;
 import org.kicksound.R;
@@ -40,6 +41,7 @@ public class LibraryFragment extends Fragment {
     private void setButtonsBehaviors(final View view) {
         ImageButton playlists = view.findViewById(R.id.playlist);
         ImageButton songs = view.findViewById(R.id.songs);
+        ImageButton discover = view.findViewById(R.id.discover);
         playlists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +53,13 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 HandleIntent.redirectToAnotherActivity(getContext(), FavoriteMusics.class, view);
+            }
+        });
+
+        discover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivity(getContext(), Discover.class, view);
             }
         });
     }

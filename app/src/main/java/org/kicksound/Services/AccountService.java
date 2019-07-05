@@ -56,6 +56,11 @@ public interface AccountService {
                                       @Path("id") String id,
                                       @Path("fk") String fk);
 
+    @GET("accounts/{id}/highlight/{fk}")
+    Call<Account> getHighlightUserById(@Header("Authorization") String authorization,
+                                      @Path("id") String id,
+                                      @Path("fk") String fk);
+
     @GET("accounts/{id}/events")
     Call<List<Event>> getUserEvents(@Header("Authorization") String authorization,
                                     @Path("id") String id,
@@ -89,6 +94,11 @@ public interface AccountService {
                                       @Path("id") String id,
                                       @Path("fk") String fk);
 
+    @PUT("accounts/{id}/highlight/rel/{fk}")
+    Call<Account> highlightUser(@Header("Authorization") String authorization,
+                             @Path("id") String id,
+                             @Path("fk") String fk);
+
     @PUT("accounts/{id}/favoriteMusics/rel/{fk}")
     Call<Music> addMusicToFavorites(@Header("Authorization") String authorization,
                                     @Path("id") String id,
@@ -115,6 +125,11 @@ public interface AccountService {
             @Path("nk") String playlistId,
             @Path("fk") String musicId
     );
+
+    @DELETE("accounts/{id}/highlight/rel/{fk}")
+    Call<Account> deleteHighlightByUserById(@Header("Authorization") String authorization,
+                                           @Path("id") String id,
+                                           @Path("fk") String fk);
 
     @DELETE("accounts/{id}/following/rel/{fk}")
     Call<Account> unfollowUser(@Header("Authorization") String authorization,

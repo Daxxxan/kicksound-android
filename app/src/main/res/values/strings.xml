@@ -87,4 +87,5 @@
     <string name="rateThisSong">Notez cette musique</string>
     <string name="musicRemovedFromPlaylist">La musique a été retirée de la playlist</string>
     <string name="deletePlaylist">Playlist supprimée</string>
+    <string name="highlight">Vous avez mis en avant cet artiste</string>
 </resources>

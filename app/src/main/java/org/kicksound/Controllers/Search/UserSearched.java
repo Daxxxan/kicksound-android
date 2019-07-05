@@ -20,6 +20,7 @@ import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.HandleToolbar;
 import org.kicksound.Utils.Class.RetrofitManager;
+import org.kicksound.Utils.Enums.UserType;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -30,6 +31,7 @@ public class UserSearched extends AppCompatActivity {
 
     private Account userSearched = new Account();
     private ImageView userPicImageView = null;
+    private Button highlight = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +40,92 @@ public class UserSearched extends AppCompatActivity {
         String userId = getIntent().getStringExtra("userId");
 
         userPicImageView = findViewById(R.id.searched_user_pic);
+        highlight = findViewById(R.id.highlight);
 
         HandleToolbar.displayToolbar(this, null);
         displayUser(userId);
         artistMusics(userId);
         followOrUnfollowUser(userId);
+    }
+
+    private void highlight(final String userId) {
+        if(HandleAccount.getUserType() == UserType.FAMOUS_ARTIST && userSearched.getType() == 1) {
+            highlight.setVisibility(View.VISIBLE);
+            RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                    .getHighlightUserById(
+                            HandleAccount.userAccount.getAccessToken(),
+                            HandleAccount.userAccount.getId(),
+                            userId
+                    ).enqueue(new Callback<Account>() {
+                @Override
+                public void onResponse(Call<Account> call, Response<Account> response) {
+                    if(response.code() == 200) {
+                        userCantHighlight(userId);
+                    } else {
+                        userCanHighlight(userId);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Account> call, Throwable t) {
+                    Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                }
+            });
+        } else {
+            highlight.setVisibility(View.GONE);
+        }
+    }
+
+    private void userCantHighlight(final String userId) {
+        highlight.setText("Ne plus mettre en avant");
+        highlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                        .deleteHighlightByUserById(
+                                HandleAccount.userAccount.getAccessToken(),
+                                HandleAccount.userAccount.getId(),
+                                userId
+                        ).enqueue(new Callback<Account>() {
+                    @Override
+                    public void onResponse(Call<Account> call, Response<Account> response) {
+                        Toasty.success(getApplicationContext(), getApplicationContext().getString(R.string.highlight), Toast.LENGTH_SHORT, true).show();
+                        userCanHighlight(userId);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Account> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void userCanHighlight(final String userId) {
+        highlight.setText("Mettre en avant");
+        highlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                        .highlightUser(
+                                HandleAccount.userAccount.getAccessToken(),
+                                HandleAccount.userAccount.getId(),
+                                userId
+                        ).enqueue(new Callback<Account>() {
+                    @Override
+                    public void onResponse(Call<Account> call, Response<Account> response) {
+                        Toasty.success(getApplicationContext(), getApplicationContext().getString(R.string.highlight), Toast.LENGTH_SHORT, true).show();
+                        userCantHighlight(userId);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Account> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), getApplicationContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -54,7 +137,7 @@ public class UserSearched extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void displayUser(String userId) {
+    private void displayUser(final String userId) {
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .getUserById(HandleAccount.userAccount.getAccessToken(), userId)
                 .enqueue(new Callback<Account>() {
@@ -62,6 +145,7 @@ public class UserSearched extends AppCompatActivity {
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         userSearched = response.body();
                         FileUtil.displayPicture("image", userSearched.getPicture(), userPicImageView, getApplicationContext());
+                        highlight(userId);
                         if(getSupportActionBar() != null)
                             getSupportActionBar().setTitle(userSearched.getUsername());
                     }

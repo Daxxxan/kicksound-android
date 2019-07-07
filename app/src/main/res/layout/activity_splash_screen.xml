@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorMainDark"
     android:id="@+id/splash_screen"
-    tools:context=".Controllers.SplashScreen">
+    tools:context=".Controllers.Connection.SplashScreen">
 
     <ImageView
         android:id="@+id/imageView"

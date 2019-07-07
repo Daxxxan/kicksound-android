@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorMainDark">#232725</color>
-    <color name="colorLightBlack">#2C2F33</color>
+    <color name="colorLightBlack">#2f3136</color>
+    <color name="colorWhiteBlack">#36393f</color>
     <color name="colorGreyText">#8c8c8c</color>
-    <color name="colorWhite">#f0f0f0</color>
+    <color name="colorWhite">#cbccce</color>
     <color name="colorGold">#CF994C</color>
     <color name="colorBlackRed">#8B0000</color>
+    <color name="colorGreenSuccess">#4CAF50</color>
 </resources>

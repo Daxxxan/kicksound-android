@@ -2,7 +2,7 @@ package org.kicksound.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class  Account {
+public class Account {
     @SerializedName("id")
     private String id;
 
@@ -12,8 +12,11 @@ public class  Account {
     @SerializedName("lastname")
     private String lastname;
 
+    @SerializedName("username")
+    private String username;
+
     @SerializedName("type")
-    private int type;
+    private Integer type;
 
     @SerializedName("email")
     private String email;
@@ -24,23 +27,35 @@ public class  Account {
     @SerializedName("description")
     private String description;
 
-    public Account(String id, String firstname, String lastname, int type, String email, String password, String description) {
+    @SerializedName("picture")
+    private String picture;
+
+    private String accessToken;
+
+    public Account(String id, String firstname, String lastname, String username, int type, String email, String password, String description, String accessToken, String picture) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.username = username;
         this.type = type;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.accessToken = accessToken;
+        this.picture = picture;
     }
 
-    public Account(String firstname, String lastname, String email, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Account(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.type = 0;
     }
+
+    public Account(String picture) {
+        this.picture = picture;
+    }
+
+    public Account() {}
 
     public String getId() {
         return id;
@@ -98,16 +113,43 @@ public class  Account {
         this.description = description;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "id='" + id + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", username='" + username + '\'' +
                 ", type=" + type +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", description='" + description + '\'' +
+                ", picture='" + picture + '\'' +
+                ", accessToken='" + accessToken + '\'' +
                 '}';
     }
 }

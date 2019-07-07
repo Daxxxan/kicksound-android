@@ -88,6 +88,10 @@ public interface AccountService {
     Call<List<Music>> getArtistFavoriteMusics(@Header("Authorization") String authorization,
                                               @Path("id") String id);
 
+    @GET("accounts/{id}/unknownArtistsByArtistFollowed")
+    Call<List<Account>> getUnknownArtistsByArtistFollowed(@Header("Authorization") String authorization,
+                                                          @Path("id") String id);
+
 
     @PUT("accounts/{id}/following/rel/{fk}")
     Call<Account> followUser(@Header("Authorization") String authorization,

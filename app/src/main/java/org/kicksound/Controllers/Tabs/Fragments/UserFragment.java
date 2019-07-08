@@ -1,5 +1,7 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,6 +26,7 @@ import org.kicksound.Controllers.Event.CreateEventActivity;
 import org.kicksound.Controllers.Song.AddMusic;
 import org.kicksound.Controllers.Song.ArtistMusics;
 import org.kicksound.Controllers.User.ResetPasswordActivity;
+import org.kicksound.Models.Account;
 import org.kicksound.Models.Logout;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
@@ -100,13 +103,56 @@ public class UserFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
-            selectedImage = data.getData();
-            userPicture = new File(FileUtil.getPath(selectedImage, getContext()));
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            selectedImage = data.getData();
+                            userPicture = new File(FileUtil.getPath(selectedImage, getContext()));
 
-            FileUtil.displayCircleImageWithUri(getContext(), selectedImage, userPic);
+                            FileUtil.displayCircleImageWithUri(getContext(), selectedImage, userPic);
+                            FileUtil.uploadFile(selectedImage, getContext(), "image");
+
+                            Account account = new Account(userPicture.getName());
+
+                            RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                                    .updatePictureName(
+                                            HandleAccount.userAccount.getAccessToken(),
+                                            HandleAccount.userAccount.getId(),
+                                            account
+                                    ).enqueue(new Callback<Account>() {
+                                @Override
+                                public void onResponse(Call<Account> call, Response<Account> response) {
+                                    if(response.code() == 200) {
+                                        HandleAccount.userAccount.setPicture(userPicture.getName());
+                                        Toasty.success(getContext(), getContext().getString(R.string.success_picture_user), Toast.LENGTH_SHORT, true).show();
+                                    } else {
+                                        Toasty.error(getContext(), getContext().getString(R.string.createEventError), Toast.LENGTH_SHORT, true).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Account> call, Throwable t) {
+                                    Toasty.error(getContext(), getContext().getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                                }
+                            });
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Voulez-vous confirmer votre changement de photo de profil?")
+                    .setTitle("Valider votre choix")
+                    .setPositiveButton("Oui", dialogClickListener)
+                    .setNegativeButton("Non", dialogClickListener).show();
         }
     }
 

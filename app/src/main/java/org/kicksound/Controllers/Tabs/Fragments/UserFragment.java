@@ -1,19 +1,26 @@
 package org.kicksound.Controllers.Tabs.Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.Connection.LoginActivity;
+import org.kicksound.Controllers.Event.CreateEventActivity;
 import org.kicksound.Controllers.Song.AddMusic;
 import org.kicksound.Controllers.Song.ArtistMusics;
 import org.kicksound.Controllers.User.ResetPasswordActivity;
@@ -26,14 +33,23 @@ import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.RetrofitManager;
 import org.kicksound.Utils.Enums.UserType;
 
+import java.io.File;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 public class UserFragment extends Fragment {
+
+    private static final int PICK_IMAGE_FROM_GALLERY = 1;
+    private Uri selectedImage = null;
+    private File userPicture = null;
+    ImageView userPic = null;
+
     public UserFragment() {
         // Required empty public constructor
     }
@@ -53,11 +69,45 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_fragment, container, false);
 
         loadUserPic(view);
+        updateUserPic(view);
         resetPassword(view);
         logout(view);
         songButtonsIfIsArtist(view);
 
         return view;
+    }
+
+    private void updateUserPic(View view) {
+        ImageButton updateUserPic = view.findViewById(R.id.updateUserPic);
+        updateUserPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FileUtil.allowAccessToExternalStorage(getActivity(), getContext())) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_GALLERY);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
+            selectedImage = data.getData();
+            userPicture = new File(FileUtil.getPath(selectedImage, getContext()));
+
+            FileUtil.displayCircleImageWithUri(getContext(), selectedImage, userPic);
+        }
     }
 
     private void songButtonsIfIsArtist(View view) {
@@ -86,7 +136,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserPic(View view) {
-        ImageView userPic = view.findViewById(R.id.user_pic);
+        userPic = view.findViewById(R.id.user_pic);
         if(HandleAccount.userAccount.getPicture() != null){
             FileUtil.displayPicture("image", HandleAccount.userAccount.getPicture(), userPic, getContext());
         } else {

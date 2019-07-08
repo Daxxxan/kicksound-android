@@ -17,6 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/updateUserPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="8dp"
+        android:translationX="-15dp"
+        android:translationY="15dp"
+        android:src="@drawable/ic_action_upload"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/user_pic"
+        app:layout_constraintStart_toEndOf="@+id/user_pic" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logout_button"
         android:layout_width="0dp"

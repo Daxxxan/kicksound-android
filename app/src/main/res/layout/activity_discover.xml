@@ -19,6 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <TextView
+        android:id="@+id/titleArtistDiscover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/artistsToDiscover"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textSize="18dp"
+        android:textColor="@color/colorGold"
+        app:layout_constraintTop_toBottomOf="@+id/musicKindRecylerView" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/unknownArtistsRecyclerView"
         android:layout_width="match_parent"
@@ -27,6 +40,6 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/musicKindRecylerView" />
+        app:layout_constraintTop_toBottomOf="@id/titleArtistDiscover" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

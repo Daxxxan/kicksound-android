@@ -28,6 +28,7 @@ import org.kicksound.Models.Music;
 import org.kicksound.Models.Playlist;
 import org.kicksound.R;
 import org.kicksound.Services.AccountService;
+import org.kicksound.Services.MusicService;
 import org.kicksound.Utils.Class.HandleAccount;
 import org.kicksound.Utils.Class.HandleIntent;
 import org.kicksound.Utils.Class.MusicUtil;
@@ -44,6 +45,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
     private static final int PLAYLIST = 0;
     private static final int MARK = 1;
+    private static final int DELETE = 2;
     private static final int DELETE_FROM_PLAYLIST = 2;
     private List<Music> musicList;
     private Activity activity;
@@ -131,6 +133,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                             }
                         }
                     });
+        } else if(HandleAccount.userAccount.getId().equals(musicList.get(position).getAccountId())){
+            builder.setTitle(musicList.get(position).getTitle())
+                    .setItems(R.array.musicArrayTwo, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == PLAYLIST) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
+                            } else if(which == MARK) {
+                                activity.finish();
+                                HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
+                            } else if(which == DELETE) {
+                                deleteMusic(musicList.get(position).getId());
+                                activity.finish();
+                            }
+                        }
+                    });
         } else {
             builder.setTitle(musicList.get(position).getTitle())
                     .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
@@ -138,7 +156,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                             if(which == PLAYLIST) {
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
-                            } else if( which == MARK) {
+                            } else if(which == MARK) {
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
                             }
@@ -148,6 +166,24 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
         builder.create();
         builder.show();
+    }
+
+    private void deleteMusic(String id) {
+        RetrofitManager.getInstance().getRetrofit().create(MusicService.class)
+                .deleteMusic(
+                        HandleAccount.userAccount.getAccessToken(),
+                        id
+                ).enqueue(new Callback<Music>() {
+            @Override
+            public void onResponse(Call<Music> call, Response<Music> response) {
+                Toasty.success(context, context.getString(R.string.deleteMusic), Toast.LENGTH_SHORT, true).show();
+            }
+
+            @Override
+            public void onFailure(Call<Music> call, Throwable t) {
+                Toasty.error(context, context.getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+            }
+        });
     }
 
     private void deleteMusicFromPlaylist(int position) {

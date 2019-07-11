@@ -89,4 +89,5 @@
     <string name="deletePlaylist">Playlist supprimée</string>
     <string name="highlight">Vous avez mis en avant cet artiste</string>
     <string name="artistsToDiscover"><u>Artistes qui pourraient vous intéresser</u></string>
+    <string name="deleteMusic">Musique supprimée avec succes</string>
 </resources>

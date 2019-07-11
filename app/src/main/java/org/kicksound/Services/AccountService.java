@@ -130,6 +130,10 @@ public interface AccountService {
             @Path("fk") String musicId
     );
 
+    @DELETE("accounts/{id}")
+    Call<Account> deleteAccount(@Header("Authorization") String authorization,
+                                @Path("id") String id);
+
     @DELETE("accounts/{id}/highlight/rel/{fk}")
     Call<Account> deleteHighlightByUserById(@Header("Authorization") String authorization,
                                            @Path("id") String id,

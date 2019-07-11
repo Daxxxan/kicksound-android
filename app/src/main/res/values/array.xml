@@ -17,6 +17,10 @@
         <item>Supprimer cette musique de la playlist</item>
     </string-array>
 
+    <string-array name="deleteAccount">
+        <item>Supprimer définitivement votre compte</item>
+    </string-array>
+
     <string-array name="deletePlaylist">
         <item>Supprimer cette playlist</item>
     </string-array>

@@ -23,8 +23,11 @@ import com.squareup.picasso.Picasso;
 
 import org.kicksound.Controllers.Connection.LoginActivity;
 import org.kicksound.Controllers.Event.CreateEventActivity;
+import org.kicksound.Controllers.Playlist.AddMusicToPlayList;
 import org.kicksound.Controllers.Song.AddMusic;
 import org.kicksound.Controllers.Song.ArtistMusics;
+import org.kicksound.Controllers.Song.FavoriteMusics;
+import org.kicksound.Controllers.Song.RateMusic;
 import org.kicksound.Controllers.User.ResetPasswordActivity;
 import org.kicksound.Models.Account;
 import org.kicksound.Models.Logout;
@@ -49,6 +52,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class UserFragment extends Fragment {
 
     private static final int PICK_IMAGE_FROM_GALLERY = 1;
+    private static final int DELETE_ACCOUNT = 0;
     private Uri selectedImage = null;
     private File userPicture = null;
     ImageView userPic = null;
@@ -76,8 +80,48 @@ public class UserFragment extends Fragment {
         resetPassword(view);
         logout(view);
         songButtonsIfIsArtist(view);
+        settings(view);
 
         return view;
+    }
+
+    private void settings(final View view) {
+        ImageButton settingsButton = view.findViewById(R.id.settings);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Paramètres")
+                        .setItems(R.array.deleteAccount, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(which == DELETE_ACCOUNT) {
+                                    RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                                            .deleteAccount(
+                                                    HandleAccount.userAccount.getAccessToken(),
+                                                    HandleAccount.userAccount.getId()
+                                            ).enqueue(new Callback<Account>() {
+                                        @Override
+                                        public void onResponse(Call<Account> call, Response<Account> response) {
+                                            SharedPreferences prefAccessToken = getActivity().getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE);
+                                            prefAccessToken.edit().clear().apply();
+                                            HandleIntent.redirectToAnotherActivity(getContext(), LoginActivity.class, view);
+                                            getActivity().finish();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Account> call, Throwable t) {
+                                            Toasty.info(view.getContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                builder.create();
+                builder.show();
+            }
+        });
     }
 
     private void updateUserPic(View view) {
@@ -205,25 +249,29 @@ public class UserFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
-                        .logout(HandleAccount.userAccount.getAccessToken())
-                        .enqueue(new Callback<Logout>() {
-                            @Override
-                            public void onResponse(Call<Logout> call, Response<Logout> response) {
-                                if(response.code() == 204) {
-                                    SharedPreferences prefAccessToken = getActivity().getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE);
-                                    prefAccessToken.edit().clear().apply();
-                                    HandleIntent.redirectToAnotherActivity(getContext(), LoginActivity.class, v);
-                                    getActivity().finish();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Logout> call, Throwable t) {
-                                Toasty.info(view.getContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
-                            }
-                        });
+                logoutRequest(view);
             }
         });
+    }
+
+    private void logoutRequest(final View view) {
+        RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
+                .logout(HandleAccount.userAccount.getAccessToken())
+                .enqueue(new Callback<Logout>() {
+                    @Override
+                    public void onResponse(Call<Logout> call, Response<Logout> response) {
+                        if(response.code() == 204) {
+                            SharedPreferences prefAccessToken = getActivity().getSharedPreferences(getString(R.string.USER_PREF), MODE_PRIVATE);
+                            prefAccessToken.edit().clear().apply();
+                            HandleIntent.redirectToAnotherActivity(getContext(), LoginActivity.class, view);
+                            getActivity().finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Logout> call, Throwable t) {
+                        Toasty.error(view.getContext(), getString(R.string.connexion_error), Toast.LENGTH_SHORT, true).show();
+                    }
+                });
     }
 }

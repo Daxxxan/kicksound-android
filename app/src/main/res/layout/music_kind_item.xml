@@ -11,6 +11,8 @@
         android:id="@+id/item_card_music_kind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorWhiteBlack"
+        android:backgroundTint="@color/colorWhiteBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +21,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintBackground"
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@color/colorWhiteBlack">
+            android:layout_height="160dp"
+            android:background="@drawable/userdiscover">
 
             <TextView
                 android:id="@+id/musicKindName"

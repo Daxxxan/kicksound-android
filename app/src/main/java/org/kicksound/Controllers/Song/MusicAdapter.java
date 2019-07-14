@@ -112,6 +112,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         });
     }
 
+    private void resetPlayer() {
+        seekbarUpdateHandler.removeCallbacks(updateSeekbar);
+        updateSeekbar = null;
+        seekbarUpdateHandler = null;
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
+
     private void setDotsMenu(final int position, final View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -120,12 +128,16 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     .setItems(R.array.playlistMusicArray, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if(which == PLAYLIST) {
+                                seekbarUpdateHandler.removeCallbacks(updateSeekbar);
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
                             } else if( which == MARK) {
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
                             } else if( which == DELETE_FROM_PLAYLIST ) {
+                                resetPlayer();
                                 deleteMusicFromPlaylist(position);
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, FavoriteMusics.class, v, "playlistId", playlistId);
@@ -138,12 +150,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     .setItems(R.array.musicArrayTwo, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if(which == PLAYLIST) {
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
                             } else if(which == MARK) {
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
                             } else if(which == DELETE) {
+                                resetPlayer();
                                 deleteMusic(musicList.get(position).getId());
                                 activity.finish();
                             }
@@ -154,9 +169,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                     .setItems(R.array.musicArray, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if(which == PLAYLIST) {
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, AddMusicToPlayList.class, v, "musicId", musicList.get(position).getId());
                             } else if(which == MARK) {
+                                resetPlayer();
                                 activity.finish();
                                 HandleIntent.redirectToAnotherActivityWithExtra(context, RateMusic.class, v, "musicId", musicList.get(position).getId());
                             }

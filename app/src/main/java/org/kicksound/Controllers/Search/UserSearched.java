@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.kicksound.Controllers.Live.Live;
 import org.kicksound.Controllers.Song.ArtistMusics;
 import org.kicksound.Models.Account;
 import org.kicksound.R;
@@ -46,6 +47,17 @@ public class UserSearched extends AppCompatActivity {
         displayUser(userId);
         artistMusics(userId);
         followOrUnfollowUser(userId);
+        streaming(userId);
+    }
+
+    private void streaming(final String userId) {
+        Button streaming = findViewById(R.id.streaming);
+        streaming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandleIntent.redirectToAnotherActivityWithExtra(getApplicationContext(), Live.class, v, "userId", userId);
+            }
+        });
     }
 
     private void highlight(final String userId) {

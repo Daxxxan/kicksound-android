@@ -33,6 +33,7 @@ public class UserSearched extends AppCompatActivity {
     private Account userSearched = new Account();
     private ImageView userPicImageView = null;
     private Button highlight = null;
+    private TextView userSearchedUsername = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +151,7 @@ public class UserSearched extends AppCompatActivity {
     }
 
     private void displayUser(final String userId) {
+        userSearchedUsername = findViewById(R.id.userSearchedUsername);
         RetrofitManager.getInstance().getRetrofit().create(AccountService.class)
                 .getUserById(HandleAccount.userAccount.getAccessToken(), userId)
                 .enqueue(new Callback<Account>() {
@@ -157,6 +159,7 @@ public class UserSearched extends AppCompatActivity {
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         userSearched = response.body();
                         FileUtil.displayPicture("image", userSearched.getPicture(), userPicImageView, getApplicationContext());
+                        userSearchedUsername.setText(response.body().getUsername());
                         highlight(userId);
                         if(getSupportActionBar() != null)
                             getSupportActionBar().setTitle(userSearched.getUsername());
